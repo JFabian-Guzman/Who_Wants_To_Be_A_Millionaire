@@ -1,5 +1,6 @@
 from config.settings import *
 from os.path import join
+from screens.Menu import *
 
 class Game: 
   def __init__(self):
@@ -9,8 +10,14 @@ class Game:
     self.clock = pygame.time.Clock()
     self.running = True
 
+    # groups 
+    self.all_sprites = pygame.sprite.Group()
+
+    # Menu
+    self.menu = Menu()
+
     # Background
-    background_img = pygame.image.load(join("assets", "background.jpeg")).convert()
+    background_img = pygame.image.load(join("assets","img" , "background.jpeg")).convert()
     background = pygame.transform.scale(background_img, self.screen.get_size())
 
     overlay = pygame.Surface(self.screen.get_size())
@@ -27,4 +34,5 @@ class Game:
           self.running = False
       #draw
       pygame.display.update()
+      self.menu.draw()
     pygame.quit()
