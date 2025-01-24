@@ -10,6 +10,10 @@ COLORS = {
   "BLACK": "#000000"
 }
 
+BANNER = {
+  "SIZE":  (WINDOW_WIDTH, 50),
+}
+
 MENU = [
   {"TITLE": "Play", "POSITION": (WINDOW_WIDTH // 2 - 375, WINDOW_HEIGHT // 2 - 50) },
   {"TITLE": "Glossary", "POSITION": (WINDOW_WIDTH // 2 - 375, WINDOW_HEIGHT // 2 + 200)},
