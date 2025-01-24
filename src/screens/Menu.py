@@ -13,7 +13,7 @@ class Menu:
 
     # Initialize font
     pygame.font.init()
-    font = pygame.font.Font(join("assets", "fonts", "PixelifySans-Regular.ttf"), 40)  
+    font = pygame.font.Font(join("assets", "fonts", "PressStart2P-Regular.ttf"), 20)  
     
     # Render text
     text = font.render(title, True, COLORS["WHITE"])  # White color

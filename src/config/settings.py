@@ -11,9 +11,11 @@ COLORS = {
 }
 
 MENU = [
-  {"TITLE": "Play", "POSITION": (WINDOW_WIDTH // 2 - 100, WINDOW_HEIGHT // 2)},
-  {"TITLE": "Glossary", "POSITION": (WINDOW_HEIGHT // 2 + 50, 100)},
-  {"TITLE": "Manage Questions", "POSITION": (WINDOW_HEIGHT // 2 + 100, 100)},
-  {"TITLE": "Exit", "POSITION": (WINDOW_HEIGHT // 2 + 150, 100)}
+  {"TITLE": "Play", "POSITION": (WINDOW_WIDTH // 2 - 375, WINDOW_HEIGHT // 2 - 50) },
+  {"TITLE": "Glossary", "POSITION": (WINDOW_WIDTH // 2 - 375, WINDOW_HEIGHT // 2 + 200)},
+  {"TITLE": "Manage Questions", "POSITION": (WINDOW_WIDTH // 2 - 375, WINDOW_HEIGHT // 2 + 75)},
+  {"TITLE": "Instructions", "POSITION": (WINDOW_WIDTH // 2 + 375, WINDOW_HEIGHT // 2 - 50)},
+  {"TITLE": "Credits", "POSITION": (WINDOW_WIDTH // 2 + 375, WINDOW_HEIGHT // 2 + 75)},
+  {"TITLE": "Exit", "POSITION": (WINDOW_WIDTH // 2 + 375, WINDOW_HEIGHT // 2 + 200)}
 ]
 
