@@ -1,27 +1,13 @@
 from config.settings import *
 from os.path import join
+from utils.Cursor import *
+from utils.Option import *
 
-class Menu:
-  def __init__(self):
+class Menu():
+  def __init__(self, cursor):
     super().__init__()
     self.screen = pygame.display.get_surface()
-
-  def option(self, title, position):
-    option = pygame.image.load(join("assets", "img" ,"option.png")).convert_alpha()
-    option_rect = option.get_rect(center = position)
-    self.screen.blit(option, option_rect)
-
-    # Initialize font
-    pygame.font.init()
-    font = pygame.font.Font(join("assets", "fonts", "PressStart2P-Regular.ttf"), 20)  
-    
-    # Render text
-    text = font.render(title, True, COLORS["WHITE"])  # White color
-    text_rect = text.get_rect(center = option_rect.center)  
-    
-    # Blit text onto the screen
-    self.screen.blit(text, text_rect)
-
+    self.cursor = cursor
 
   def logo(self):
     logo = pygame.image.load(join("assets", "img" ,"logo.png")).convert_alpha()
@@ -30,6 +16,10 @@ class Menu:
 
   def draw(self):
     self.logo()
+    options = []
     for option in MENU:
-        self.option(option["TITLE"], option["POSITION"])
+        options.append(Option(option["TITLE"], option["POSITION"]))
+    for option in options:
+        option.draw()
+
 
