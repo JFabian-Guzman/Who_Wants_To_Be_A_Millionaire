@@ -10,7 +10,7 @@ class Game:
     pygame.display.set_caption("Who wants to be a millionaire?")
     self.clock = pygame.time.Clock()
     self.running = True
-    self.default_cursor = pygame.image.load(join("assets", "img", "default_cursor.png")).convert_alpha()
+    pygame.mouse.set_visible(False)
 
     # groups 
     self.all_sprites = pygame.sprite.Group()

@@ -10,15 +10,10 @@ class Option:
     self.text = text
 
   def write_text(self):
-    # Initialize font
     pygame.font.init()
     font = pygame.font.Font(join("assets", "fonts", "PressStart2P-Regular.ttf"), 20)  
-    
-    # Render text
-    text = font.render(self.text, True, COLORS["WHITE"])  # White color
+    text = font.render(self.text, True, COLORS["WHITE"]) 
     text_rect = text.get_rect(center = self.rect.center) 
-    
-    # Blit text onto the screen
     self.screen.blit(text, text_rect)
 
   def draw(self):

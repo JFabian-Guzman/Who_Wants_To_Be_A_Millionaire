@@ -19,6 +19,7 @@ class Menu():
     options = []
     for option in MENU:
         options.append(Option(option["TITLE"], option["POSITION"]))
+    self.cursor.check_collision(options)
     for option in options:
         option.draw()
 
