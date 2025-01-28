@@ -2,6 +2,7 @@ from config.settings import *
 from os.path import join
 from screens.Menu import *
 from utils.Cursor import *
+from utils.Groups import *
 
 class Game: 
   def __init__(self):
@@ -9,14 +10,15 @@ class Game:
     self.screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
     pygame.display.set_caption("Who wants to be a millionaire?")
     self.clock = pygame.time.Clock()
+    self.fps = 60
     self.running = True
     pygame.mouse.set_visible(False)
 
     # groups 
-    self.all_sprites = pygame.sprite.Group()
+    self.global_sprites = pygame.sprite.Group()
 
     # Menu
-    self.cursor = Cursor()
+    self.cursor = Cursor(self.global_sprites)
     self.menu = Menu(self.cursor)
 
     # Background
@@ -52,14 +54,25 @@ class Game:
 
   def run(self):
     while self.running:
+      dt = self.clock.tick() / 1000
+      fps = self.clock.get_fps()  
+      print(f"FPS: {fps:.2f}")
       for event in pygame.event.get():
         if event.type == pygame.QUIT:
           self.running = False
       #draw
       self.screen.blit(self.background, (0,0))
       self.screen.blit(self.overlay, (0, 0)) # Reduce the brightness of the background
+      # self.menu.draw()
+      # self.cursor.draw()
+      # self.cursor.update()
+      # self.menu.update()
+      self.global_sprites.update()
+
       self.menu.draw()
-      self.cursor.draw()
-      self.cursor.update()
+      self.menu.update()
+
+      self.global_sprites.draw(self.screen)
       pygame.display.update()
+      self.clock.tick(self.fps)
     pygame.quit()
