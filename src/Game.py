@@ -1,6 +1,6 @@
 from config.settings import *
 from os.path import join
-from screens.Menu import *
+from states.Menu import *
 from utils.Cursor import *
 from utils.Groups import *
 
