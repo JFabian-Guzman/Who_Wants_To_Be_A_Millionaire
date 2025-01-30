@@ -12,6 +12,9 @@ class State(ABC):
   def update(self):
     pass
 
+  def listen(self, state):
+    self.current_state = state
+
   def on(self):
     self.draw()
     self.update()

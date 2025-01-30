@@ -3,8 +3,9 @@ from os.path import join
 from utils.Cursor import *
 from utils.Option import *
 from utils.Logo import *
+from .State import *
 
-class Menu():
+class Menu(State):
   def __init__(self, cursor):
     super().__init__()
     self.elements = pygame.sprite.Group()
@@ -22,5 +23,6 @@ class Menu():
   def update(self):
     self.cursor.check_collision(self.options)
     
+
 
 

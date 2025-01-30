@@ -1,14 +1,14 @@
 class Publisher:
     def __init__(self):
-        self.listeners = {}
+        self.subscribers = dict()
 
-    def subscribe(self, event_type, listener):
-        if event_type not in self.listeners:
-            self.listeners[event_type] = []
-        self.listeners[event_type].append(listener)
+    def subscribe(self, event_type: str, fn):
+        if event_type not in self.subscribers:
+            self.subscribers[event_type] = []
+        self.subscribers[event_type].append(fn)
 
+    def notify(self, event_type: str, data):
+        if event_type in self.subscribers:
+            for fn in self.subscribers[event_type]:
+                fn(data)
 
-    def notify(self, event_type, data):
-        if event_type in self.listeners:
-            for listener in self.listeners[event_type]:
-                listener(data)
