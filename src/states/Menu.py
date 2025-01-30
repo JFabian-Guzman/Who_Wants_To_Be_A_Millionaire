@@ -6,8 +6,8 @@ from utils.Logo import *
 from .State import *
 
 class Menu(State):
-  def __init__(self, cursor):
-    super().__init__()
+  def __init__(self, publisher, cursor):
+    super().__init__(publisher)
     self.elements = pygame.sprite.Group()
     self.screen = pygame.display.get_surface()
     self.cursor = cursor
@@ -23,6 +23,9 @@ class Menu(State):
   def update(self):
     self.cursor.check_collision(self.options)
     
+  def test(self, *data):
+    print("HOLA, SOY MENU Y MI DATA ES: " , data)
 
-
+  def set_up_menu_handlers(self):
+    self.publisher.subscribe('test', self.test)
 

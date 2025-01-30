@@ -3,6 +3,8 @@ from os.path import join
 from states.Menu import *
 from utils.Cursor import *
 from utils.Groups import *
+from utils.Publisher import *
+from states.StateMachine import *
 
 class Game: 
   def __init__(self):
@@ -12,6 +14,7 @@ class Game:
     self.clock = pygame.time.Clock()
     self.fps = 60
     self.running = True
+    self.publisher = Publisher()
     pygame.mouse.set_visible(False)
 
     # groups 
@@ -19,7 +22,15 @@ class Game:
 
     # Menu
     self.cursor = Cursor(self.global_sprites)
-    self.menu = Menu(self.cursor)
+    self.menu = Menu(self.publisher,self.cursor)
+    self.state_machine = StateMachine(self.publisher)
+
+    # Add states to the state_machine
+    self.state_machine.add_state("menu", self.menu)
+
+    #set_up_events
+    self.menu.set_up_menu_handlers()
+    self.state_machine.set_up_events()
 
     # Background
     background_img = pygame.image.load(join("assets","img" , "background.jpeg")).convert()
@@ -59,7 +70,7 @@ class Game:
     while self.running:
       dt = self.clock.tick() / 1000
       fps = self.clock.get_fps()  
-      print(f"FPS: {fps:.2f}")
+      # print(f"FPS: {fps:.2f}")
       for event in pygame.event.get():
         if event.type == pygame.QUIT:
           self.running = False
@@ -68,8 +79,8 @@ class Game:
       
       self.global_sprites.update()
 
-      self.menu.draw()
-      self.menu.update()
+      self.state_machine.handle_events("update_state","menu")
+      self.state_machine.handle_events("test")
 
       self.global_sprites.draw(self.screen)
       pygame.display.update()

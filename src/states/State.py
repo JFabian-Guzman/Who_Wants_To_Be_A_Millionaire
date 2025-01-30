@@ -1,8 +1,9 @@
 from abc import ABC, abstractmethod
+from utils.Publisher import *
 
 class State(ABC):
-  def __init__(self):
-    self.current_state = 'Menu'
+  def __init__(self, publisher: Publisher):
+    self.publisher = publisher
 
   @abstractmethod
   def draw(self):
