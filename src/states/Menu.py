@@ -15,6 +15,7 @@ class Menu(State):
     for option in MENU:
       self.options.append(Option(option["TITLE"], option["POSITION"], self.elements))
     self.logo = Logo(self.elements)
+    self.click_handled = False
 
   def draw(self):
     self.elements.draw(self.screen)
@@ -22,10 +23,20 @@ class Menu(State):
 
   def update(self):
     self.cursor.check_collision(self.options)
-    
-  def test(self, *data):
-    print("HOLA, SOY MENU Y MI DATA ES: " , data)
+    self.verify_click()
+
+  def verify_click(self):
+    if pygame.mouse.get_pressed()[0]: 
+        if not self.click_handled:
+            for option in self.options:
+                if option.get_rect().collidepoint(pygame.mouse.get_pos()):
+                    print(f"OPTION CLICKED: {option.get_title()}")
+                    self.click_handled = True
+                    return
+    else:
+        self.click_handled = False
+
 
   def set_up_menu_events(self):
-    self.event_manager.subscribe('test', self.test)
+    self.event_manager.subscribe('click', self.verify_click)
 

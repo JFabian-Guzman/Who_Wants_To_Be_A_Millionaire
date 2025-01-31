@@ -38,8 +38,8 @@ class Game:
   def run(self):
     while self.running:
       dt = self.clock.tick() / 1000
-      fps = self.clock.get_fps()  
-      print(f"FPS: {fps:.2f}")
+      # fps = self.clock.get_fps()  
+      # print(f"FPS: {fps:.2f}")
       for event in pygame.event.get():
         if event.type == pygame.QUIT:
           self.running = False
