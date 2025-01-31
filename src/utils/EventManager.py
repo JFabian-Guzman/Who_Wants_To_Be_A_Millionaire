@@ -1,4 +1,4 @@
-class Publisher:
+class EventManager:
     def __init__(self):
         self.subscribers = dict()
 
@@ -12,8 +12,8 @@ class Publisher:
         if event_type in self.subscribers:
             del self.subscribers[event_type]
 
-    def notify(self, event_type: str, *args):
+    def notify(self, event_type: str, data):
         if event_type in self.subscribers:
             for fn in self.subscribers[event_type]:
-                fn(*args)
+                fn(data)
 

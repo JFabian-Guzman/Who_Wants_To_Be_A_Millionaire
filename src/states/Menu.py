@@ -6,8 +6,8 @@ from utils.Logo import *
 from .State import *
 
 class Menu(State):
-  def __init__(self, publisher, cursor):
-    super().__init__(publisher)
+  def __init__(self, event_manager, cursor):
+    super().__init__(event_manager)
     self.elements = pygame.sprite.Group()
     self.screen = pygame.display.get_surface()
     self.cursor = cursor
@@ -26,6 +26,6 @@ class Menu(State):
   def test(self, *data):
     print("HOLA, SOY MENU Y MI DATA ES: " , data)
 
-  def set_up_menu_handlers(self):
-    self.publisher.subscribe('test', self.test)
+  def set_up_menu_events(self):
+    self.event_manager.subscribe('test', self.test)
 

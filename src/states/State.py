@@ -1,9 +1,9 @@
 from abc import ABC, abstractmethod
-from utils.Publisher import *
+from utils.EventManager import *
 
 class State(ABC):
-  def __init__(self, publisher: Publisher):
-    self.publisher = publisher
+  def __init__(self, event_manager: EventManager):
+    self.event_manager = event_manager
 
   @abstractmethod
   def draw(self):
