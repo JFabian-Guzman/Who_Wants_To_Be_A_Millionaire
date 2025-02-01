@@ -20,12 +20,20 @@ class Menu(State):
   def draw(self):
     self.elements.draw(self.screen)
 
+  def update_cursor_state(self):
+    for option in self.options:
+      if option.rect.collidepoint(pygame.mouse.get_pos()):
+        self.event_manager.notify("change_cursor", 'hover')
+        break
+      else:
+        self.event_manager.notify("change_cursor", 'default')
+
   def update(self):
     self.elements.update()
-    self.cursor.check_collision(self.options)
-    self.verify_click()
+    self.update_cursor_state()
+    self.update_user_click()
 
-  def verify_click(self):
+  def update_user_click(self):
     if pygame.mouse.get_pressed()[0]: 
         if not self.click_handled:
             for option in self.options:
@@ -36,8 +44,4 @@ class Menu(State):
                     return
     else:
         self.click_handled = False
-
-
-  def set_up_menu_events(self):
-    self.event_manager.subscribe('click', self.verify_click)
 

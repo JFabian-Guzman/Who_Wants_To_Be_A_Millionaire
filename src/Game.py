@@ -25,7 +25,7 @@ class Game:
 
     # Initialize objects
     self.background = Background()
-    self.cursor = Cursor(self.global_sprites)
+    self.cursor = Cursor(self.global_sprites, self.event_manager)
     self.menu = Menu(self.event_manager,self.cursor)
     self.play = Play(self.event_manager, self.cursor)
     self.state_machine = StateMachine(self.event_manager)
@@ -35,15 +35,15 @@ class Game:
     self.state_machine.add_state("Play", self.play)
 
     #set up events
-    self.menu.set_up_menu_events()
     self.state_machine.set_up_machine_events()
+    self.cursor.set_up_cursor_events()
 
     #default state
     self.event_manager.notify("set_state", "menu")
 
   def run(self):
     while self.running:
-      dt = self.clock.tick() / 1000
+      # dt = self.clock.tick() / 1000
       # fps = self.clock.get_fps()  
       # print(f"FPS: {fps:.2f}")
       for event in pygame.event.get():
@@ -56,8 +56,7 @@ class Game:
       self.global_sprites.update()
 
       # Event_handler
-      # self.state_machine.handle_events("update_state","menu")
-      self.state_machine.handle_events("update_state", "menu")
+      self.state_machine.handle_events("update_state")
 
       # Draw global sprites last to ensure they are rendered on top of all other elements
       self.global_sprites.draw(self.screen)

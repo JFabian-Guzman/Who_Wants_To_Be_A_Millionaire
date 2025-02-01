@@ -19,7 +19,3 @@ class State(ABC):
   def on(self):
     self.draw()
     self.update()
-
-  def off(self):
-    pass
-  

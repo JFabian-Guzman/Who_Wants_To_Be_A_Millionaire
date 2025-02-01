@@ -12,7 +12,7 @@ class EventManager:
         if event_type in self.subscribers:
             del self.subscribers[event_type]
 
-    def notify(self, event_type: str, data):
+    def notify(self, event_type: str, data = None):
         if event_type in self.subscribers:
             for fn in self.subscribers[event_type]:
                 fn(data)
