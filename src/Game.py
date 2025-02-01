@@ -1,11 +1,12 @@
 from config.settings import *
 from os.path import join
-from states.Menu import *
+from states.MenuState import *
 from utils.Cursor import *
 from utils.Groups import *
 from utils.EventManager import *
 from states.StateMachine import *
 from utils.Background import *
+from states.PlayState import *
 
 class Game: 
   def __init__(self):
@@ -26,14 +27,19 @@ class Game:
     self.background = Background()
     self.cursor = Cursor(self.global_sprites)
     self.menu = Menu(self.event_manager,self.cursor)
+    self.play = Play(self.event_manager, self.cursor)
     self.state_machine = StateMachine(self.event_manager)
 
     # Add states to the state_machine
     self.state_machine.add_state("menu", self.menu)
+    self.state_machine.add_state("Play", self.play)
 
     #set up events
     self.menu.set_up_menu_events()
     self.state_machine.set_up_machine_events()
+
+    #default state
+    self.event_manager.notify("set_state", "menu")
 
   def run(self):
     while self.running:
@@ -50,7 +56,8 @@ class Game:
       self.global_sprites.update()
 
       # Event_handler
-      self.state_machine.handle_events("update_state","menu")
+      # self.state_machine.handle_events("update_state","menu")
+      self.state_machine.handle_events("update_state", "menu")
 
       # Draw global sprites last to ensure they are rendered on top of all other elements
       self.global_sprites.draw(self.screen)
