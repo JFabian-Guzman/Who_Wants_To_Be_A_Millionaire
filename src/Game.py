@@ -7,8 +7,13 @@ from utils.EventManager import *
 from states.StateMachine import *
 from utils.Background import *
 from states.PlayState import *
+from states.InstructionsState import *
+from states.CreditsState import *
+from states.GlossaryState import *
+from states.ManageQuestionsState import *
 
-class Game: 
+
+class Game:
   def __init__(self):
     # Initialize the game
     pygame.init()
@@ -26,20 +31,32 @@ class Game:
     # Initialize objects
     self.background = Background()
     self.cursor = Cursor(self.global_sprites, self.event_manager)
-    self.menu = Menu(self.event_manager,self.cursor)
-    self.play = Play(self.event_manager, self.cursor)
     self.state_machine = StateMachine(self.event_manager)
+    self.menu = Menu(self.event_manager)
+    self.play = Play(self.event_manager)
+    self.instructions = Instructions(self.event_manager)
+    self.manage_questions = ManageQuestions(self.event_manager)
+    self.credits = Credits(self.event_manager)
+    self.glossary = Glossary(self.event_manager)
 
     # Add states to the state_machine
     self.state_machine.add_state("menu", self.menu)
-    self.state_machine.add_state("Play", self.play)
+    self.state_machine.add_state("play", self.play)
+    self.state_machine.add_state("instructions", self.instructions)
+    self.state_machine.add_state("manage questions", self.manage_questions)
+    self.state_machine.add_state("credits", self.credits)
+    self.state_machine.add_state("glossary", self.glossary)
 
     #set up events
+    self.set_up_game_events()
     self.state_machine.set_up_machine_events()
     self.cursor.set_up_cursor_events()
 
     #default state
     self.event_manager.notify("set_state", "menu")
+
+  def stop_game(self, *args):
+    self.running = False
 
   def run(self):
     while self.running:
@@ -48,7 +65,7 @@ class Game:
       # print(f"FPS: {fps:.2f}")
       for event in pygame.event.get():
         if event.type == pygame.QUIT:
-          self.running = False
+          self.stop_game()
       # Draw
       self.background.draw_background()
 
@@ -64,3 +81,8 @@ class Game:
       pygame.display.update()
       self.clock.tick(self.fps)
     pygame.quit()
+
+
+  def set_up_game_events(self):
+    self.event_manager.subscribe("stop_game", self.stop_game)
+

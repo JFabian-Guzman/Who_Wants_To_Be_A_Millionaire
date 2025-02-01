@@ -3,7 +3,6 @@ class EventManager:
         self.subscribers = dict()
 
     def subscribe(self, event_type: str, fn):
-        print("SUBSCRIBER: ", event_type)
         if event_type not in self.subscribers:
             self.subscribers[event_type] = []
         self.subscribers[event_type].append(fn)

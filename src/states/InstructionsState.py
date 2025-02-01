@@ -1,9 +1,8 @@
 from config.settings import *
 from os.path import join
-from utils.Cursor import *
 from .State import *
 
-class Play(State):
+class Instructions(State):
   def __init__(self, event_manager):
     super().__init__(event_manager)
     self.elements = pygame.sprite.Group()
@@ -12,7 +11,7 @@ class Play(State):
     self.current_lives = 3
     self.click_handled = False
     self.font = pygame.font.Font(join("assets", "fonts", "PressStart2P-Regular.ttf"), 30)
-    self.text = self.font.render("Game Screen", True, COLORS["WHITE"])
+    self.text = self.font.render("Instructions Screen", True, COLORS["WHITE"])
     self.text_rect = self.text.get_rect(center=(WINDOW_WIDTH/2  ,WINDOW_HEIGHT/2))
 
   def draw(self):

@@ -1,16 +1,14 @@
 from config.settings import *
 from os.path import join
-from utils.Cursor import *
 from utils.Option import *
 from utils.Logo import *
 from .State import *
 
 class Menu(State):
-  def __init__(self, event_manager, cursor):
+  def __init__(self, event_manager):
     super().__init__(event_manager)
     self.elements = pygame.sprite.Group()
     self.screen = pygame.display.get_surface()
-    self.cursor = cursor
     self.options = []
     for option in MENU:
       self.options.append(Option(option["TITLE"], option["POSITION"], self.elements))
@@ -38,8 +36,10 @@ class Menu(State):
         if not self.click_handled:
             for option in self.options:
                 if option.get_rect().collidepoint(pygame.mouse.get_pos()):
-                    print(f"OPTION CLICKED: {option.get_title()}")
-                    self.event_manager.notify("set_state", option.get_title())
+                    if(option.get_title().lower() != 'exit'):
+                      self.event_manager.notify("set_state", option.get_title().lower())
+                    else:
+                      self.event_manager.notify("stop_game")
                     self.click_handled = True
                     return
     else:
