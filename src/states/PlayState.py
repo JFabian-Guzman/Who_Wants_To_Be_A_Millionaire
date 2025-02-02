@@ -2,6 +2,7 @@ from config.settings import *
 from os.path import join
 from utils.Cursor import *
 from .State import *
+from utils.Option import *
 
 class Play(State):
   def __init__(self, event_manager):
@@ -11,14 +12,14 @@ class Play(State):
     self.current_level = 1
     self.current_lives = 3
     self.click_handled = False
-    self.font = pygame.font.Font(join("assets", "fonts", "PressStart2P-Regular.ttf"), 30)
-    self.text = self.font.render("Game Screen", True, COLORS["WHITE"])
-    self.text_rect = self.text.get_rect(center=(WINDOW_WIDTH/2  ,WINDOW_HEIGHT/2))
+    self.options = []
+    for position in GAME:
+      self.options.append(Option("game", position, self.elements))
 
   def draw(self):
-    self.screen.blit(self.text, self.text_rect)
+    self.elements.draw(self.screen)
     
   def update(self):
-    pass
+    self.elements.update()
 
 

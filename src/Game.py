@@ -53,7 +53,7 @@ class Game:
     self.cursor.set_up_cursor_events()
 
     #default state
-    self.event_manager.notify("set_state", "menu")
+    self.event_manager.notify("set_state", "play")
 
   def stop_game(self, *args):
     self.running = False
