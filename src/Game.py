@@ -53,16 +53,16 @@ class Game:
     self.cursor.set_up_cursor_events()
 
     #default state
-    self.event_manager.notify("set_state", "play")
+    self.event_manager.notify("set_state", "menu")
 
   def stop_game(self, *args):
     self.running = False
 
   def run(self):
     while self.running:
-      # dt = self.clock.tick() / 1000
-      # fps = self.clock.get_fps()  
-      # print(f"FPS: {fps:.2f}")
+      dt = self.clock.tick() / 1000
+      fps = self.clock.get_fps()  
+      print(f"FPS: {fps:.2f}")
       for event in pygame.event.get():
         if event.type == pygame.QUIT:
           self.stop_game()

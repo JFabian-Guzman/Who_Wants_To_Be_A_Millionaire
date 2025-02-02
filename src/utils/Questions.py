@@ -1,11 +1,11 @@
 from config.settings import *
 from os.path import join
 
-class Option(pygame.sprite.Sprite):
+class Question(pygame.sprite.Sprite):
   def __init__(self, text , position, groups):
     super().__init__(groups)
     pygame.font.init()  
-    self.image = pygame.image.load(join("assets", "img" ,"option.png")).convert_alpha()
+    self.image = pygame.image.load(join("assets", "img" ,"question.png")).convert_alpha()
     self.rect = self.image.get_rect(center = position)
     self.screen = pygame.display.get_surface()
     self.font = pygame.font.Font(join("assets", "fonts", "PressStart2P-Regular.ttf"), 20)
@@ -21,7 +21,5 @@ class Option(pygame.sprite.Sprite):
 
   def get_title(self):
     return self.title
-
-
 
 
