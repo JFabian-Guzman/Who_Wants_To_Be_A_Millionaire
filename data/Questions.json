@@ -1,12 +1,16 @@
 [
     {
+        "id": 1,
         "question": "What is the capital of France?",
         "answer": "Paris",
-        "options": ["Paris","San Jose","Madrid","Lima"]
+        "options": ["Paris","San Jose","Madrid","Lima"],
+        "level": 1
     },
     {
+        "id": 2,
         "question": "What is 2 + 2?",
         "answer": "4",
-        "options": ["1","2","3", "4"]
+        "options": ["1","2","3", "4"],
+        "level": 2
     }
 ]

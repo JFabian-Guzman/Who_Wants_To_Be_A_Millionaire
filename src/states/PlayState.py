@@ -24,6 +24,9 @@ class Play(State):
     self.surrender = Surrender((300,90), self.elements, self.event_manager)
     self.interactive_elements.append(self.surrender)
 
+    # Set up events
+    self.question.set_up_question_events()
+
   def draw(self):
     self.elements.draw(self.screen)
     
@@ -31,6 +34,7 @@ class Play(State):
     self.elements.update()
     self.update_cursor_state()
     self.read_options()
+    self.check_answer()
 
   def read_options(self):
     if isfile(join("data", "Questions.json")):
@@ -40,6 +44,26 @@ class Play(State):
         for i in range (4):
           self.interactive_elements[i].set_title(option_arr[i])
 
+
+  def check_answer(self):
+    if pygame.mouse.get_pressed()[0]: 
+        if not self.click_handled:
+            for i in range (4):
+                if self.interactive_elements[i].get_rect().collidepoint(pygame.mouse.get_pos()):
+                    if isfile(join("data", "Questions.json")):
+                      with open(join("data", "Questions.json"), "r") as file:
+                        data = json.load(file)
+                        answer = data[self.current_level]["answer"]
+                        if(answer.lower() == self.interactive_elements[i].get_title().lower()):
+                          print("CORRECTO")
+                          self.event_manager.notify("update_level")
+                          self.current_level += 1
+                        else:
+                          print("INCORRECTO")
+                    self.click_handled = True
+                    return
+    else:
+        self.click_handled = False
 
   def update_cursor_state(self):
     for item in self.interactive_elements:
