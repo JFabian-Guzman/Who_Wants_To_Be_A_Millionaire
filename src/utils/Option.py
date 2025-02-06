@@ -22,6 +22,9 @@ class Option(pygame.sprite.Sprite):
   def get_title(self):
     return self.title
 
+  def set_title(self,text):
+    self.text = self.font.render(text, True, COLORS["WHITE"])
+    self.text_rect = self.text.get_rect(center = self.rect.center)
 
 
 
