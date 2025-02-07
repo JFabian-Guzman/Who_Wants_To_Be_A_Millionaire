@@ -17,6 +17,9 @@ class Instructions(State):
     self.instructions = self.font.render(INSTRUCTIONS, True, COLORS["WHITE"] )
     self.instructions_rect = self.instructions.get_rect(center = box_rect.center)
 
+    self.box.set_up_box_event()
+
+
   def draw(self):
     self.elements.draw(self.screen)
     self.screen.blit(self.text, self.text_rect)

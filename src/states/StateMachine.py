@@ -13,12 +13,17 @@ class StateMachine:
     self.states[name] = state
 
   def set_state(self, state: str):
-    self.current_state = self.states[state]
     # Load data in the states where needed
     if state == "play":
+      state = "instructions"
+      self.event_manager.notify("display_continue_btn")
+    elif state == "game":
       self.event_manager.notify("load_data")
       self.event_manager.notify("reset_game")
       self.event_manager.notify("generate_question")
+    elif state == "instructions":
+      self.event_manager.notify("erase_continue_btn")
+    self.current_state = self.states[state]
 
   def update_state(self, *args):
     if self.current_state:

@@ -47,7 +47,7 @@ class Game:
 
     # Add states to the state_machine
     self.state_machine.add_state("menu", self.menu)
-    self.state_machine.add_state("play", self.play)
+    self.state_machine.add_state("game", self.play)
     self.state_machine.add_state("instructions", self.instructions)
     self.state_machine.add_state("manage questions", self.manage_questions)
     self.state_machine.add_state("credits", self.credits)
