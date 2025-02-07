@@ -25,10 +25,10 @@ class Play(State):
     self.score = Score("1", (WINDOW_WIDTH/2,310), self.elements)
     self.surrender = Surrender((300,90), self.elements, self.event_manager)
     self.interactive_elements.append(self.surrender)
+    self.options = []
 
     # Set up events
     self.question.set_up_question_events()
-
 
   def draw(self):
     self.elements.draw(self.screen)
@@ -36,33 +36,37 @@ class Play(State):
   def update(self):
     self.elements.update()
     self.update_cursor_state()
-    self.update_options()
+    self.display_options()
     self.check_answer()
 
-  def update_options(self):
-        option_arr = self.file_manager.get_data()[self.current_level][self.question_index]["options"]
-        for i in range (4):
-          self.interactive_elements[i].set_title(option_arr[i])
+  def display_options(self):
+    for i in range (4):
+      self.interactive_elements[i].set_title(self.options[i])
 
-  def generate_random_index(self, *args):
+  def generate_random_index(self):
     row_size = len(self.file_manager.get_data()[self.current_level])
     self.question_index = random.randrange(row_size)
+
+
+  def update_display_data(self, *args):
+    self.generate_random_index()
+    self.options = self.file_manager.get_data()[self.current_level][self.question_index]["options"]
+    question = self.file_manager.get_data()[self.current_level][self.question_index]["question"]
+    self.event_manager.notify("change_question", question)
+
 
   def check_answer(self):
     if pygame.mouse.get_pressed()[0]: 
         if not self.click_handled:
             for i in range (4):
                 if self.interactive_elements[i].get_rect().collidepoint(pygame.mouse.get_pos()):
-                    if isfile(join("data", "Questions.json")):
-                      with open(join("data", "Questions.json"), "r") as file:
-                        data = json.load(file)
-                        answer = data[self.current_level]["answer"]
-                        if(answer.lower() == self.interactive_elements[i].get_title().lower()):
-                          print("CORRECTO")
-                          self.event_manager.notify("update_level")
-                          self.current_level += 1
-                        else:
-                          print("INCORRECTO")
+                    answer = self.file_manager.get_data()[self.current_level][self.question_index]["answer"]
+                    if(answer.lower() == self.interactive_elements[i].get_title().lower()):
+                      print("CORRECTO")
+                      self.current_level += 1
+                      self.update_display_data()
+                    else:
+                      print("INCORRECTO")
                     self.click_handled = True
                     return
     else:
@@ -76,5 +80,9 @@ class Play(State):
       else:
         self.event_manager.notify("change_cursor", 'default')
 
+  def reset_game(self, *args):
+    self.current_level = 0
+
   def set_up_play_events(self):
-    self.event_manager.subscribe("update_question", self.generate_random_index)
+    self.event_manager.subscribe("generate_question", self.update_display_data)
+    self.event_manager.subscribe("reset_game", self.reset_game)

@@ -14,9 +14,11 @@ class StateMachine:
 
   def set_state(self, state: str):
     self.current_state = self.states[state]
+    # Load data in the states where needed
     if state == "play":
       self.event_manager.notify("load_data")
-      self.event_manager.notify("update_question")
+      self.event_manager.notify("reset_game")
+      self.event_manager.notify("generate_question")
 
   def update_state(self, *args):
     if self.current_state:

@@ -32,8 +32,11 @@ class Game:
     self.event_manager = EventManager()
     self.background = Background()
     self.cursor = Cursor(self.global_sprites, self.event_manager)
+    # Load data before initializing the states
     self.file_manager = FileManager(self.event_manager)
     self.file_manager.set_up_file_events()
+    self.event_manager.notify("load_data")
+    # Initialize states
     self.state_machine = StateMachine(self.event_manager)
     self.menu = Menu(self.event_manager)
     self.play = Play(self.event_manager, self.file_manager)
@@ -54,7 +57,6 @@ class Game:
     self.set_up_game_events()
     self.state_machine.set_up_machine_events()
     self.cursor.set_up_cursor_events()
-    self.file_manager.set_up_file_events()
     self.play.set_up_play_events()
 
     #default state
