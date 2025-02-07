@@ -45,3 +45,15 @@ will appear, and the user will lose their points.
 
 The winner of the game will be the individual 
 who answers all 15 questions correctly."""
+
+DEVELOPER = "José Fabián Guzmán González"
+
+CONTRIBUTORS = """
+Universidad De Costa Rica
+
+
+Escuela de Lenguas Modernas
+
+
+TCU 658 UCR
+"""
