@@ -11,6 +11,7 @@ from states.InstructionsState import *
 from states.CreditsState import *
 from states.GlossaryState import *
 from states.ManageQuestionsState import *
+from utils.FileManager import *
 
 
 class Game:
@@ -22,18 +23,20 @@ class Game:
     self.clock = pygame.time.Clock()
     self.fps = 60
     self.running = True
-    self.event_manager = EventManager()
     pygame.mouse.set_visible(False)
 
     # groups
     self.global_sprites = pygame.sprite.Group()
 
     # Initialize objects
+    self.event_manager = EventManager()
     self.background = Background()
     self.cursor = Cursor(self.global_sprites, self.event_manager)
+    self.file_manager = FileManager(self.event_manager)
+    self.file_manager.set_up_file_events()
     self.state_machine = StateMachine(self.event_manager)
     self.menu = Menu(self.event_manager)
-    self.play = Play(self.event_manager)
+    self.play = Play(self.event_manager, self.file_manager)
     self.instructions = Instructions(self.event_manager)
     self.manage_questions = ManageQuestions(self.event_manager)
     self.credits = Credits(self.event_manager)
@@ -51,9 +54,12 @@ class Game:
     self.set_up_game_events()
     self.state_machine.set_up_machine_events()
     self.cursor.set_up_cursor_events()
+    self.file_manager.set_up_file_events()
+    self.play.set_up_play_events()
 
     #default state
     self.event_manager.notify("set_state", "menu")
+    
 
   def stop_game(self, *args):
     self.running = False
