@@ -1,7 +1,7 @@
 from config.settings import *
 from os.path import join
 from utils.BackBtn import *
-from utils.ContinueBtn import *
+from utils.Button import *
 
 class Box(pygame.sprite.Sprite):
   def __init__(self, groups, event_manager):

@@ -1,10 +1,12 @@
 from abc import ABC, abstractmethod
 from utils.EventManager import *
+from config.settings import *
 
 class State(ABC):
   def __init__(self, event_manager: EventManager):
     self.event_manager = event_manager
     self.click_handle = False
+    self.interactive_elements = []
 
   @abstractmethod
   def draw(self):
@@ -23,3 +25,11 @@ class State(ABC):
 
   def set_click_handle(self, isHandle):
     self.click_handled = isHandle
+
+  def update_cursor_state(self):
+    for element in self.interactive_elements:
+      if element.rect.collidepoint(pygame.mouse.get_pos()):
+        self.event_manager.notify("change_cursor", 'hover')
+        break
+      else:
+        self.event_manager.notify("change_cursor", 'default')

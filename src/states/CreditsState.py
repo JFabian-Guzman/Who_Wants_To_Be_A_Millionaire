@@ -2,6 +2,7 @@ from config.settings import *
 from os.path import join
 from .State import *
 from utils.Box import *
+from utils.Button import *
 
 class Credits(State):
   def __init__(self, event_manager):
@@ -23,6 +24,10 @@ class Credits(State):
     self.developer_rect = self.developer.get_rect(center = (box_rect.centerx, box_rect.top + 175))
     self.contributors = self.font_text.render(CONTRIBUTORS, True, COLORS["WHITE"])
     self.contributors_rect = self.contributors.get_rect(center = (box_rect.centerx, box_rect.top + 300))
+    
+    self.back_btn = Button((box_rect.midleft[0] + 170, box_rect.midleft[1] + 190), event_manager, 'negative_btn', 'Go Back', 'WHITE')
+
+    self.interactive_elements.append(self.back_btn)
 
   def draw(self):
     self.elements.draw(self.screen)
@@ -31,7 +36,17 @@ class Credits(State):
     self.screen.blit(self.sub_title_2, self.sub_title_2_rect)
     self.screen.blit(self.developer, self.developer_rect)
     self.screen.blit(self.contributors, self.contributors_rect)
+    self.back_btn.draw()
 
   def update(self):
     self.elements.update()
+    self.update_cursor_state()
+    self.check_click()
 
+  def check_click(self):
+      if pygame.mouse.get_pressed()[0]: 
+        if not self.click_handled:
+          self.back_btn.check_notify_state("menu")
+          self.click_handled = True
+      else:
+          self.click_handled = False

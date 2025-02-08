@@ -32,18 +32,25 @@ GAME = [
 
 INSTRUCTIONS = """
 Students should read the questions and choose 
+
 one of the options displayed on the screen.
 
 
+
 If the answer is correct, they remain in the game 
+
 and earn more points. The next question is displayed.
 
 
+
 If the answer is incorrect, a "Game Over" message 
+
 will appear, and the user will lose their points.
 
 
+
 The winner of the game will be the individual 
+
 who answers all 15 questions correctly."""
 
 DEVELOPER = "José Fabián Guzmán González"

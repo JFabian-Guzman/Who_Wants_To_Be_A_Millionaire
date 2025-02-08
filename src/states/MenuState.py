@@ -11,20 +11,14 @@ class Menu(State):
     self.screen = pygame.display.get_surface()
     self.options = []
     for option in MENU:
-      self.options.append(Option(option["TITLE"], option["POSITION"], self.elements))
+      option = Option(option["TITLE"], option["POSITION"], self.elements)
+      self.options.append(option)
+      self.interactive_elements.append(option)
     self.logo = Logo(self.elements)
     self.click_handled = False
 
   def draw(self):
     self.elements.draw(self.screen)
-
-  def update_cursor_state(self):
-    for option in self.options:
-      if option.rect.collidepoint(pygame.mouse.get_pos()):
-        self.event_manager.notify("change_cursor", 'hover')
-        break
-      else:
-        self.event_manager.notify("change_cursor", 'default')
 
   def update(self):
     self.elements.update()

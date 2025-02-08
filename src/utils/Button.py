@@ -1,7 +1,7 @@
 from config.settings import *
 from os.path import join
 
-class ContinueBtn(pygame.sprite.Sprite):
+class Button(pygame.sprite.Sprite):
   def __init__(self, position, event_manager, type = 'btn', text = 'Continue', color = 'BLACK'):
     super().__init__()
     

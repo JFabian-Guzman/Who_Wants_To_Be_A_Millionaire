@@ -17,7 +17,6 @@ class Play(State):
     self.question_index = 0
     self.current_lives = 3
     self.click_handled = False
-    self.interactive_elements = []
     self.file_manager = file_manager
     for position in GAME:
       self.interactive_elements.append(Option("Option", position, self.elements))
@@ -32,7 +31,7 @@ class Play(State):
 
   def draw(self):
     self.elements.draw(self.screen)
-    
+
   def update(self):
     self.elements.update()
     self.update_cursor_state()
@@ -47,13 +46,11 @@ class Play(State):
     row_size = len(self.file_manager.get_data()[self.current_level])
     self.question_index = random.randrange(row_size)
 
-
   def update_display_data(self, *args):
     self.generate_random_index()
     self.options = self.file_manager.get_data()[self.current_level][self.question_index]["options"]
     question = self.file_manager.get_data()[self.current_level][self.question_index]["question"]
     self.event_manager.notify("change_question", question)
-
 
   def check_answer(self):
     if pygame.mouse.get_pressed()[0]: 
@@ -71,14 +68,6 @@ class Play(State):
                     return
     else:
         self.click_handled = False
-
-  def update_cursor_state(self):
-    for item in self.interactive_elements:
-      if item.rect.collidepoint(pygame.mouse.get_pos()):
-        self.event_manager.notify("change_cursor", 'hover')
-        break
-      else:
-        self.event_manager.notify("change_cursor", 'default')
 
   def reset_game(self, *args):
     self.current_level = 0
