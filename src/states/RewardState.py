@@ -13,13 +13,9 @@ class Rewards(State):
     self.font_title = pygame.font.Font(join("assets", "fonts", "PressStart2P-Regular.ttf"), 20)
     self.text = self.font_title.render("Rewards", True, COLORS["AMBER"])
     box_rect = self.box.get_rect()
-    self.click_handled = False
     self.text_rect = self.text.get_rect(center = (box_rect.centerx, box_rect.top + 75))
     self.continue_btn = ContinueBtn((box_rect.midright[0] - 170, box_rect.midright[1] + 190), event_manager)
     self.back_btn = ContinueBtn((box_rect.midleft[0] + 170, box_rect.midleft[1] + 190), event_manager, 'negative_btn', 'Go Back', 'WHITE')
-    # self.instructions = self.font.render(INSTRUCTIONS, True, COLORS["WHITE"] )
-    # self.instructions_rect = self.instructions.get_rect(center = box_rect.center)
-
 
   def draw(self):
     self.elements.draw(self.screen)
@@ -40,7 +36,3 @@ class Rewards(State):
         self.back_btn.check_notify_state("play")
     else:
         self.click_handled = False
-
-  def set_active_state(self, *args):
-    print(args[0])
-    self.active = args[0]

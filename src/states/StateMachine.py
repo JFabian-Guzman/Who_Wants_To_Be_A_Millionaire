@@ -24,6 +24,7 @@ class StateMachine:
       self.event_manager.notify("erase_continue_btn")
 
     self.current_state = self.states[state]
+    self.current_state.set_click_handle(True)
     
 
   def update_state(self, *args):
