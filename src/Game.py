@@ -6,12 +6,13 @@ from utils.Groups import *
 from utils.EventManager import *
 from states.StateMachine import *
 from utils.Background import *
+from utils.FileManager import *
 from states.PlayState import *
 from states.InstructionsState import *
 from states.CreditsState import *
 from states.GlossaryState import *
 from states.ManageQuestionsState import *
-from utils.FileManager import *
+from states.RewardState import *
 
 
 class Game:
@@ -44,6 +45,7 @@ class Game:
     self.manage_questions = ManageQuestions(self.event_manager)
     self.credits = Credits(self.event_manager)
     self.glossary = Glossary(self.event_manager)
+    self.rewards = Rewards(self.event_manager)
 
     # Add states to the state_machine
     self.state_machine.add_state("menu", self.menu)
@@ -52,12 +54,14 @@ class Game:
     self.state_machine.add_state("manage questions", self.manage_questions)
     self.state_machine.add_state("credits", self.credits)
     self.state_machine.add_state("glossary", self.glossary)
+    self.state_machine.add_state("rewards", self.rewards)
 
     #set up events
     self.set_up_game_events()
     self.state_machine.set_up_machine_events()
     self.cursor.set_up_cursor_events()
     self.play.set_up_play_events()
+    self.instructions.set_up_instruction_events()
 
     #default state
     self.event_manager.notify("set_state", "menu")
