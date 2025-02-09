@@ -21,7 +21,7 @@ class Play(State):
     for position in GAME:
       self.interactive_elements.append(Option("Option", position, self.elements))
     self.question = Question(self.elements, event_manager)
-    self.score = Score("1", (WINDOW_WIDTH/2,310), self.elements)
+    self.score = Score( (WINDOW_WIDTH/2,310), self.elements)
     self.surrender = Surrender((300,90), self.elements, self.event_manager)
     self.interactive_elements.append(self.surrender)
     self.options = []
@@ -62,6 +62,7 @@ class Play(State):
                       print("CORRECTO")
                       self.current_level += 1
                       self.update_display_data()
+                      self.score.next_level()
                     else:
                       print("INCORRECTO")
                     self.click_handled = True

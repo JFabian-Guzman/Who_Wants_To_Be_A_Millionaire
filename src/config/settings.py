@@ -30,6 +30,8 @@ GAME = [
   (WINDOW_WIDTH // 2 + 375, WINDOW_HEIGHT // 2 + 200)
 ]
 
+REWARDS = ["01", "002" , "03" , "04", "05", "07", "10", "15", "20", "25", "30", "40", "50", "75", "100"]
+
 INSTRUCTIONS = """
 Students should read the questions and choose 
 
