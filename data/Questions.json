@@ -31,8 +31,8 @@
     },
     {
         "question": "What is the speed of light?",
-        "answer": "299,792,458 meters per second",
-        "options": ["150,000,000 meters per second","299,792,458 meters per second","300,000,000 meters per second","299,792,000 meters per second"],
+        "answer": "299,792,458 mps",
+        "options": ["150,000,000 mps","299,792,458 mps","300,000,000 mps","299,792,000 mps"],
         "level": 4
     },
     {

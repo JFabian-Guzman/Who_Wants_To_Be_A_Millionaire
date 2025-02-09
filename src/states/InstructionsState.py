@@ -13,7 +13,7 @@ class Instructions(State):
     self.box = Box(self.elements, event_manager)
 
     self.font_title = pygame.font.Font(join("assets", "fonts", "PressStart2P-Regular.ttf"), 22)
-    self.font = pygame.font.Font(join("assets", "fonts", "PressStart2P-Regular.ttf"), 14)
+    self.font = pygame.font.Font(join("assets", "fonts", "PressStart2P-Regular.ttf"), 13)
     self.text = self.font_title.render("Instructions", True, COLORS["AMBER"])
     box_rect = self.box.get_rect()
     self.text_rect = self.text.get_rect(center = (box_rect.centerx, box_rect.top + 50))
