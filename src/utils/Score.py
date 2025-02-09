@@ -12,7 +12,7 @@ class Score(pygame.sprite.Sprite):
     self.current_level = 0
     self.update_rewards()
     self.coin = pygame.image.load(join("assets", "img" ,"coin.png")).convert_alpha()
-    self.coin_rect = self.coin.get_rect(midleft = (self.text_rect.centerx + 50, self.text_rect.centery - 2))
+    self.coin_rect = self.coin.get_rect(midleft = (self.text_rect.right + 20, self.text_rect.centery - 2))
     
 
   def update(self):

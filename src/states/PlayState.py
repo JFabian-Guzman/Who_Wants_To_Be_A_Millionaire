@@ -61,8 +61,12 @@ class Play(State):
                     if(answer.lower() == self.interactive_elements[i].get_title().lower()):
                       print("CORRECTO")
                       self.current_level += 1
-                      self.update_display_data()
-                      self.score.next_level()
+                      if self.current_level == LAST_LEVEL:
+                        self.event_manager.notify("set_state", "win")
+                        self.event_manager.notify("final_reward", self.current_level - 1)
+                      else:
+                        self.update_display_data()
+                        self.score.next_level()
                     else:
                       print("INCORRECTO")
                     self.click_handled = True
