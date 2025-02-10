@@ -13,16 +13,24 @@ class Surrender(pygame.sprite.Sprite):
     self.text_rect = self.text.get_rect(center = self.rect.center)
     self.event_manager = event_manager
     self.click_handled = False
+    self.current_level = 0
 
   def update(self):
     self.screen.blit(self.text, self.text_rect)
     self.check_surrender()
 
+  def set_level(self, level):
+    self.current_level = level
+
   def check_surrender(self):
     if pygame.mouse.get_pressed()[0]: 
         if not self.click_handled:
           if self.rect.collidepoint(pygame.mouse.get_pos()):
-            self.event_manager.notify("set_state", "menu")
+            if self.current_level == 0:
+              self.event_manager.notify("set_state", "menu")
+            else:
+              self.event_manager.notify("set_state", "win")
+              self.event_manager.notify("final_reward", self.current_level)
           self.click_handled = True
           return
     else:

@@ -5,6 +5,7 @@ from utils.Option import *
 from utils.Questions import *
 from utils.Score import *
 from utils.Surrender import *
+from utils.ConfirmModal import *
 import json
 import random
 
@@ -23,9 +24,11 @@ class Play(State):
     self.question = Question(self.elements, event_manager)
     self.score = Score( (WINDOW_WIDTH/2,310), self.elements)
     self.surrender = Surrender((300,90), self.elements, self.event_manager)
+    self.modal = ConfirmModal((WINDOW_WIDTH//2, WINDOW_HEIGHT//2), self.event_manager)
     self.interactive_elements.append(self.surrender)
     self.options = []
     self.save_level = 0
+    self.display_modal = False
 
     # Set up events
     self.question.set_up_question_events()
@@ -35,9 +38,13 @@ class Play(State):
 
   def update(self):
     self.elements.update()
-    self.update_cursor_state()
-    self.display_options()
-    self.check_answer()
+    if self.display_modal:
+      self.modal.draw()
+      self.modal.update()
+    else:
+      self.update_cursor_state()
+      self.display_options()
+      self.check_answer()
 
   def display_options(self):
     for i in range (4):
@@ -58,26 +65,28 @@ class Play(State):
         if not self.click_handled:
             for i in range (4):
                 if self.interactive_elements[i].get_rect().collidepoint(pygame.mouse.get_pos()):
-                    answer = self.file_manager.get_data()[self.current_level][self.question_index]["answer"]
-                    if(answer.lower() == self.interactive_elements[i].get_title().lower()):
-                      print("CORRECTO")
-                      self.current_level += 1
-                      if self.current_level % 5 == 0:
-                        self.save_level = self.current_level
+                    self.modal.set_option(i)
+                    self.switch_modal()
+                    # if(answer.lower() == self.interactive_elements[i].get_title().lower()):
+                    #   print("CORRECTO")
+                    #   self.current_level += 1
+                    #   self.surrender.set_level(self.current_level)
+                    #   if self.current_level % 5 == 0:
+                    #     self.save_level = self.current_level
 
-                      if self.current_level == LAST_LEVEL:
-                        self.event_manager.notify("set_state", "win")
-                        self.event_manager.notify("final_reward", self.current_level - 1)
-                      else:
-                        self.update_display_data()
-                        self.score.next_level()
-                    else:
-                      print("INCORRECTO")
-                      self.current_lives -= 1
-                      if self.current_lives == 0:
-                        answer = self.file_manager.get_data()[self.current_level][self.question_index]["answer"]
-                        self.event_manager.notify("game_over_message", (answer, self.save_level))
-                        self.event_manager.notify("set_state", "game over")
+                    #   if self.current_level == LAST_LEVEL:
+                    #     self.event_manager.notify("set_state", "win")
+                    #     self.event_manager.notify("final_reward", self.current_level - 1)
+                    #   else:
+                    #     self.update_display_data()
+                    #     self.score.next_level()
+                    # else:
+                    #   print("INCORRECTO")
+                    #   self.current_lives -= 1
+                    #   if self.current_lives == 0:
+                    #     answer = self.file_manager.get_data()[self.current_level][self.question_index]["answer"]
+                    #     self.event_manager.notify("game_over_message", (answer, self.save_level))
+                    #     self.event_manager.notify("set_state", "game over")
                     self.click_handled = True
                     return
     else:
@@ -88,6 +97,34 @@ class Play(State):
     self.score.restart()
     self.current_lives = 1
 
+  def switch_modal(self, *args):
+    self.display_modal = not self.display_modal
+
+  def validate_answer(self, *args):
+    answer = self.file_manager.get_data()[self.current_level][self.question_index]["answer"]
+    if(answer.lower() == self.interactive_elements[args[0]].get_title().lower()):
+      print("CORRECTO")
+      self.current_level += 1
+      self.surrender.set_level(self.current_level)
+      if self.current_level % 5 == 0:
+        self.save_level = self.current_level
+
+      if self.current_level == LAST_LEVEL:
+        self.event_manager.notify("set_state", "win")
+        self.event_manager.notify("final_reward", self.current_level - 1)
+      else:
+        self.update_display_data()
+        self.score.next_level()
+    else:
+      print("INCORRECTO")
+      self.current_lives -= 1
+      if self.current_lives == 0:
+        answer = self.file_manager.get_data()[self.current_level][self.question_index]["answer"]
+        self.event_manager.notify("game_over_message", (answer, self.save_level))
+        self.event_manager.notify("set_state", "game over")
+
   def set_up_play_events(self):
     self.event_manager.subscribe("generate_question", self.update_display_data)
     self.event_manager.subscribe("reset_game", self.reset_game)
+    self.event_manager.subscribe("switch_modal", self.switch_modal)
+    self.event_manager.subscribe("validate_answer", self.validate_answer)
