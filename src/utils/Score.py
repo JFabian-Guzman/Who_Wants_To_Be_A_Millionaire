@@ -27,6 +27,9 @@ class Score(pygame.sprite.Sprite):
   def next_level(self):
     self.current_level += 1
 
+  def restart(self):
+    self.current_level = 0
+
   def get_rect(self):
     return self.rect
 

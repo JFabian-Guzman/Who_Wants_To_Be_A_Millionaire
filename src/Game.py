@@ -14,7 +14,7 @@ from states.GlossaryState import *
 from states.ManageQuestionsState import *
 from states.RewardState import *
 from states.WinState import *
-
+from states.GameOverState import *
 
 class Game:
   def __init__(self):
@@ -48,6 +48,8 @@ class Game:
     self.glossary = Glossary(self.event_manager)
     self.rewards = Rewards(self.event_manager)
     self.win = Win(self.event_manager)
+    self.game_over = GameOver(self.event_manager)
+    
 
     # Add states to the state_machine
     self.state_machine.add_state("menu", self.menu)
@@ -58,6 +60,7 @@ class Game:
     self.state_machine.add_state("glossary", self.glossary)
     self.state_machine.add_state("rewards", self.rewards)
     self.state_machine.add_state("win", self.win)
+    self.state_machine.add_state("game over", self.game_over)
 
     #set up events
     self.set_up_game_events()
@@ -66,6 +69,7 @@ class Game:
     self.play.set_up_play_events()
     self.instructions.set_up_instruction_events()
     self.win.set_up_win_events()
+    self.game_over.set_up_game_over_events()
 
     #default state
     self.event_manager.notify("set_state", "menu")

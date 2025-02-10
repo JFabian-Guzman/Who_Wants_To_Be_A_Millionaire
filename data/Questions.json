@@ -45,7 +45,7 @@
         "question": "What is the smallest prime number?",
         "answer": "2",
         "options": ["0","1","2","3"],
-        "level": 0
+        "level": 5
     },
     {
         "question": "What is the hardest natural substance on Earth?",
