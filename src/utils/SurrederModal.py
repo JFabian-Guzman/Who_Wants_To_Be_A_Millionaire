@@ -2,7 +2,7 @@ from config.settings import *
 from os.path import join
 from utils.Button import *
 
-class ConfirmModal(pygame.sprite.Sprite):
+class SurrenderModal(pygame.sprite.Sprite):
   def __init__(self , position, event_manager):
     super().__init__()
     pygame.font.init()  
@@ -10,7 +10,13 @@ class ConfirmModal(pygame.sprite.Sprite):
     self.rect = self.image.get_rect(center = position)
     self.screen = pygame.display.get_surface()
     self.font = pygame.font.Font(join("assets", "fonts", "PressStart2P-Regular.ttf"), 14)
-    self.set_option(0)
+    self.surrender_message = """
+Keep your winnings and walk away, or risk it all for more. 
+
+
+Are you sure you want to surrender?"""
+    self.text = self.font.render(self.surrender_message, True, COLORS["WHITE"])
+    self.text_rect = self.text.get_rect(center=(WINDOW_WIDTH//2  ,WINDOW_HEIGHT//2 - 30))
     self.event_manager = event_manager
     self.interactive_elements = []
     self.click_handled = True
@@ -36,20 +42,12 @@ class ConfirmModal(pygame.sprite.Sprite):
     self.check_click()
 
 
-  def set_option(self, *args):
-    self.option_index = args[0]
-    self.message = "Is option "+ OPTIONS[self.option_index] +" your final answer?"
-    self.text = self.font.render(self.message, True, COLORS["WHITE"])
-    self.text_rect = self.text.get_rect(center=(WINDOW_WIDTH//2  ,WINDOW_HEIGHT//2))
-
   def check_click(self):
     if pygame.mouse.get_pressed()[0]: 
       if not self.click_handled:
-        if self.no_btn.get_rect().collidepoint(pygame.mouse.get_pos()):
-          self.event_manager.notify("switch_modal")
         if self.yes_btn.get_rect().collidepoint(pygame.mouse.get_pos()):
-          self.event_manager.notify("validate_answer", self.option_index)
-          self.event_manager.notify("switch_modal")
+          self.event_manager.notify("display_win_screen")
+        self.event_manager.notify("display_surrender_modal")
         self.click_handled = True
     else:
         self.click_handled = False
