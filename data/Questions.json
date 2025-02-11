@@ -27,7 +27,7 @@
         "question": "What is the chemical symbol for water?",
         "answer": "H2O",
         "options": ["O2","H2O","CO2","NaCl"],
-        "level": 0
+        "level": 1
     },
     {
         "question": "What is the speed of light?",
