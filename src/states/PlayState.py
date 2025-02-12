@@ -23,7 +23,7 @@ class Play(State):
     self.options = []
     self.file_manager = file_manager   
 
-    for position in GAME:
+    for position in OPTION_POSITIONS:
       self.interactive_elements.append(Option("Option", position, self.elements))
     self.question = Question(self.elements, event_manager)
     self.score = Score(  self.elements)

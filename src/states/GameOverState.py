@@ -7,8 +7,9 @@ from utils.GameOverFlag import *
 from utils.Coin import *
 
 RESTART_POSITION = (WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2 + 75)
-ANSWER_POSITION = (WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 - 20)
-REWARD_POSITION = (WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 + 15)
+ANSWER_TEXT_POSITION = (WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 - 30)
+ANSWER_POSITION = (WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2)
+REWARD_POSITION = (WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 + 30)
 COIN_POSITION = (REWARD_POSITION[0] + 75, REWARD_POSITION[1] - 2)
 
 class GameOver(State):
@@ -35,7 +36,8 @@ class GameOver(State):
     def update_text_elements(self):
         self.text_elements = [
             (TITLE.render("Play again?", True, COLORS["WHITE"]), RESTART_POSITION),
-            (TEXT.render("Unfortunately, the correct answer was " + self.answer, True, COLORS["WHITE"]), ANSWER_POSITION),
+            (TEXT.render("Unfortunately, the correct answer was ", True, COLORS["WHITE"]), ANSWER_TEXT_POSITION),
+            (TEXT.render(self.answer, True, COLORS["WHITE"]), ANSWER_POSITION),
             (TEXT.render("You win " + self.reward, True, COLORS["WHITE"]), REWARD_POSITION)
         ]
 

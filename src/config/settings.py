@@ -1,7 +1,13 @@
 import pygame
 from os.path import join
 
+# SIZE
 WINDOW_WIDTH, WINDOW_HEIGHT = 1280, 720
+BANNER = {
+  "SIZE":  (WINDOW_WIDTH, 65),
+}
+
+# COLORS
 COLORS = {
   "BLUE": "#1A237E",
   "AMBER": "#FFC107",
@@ -11,20 +17,26 @@ COLORS = {
   "BLACK": "#000000"
 }
 
-BANNER = {
-  "SIZE":  (WINDOW_WIDTH, 65),
-}
-
+# POSTIONS
 LEFT_BTN_POSITION = (WINDOW_WIDTH // 2 - 275, WINDOW_HEIGHT // 2 + 185)
 RIGHT_BTN_POSITION = (WINDOW_WIDTH // 2 + 275, WINDOW_HEIGHT // 2 + 185)
 FLAG_POSITION = (WINDOW_WIDTH/2, 150)
 MODAL_POSITION = (WINDOW_WIDTH/2, WINDOW_HEIGHT/2)
 MODAL_BTN_LEFT_POSITION = (WINDOW_WIDTH // 2 - 275, WINDOW_HEIGHT // 2 + 65)
 MODAL_BTN_RIGHT_POSITION = (WINDOW_WIDTH // 2 + 275, WINDOW_HEIGHT // 2 + 65)
+OPTION_POSITIONS = [
+  (WINDOW_WIDTH // 2 - 375, WINDOW_HEIGHT // 2 + 100),
+  (WINDOW_WIDTH // 2 - 375, WINDOW_HEIGHT // 2 + 200),
+  (WINDOW_WIDTH // 2 + 375, WINDOW_HEIGHT // 2 + 100),
+  (WINDOW_WIDTH // 2 + 375, WINDOW_HEIGHT // 2 + 200)
+]
 
+# TEXT LENGTH
 MAX_LENGTH_OPTIONS = 48
 MAX_LENGTH_QUESTION = 128
 
+
+# FONT
 PRESS_START_2P = join("assets", "fonts", "PressStart2P-Regular.ttf")
 pygame.font.init()  
 GIGA_TITLE = pygame.font.Font(PRESS_START_2P, 48)
@@ -32,6 +44,7 @@ TITLE = pygame.font.Font(PRESS_START_2P, 20)
 SUB_TITLE = pygame.font.Font(PRESS_START_2P, 16)
 TEXT = pygame.font.Font(PRESS_START_2P, 13)
 
+# MENU OPTIONS
 MENU = [
   {"TITLE": "Play", "POSITION": (WINDOW_WIDTH // 2 - 375, WINDOW_HEIGHT // 2 - 50) },
   {"TITLE": "Glossary", "POSITION": (WINDOW_WIDTH // 2 - 375, WINDOW_HEIGHT // 2 + 200)},
@@ -41,19 +54,16 @@ MENU = [
   {"TITLE": "Exit", "POSITION": (WINDOW_WIDTH // 2 + 375, WINDOW_HEIGHT // 2 + 200)}
 ]
 
-GAME = [
-  (WINDOW_WIDTH // 2 - 375, WINDOW_HEIGHT // 2 + 100),
-  (WINDOW_WIDTH // 2 - 375, WINDOW_HEIGHT // 2 + 200),
-  (WINDOW_WIDTH // 2 + 375, WINDOW_HEIGHT // 2 + 100),
-  (WINDOW_WIDTH // 2 + 375, WINDOW_HEIGHT // 2 + 200)
-]
+# GAME DATA
 
-REWARDS = ["00","01", "02" , "03" , "04", "05", "07", "10", "15", "20", "25", "30", "40", "50", "75", "100"]
+REWARDS = ["0","01", "02" , "03" , "04", "05", "07", "10", "15", "20", "25", "30", "40", "50", "75", "100"]
 
-OPTIONS = ["A","B","C", "D"]
+OPTIONS = ["A","B","C","D"]
 
 LAST_LEVEL = 6
 
+
+# TEXTS
 INSTRUCTIONS = """
 Students should read the questions and choose 
 
