@@ -1,7 +1,7 @@
 from config.settings import *
 from os.path import join
 
-FLAG_POSITION = (WINDOW_WIDTH/2, 150)
+
 
 class GameOverFlag(pygame.sprite.Sprite):
   def __init__(self, groups):

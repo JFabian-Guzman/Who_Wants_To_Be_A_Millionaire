@@ -7,14 +7,12 @@ from .State import *
 class Menu(State):
   def __init__(self, event_manager):
     super().__init__(event_manager)
-    self.elements = pygame.sprite.Group()
-    self.screen = pygame.display.get_surface()
     self.options = []
     for option in MENU:
       option = Option(option["TITLE"], option["POSITION"], self.elements)
       self.options.append(option)
       self.interactive_elements.append(option)
-    self.logo = Logo(self.elements)
+    Logo(self.elements)
     self.click_handled = False
 
   def draw(self):

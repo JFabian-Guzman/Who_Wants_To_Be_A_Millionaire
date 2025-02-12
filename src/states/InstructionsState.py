@@ -4,24 +4,25 @@ from .State import *
 from utils.Box import *
 from utils.Button import *
 
+
 class Instructions(State):
   def __init__(self, event_manager):
     super().__init__(event_manager)
 
-    self.elements = pygame.sprite.Group()
-    self.screen = pygame.display.get_surface()
     self.box = Box(self.elements, event_manager)
-
-    self.font_title = pygame.font.Font(join("assets", "fonts", "PressStart2P-Regular.ttf"), 22)
-    self.font = pygame.font.Font(join("assets", "fonts", "PressStart2P-Regular.ttf"), 13)
-    self.text = self.font_title.render("Instructions", True, COLORS["AMBER"])
     box_rect = self.box.get_rect()
-    self.text_rect = self.text.get_rect(center = (box_rect.centerx, box_rect.top + 50))
-    self.instructions = self.font.render(INSTRUCTIONS, True, COLORS["WHITE"] )
-    self.instructions_rect = self.instructions.get_rect(center = (box_rect.centerx, box_rect.centery - 20))
 
-    self.continue_btn = Button(None,(box_rect.midright[0] - 170, box_rect.midright[1] + 190), event_manager)
-    self.back_btn = Button(self.elements,(box_rect.midleft[0] + 170, box_rect.midleft[1] + 190), event_manager, 'negative_btn', 'Go Back', 'WHITE')
+    INSTRUCTIONS_TITLE_POSITION = (box_rect.centerx, box_rect.top + 50)
+    INSTRUCTIONS_POSITION = (box_rect.centerx, box_rect.centery - 20)
+
+    self.title = TITLE.render("Instructions", True, COLORS["AMBER"])
+    self.title_rect = self.title.get_rect(center = INSTRUCTIONS_TITLE_POSITION)
+
+    self.instructions = TEXT.render(INSTRUCTIONS, True, COLORS["WHITE"] )
+    self.instructions_rect = self.instructions.get_rect(center = INSTRUCTIONS_POSITION)
+
+    self.continue_btn = Button(None,RIGHT_BTN_POSITION, event_manager)
+    self.back_btn = Button(self.elements,LEFT_BTN_POSITION, event_manager, 'negative_btn', 'Go Back', 'WHITE')
 
     self.display_contiue = True
     self.click_handled = False
@@ -32,7 +33,7 @@ class Instructions(State):
 
   def draw(self):
     self.elements.draw(self.screen)
-    self.screen.blit(self.text, self.text_rect)
+    self.screen.blit(self.title, self.title_rect)
     self.screen.blit(self.instructions, self.instructions_rect)
     if self.display_contiue:
       self.continue_btn.draw()
