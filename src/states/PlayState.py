@@ -7,7 +7,12 @@ from utils.Score import *
 from utils.Surrender import *
 from utils.ConfirmModal import *
 from utils.SurrederModal import *
+from utils.LifeLine import *
 import random
+
+LIFELINE_1_POSITION = (WINDOW_WIDTH/2 , WINDOW_HEIGHT/2 - 275)
+LIFELINE_2_POSITION = (WINDOW_WIDTH/2 + 75, WINDOW_HEIGHT/2 - 275)
+LIFELINE_3_POSITION = (WINDOW_WIDTH/2 - 75, WINDOW_HEIGHT/2 - 275)
 
 class Play(State):
   def __init__(self, event_manager,file_manager):
@@ -30,14 +35,23 @@ class Play(State):
     self.surrender = Surrender(self.elements, self.event_manager)
     self.modal = ConfirmModal(self.event_manager)
     self.surrender_modal = SurrenderModal(self.event_manager)
+    self.heart_lifeline = Lifeline(LIFELINE_1_POSITION, "heart_lifeline")
+    self.fifty_fifty_lifeline = Lifeline(LIFELINE_2_POSITION, "fifty_fifty_lifeline")
+    self.switch_lifeline = Lifeline(LIFELINE_3_POSITION, "switch_lifeline")
 
     self.interactive_elements.append(self.surrender)
+    self.interactive_elements.append(self.heart_lifeline)
+    self.interactive_elements.append(self.fifty_fifty_lifeline)
+    self.interactive_elements.append(self.switch_lifeline)
 
     # Set up events
     self.question.set_up_question_events()
 
   def draw(self):
     self.elements.draw(self.screen)
+    self.heart_lifeline.draw_available()
+    self.fifty_fifty_lifeline.draw_available()
+    self.switch_lifeline.draw_available()
 
   def update(self):
     self.elements.update()
