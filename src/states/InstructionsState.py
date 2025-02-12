@@ -20,8 +20,8 @@ class Instructions(State):
     self.instructions = self.font.render(INSTRUCTIONS, True, COLORS["WHITE"] )
     self.instructions_rect = self.instructions.get_rect(center = (box_rect.centerx, box_rect.centery - 20))
 
-    self.continue_btn = Button((box_rect.midright[0] - 170, box_rect.midright[1] + 190), event_manager)
-    self.back_btn = Button((box_rect.midleft[0] + 170, box_rect.midleft[1] + 190), event_manager, 'negative_btn', 'Go Back', 'WHITE')
+    self.continue_btn = Button(None,(box_rect.midright[0] - 170, box_rect.midright[1] + 190), event_manager)
+    self.back_btn = Button(self.elements,(box_rect.midleft[0] + 170, box_rect.midleft[1] + 190), event_manager, 'negative_btn', 'Go Back', 'WHITE')
 
     self.display_contiue = True
     self.click_handled = False
@@ -34,7 +34,6 @@ class Instructions(State):
     self.elements.draw(self.screen)
     self.screen.blit(self.text, self.text_rect)
     self.screen.blit(self.instructions, self.instructions_rect)
-    self.back_btn.draw()
     if self.display_contiue:
       self.continue_btn.draw()
 

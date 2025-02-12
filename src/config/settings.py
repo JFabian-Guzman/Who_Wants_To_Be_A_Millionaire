@@ -20,6 +20,7 @@ MAX_LENGTH_QUESTION = 128
 
 PRESS_START_2P = join("assets", "fonts", "PressStart2P-Regular.ttf")
 pygame.font.init()  
+GIGA_TITLE = pygame.font.Font(PRESS_START_2P, 48)
 TITLE = pygame.font.Font(PRESS_START_2P, 20)
 SUB_TITLE = pygame.font.Font(PRESS_START_2P, 16)
 TEXT = pygame.font.Font(PRESS_START_2P, 13)

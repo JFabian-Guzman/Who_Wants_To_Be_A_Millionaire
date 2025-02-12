@@ -17,8 +17,8 @@ class Win(State):
     box_rect = self.box.get_rect()
     self.text = self.title_font.render(restart_message, True, COLORS["WHITE"])
     self.text_rect = self.text.get_rect(center=(WINDOW_WIDTH/2  ,WINDOW_HEIGHT/2 + 75))
-    self.no_btn = Button(( WINDOW_WIDTH//2 - 200, WINDOW_HEIGHT //2 + 175), event_manager, 'negative_btn', 'No', 'WHITE')
-    self.yes_btn = Button(( WINDOW_WIDTH//2 + 200, WINDOW_HEIGHT //2 + 175), event_manager, 'btn', 'Yes')
+    self.no_btn = Button(self.elements,( WINDOW_WIDTH//2 - 200, WINDOW_HEIGHT //2 + 175), event_manager, 'negative_btn', 'No', 'WHITE')
+    self.yes_btn = Button(self.elements,( WINDOW_WIDTH//2 + 200, WINDOW_HEIGHT //2 + 175), event_manager, 'btn', 'Yes')
     self.win_flag = WinFlag(( WINDOW_WIDTH//2, box_rect.top + 50 ), self.elements)
     self.set_reward(0)
     self.coin = pygame.image.load(join("assets", "img" ,"coin.png")).convert_alpha()
@@ -33,8 +33,6 @@ class Win(State):
     self.screen.blit(self.reward_text, self.reward_text_rect)
     self.screen.blit(self.coin, self.coin_rect)
     
-    self.no_btn.draw()
-    self.yes_btn.draw()
     self.update_cursor_state()
     self.check_click()
     

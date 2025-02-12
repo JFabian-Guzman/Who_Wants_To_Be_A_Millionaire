@@ -18,8 +18,8 @@ class Rewards(State):
     box_rect = self.box.get_rect()
     self.text_rect = self.text.get_rect(center = (box_rect.centerx, box_rect.top + 50))
 
-    self.continue_btn = Button((box_rect.midright[0] - 170, box_rect.midright[1] + 190), event_manager)
-    self.back_btn = Button((box_rect.midleft[0] + 170, box_rect.midleft[1] + 190), event_manager, 'negative_btn', 'Go Back', 'WHITE')
+    self.continue_btn = Button(self.elements,(box_rect.midright[0] - 170, box_rect.midright[1] + 190), event_manager)
+    self.back_btn = Button(self.elements,(box_rect.midleft[0] + 170, box_rect.midleft[1] + 190), event_manager, 'negative_btn', 'Go Back', 'WHITE')
 
     self.interactive_elements.append(self.continue_btn)
     self.interactive_elements.append(self.back_btn)
@@ -27,8 +27,6 @@ class Rewards(State):
   def draw(self):
     self.elements.draw(self.screen)
     self.screen.blit(self.text, self.text_rect)
-    self.continue_btn.draw()
-    self.back_btn.draw()
     
     
   def update(self):

@@ -4,6 +4,8 @@ from config.settings import *
 
 class State(ABC):
   def __init__(self, event_manager: EventManager):
+    self.elements = pygame.sprite.Group()
+    self.screen = pygame.display.get_surface()
     self.event_manager = event_manager
     self.click_handle = False
     self.interactive_elements = []

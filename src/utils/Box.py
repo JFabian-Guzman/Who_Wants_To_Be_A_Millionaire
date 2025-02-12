@@ -1,7 +1,5 @@
 from config.settings import *
 from os.path import join
-from utils.BackBtn import *
-from utils.Button import *
 
 class Box(pygame.sprite.Sprite):
   def __init__(self, groups, event_manager):
@@ -12,20 +10,6 @@ class Box(pygame.sprite.Sprite):
     self.event_manager = event_manager
     self.display_contiue = True
     
-
-  def update(self):
-    self.update_cursor_state()
-
-
-  def update_cursor_state(self):
-    pass
-  #   if self.back_btn.get_rect().collidepoint(pygame.mouse.get_pos()) or (self.continue_btn.get_rect().collidepoint(pygame.mouse.get_pos() ) and self.display_contiue):
-  #     self.event_manager.notify("change_cursor", 'hover')
-  #   else:
-  #     self.event_manager.notify("change_cursor", 'default')
-
-  # def display_continue_btn(self, *args):
-  #   self.display_contiue = True
 
   def erase_continue_btn(self, *args):
     self.display_contiue = False

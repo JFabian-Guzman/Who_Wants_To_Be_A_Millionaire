@@ -20,18 +20,18 @@ class Glossary(State):
 
     self.text = self.font.render(message, True, COLORS["WHITE"])
     self.text_rect = self.text.get_rect(center=(WINDOW_WIDTH/2  ,WINDOW_HEIGHT/2))
-    self.back_btn = Button(( WINDOW_WIDTH//2, WINDOW_HEIGHT //2 + 100), event_manager, 'negative_btn', 'Go Back', 'WHITE')
+    self.back_btn = Button(self.elements,( WINDOW_WIDTH//2, WINDOW_HEIGHT //2 + 100), event_manager, 'negative_btn', 'Go Back', 'WHITE')
 
     self.interactive_elements.append(self.back_btn)
 
   def draw(self):
+    self.elements.draw(self.screen)
     self.screen.blit(self.text, self.text_rect)
-    self.back_btn.draw()
     self.update_cursor_state()
     self.check_click()
     
   def update(self):
-    pass
+    self.elements.update()
 
   def check_click(self):
     if pygame.mouse.get_pressed()[0]: 

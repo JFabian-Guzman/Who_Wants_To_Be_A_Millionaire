@@ -6,6 +6,7 @@ class SurrenderModal(pygame.sprite.Sprite):
   def __init__(self , position, event_manager):
     super().__init__()
     pygame.font.init()  
+    self.elements = pygame.sprite.Group()
     self.image = pygame.image.load(join("assets", "img" ,"question.png")).convert_alpha()
     self.rect = self.image.get_rect(center = position)
     self.screen = pygame.display.get_surface()
@@ -24,20 +25,20 @@ Are you sure you want to surrender?"""
     self.overlay.fill((0, 0, 0))
     self.overlay.set_alpha(128)
     self.option_index = ''
-    self.no_btn = Button(( self.rect.centerx - 200, self.rect.centery + 75 ), event_manager, 'negative_btn', 'No', 'WHITE')
-    self.yes_btn = Button(( self.rect.centerx + 200, self.rect.centery + 75), event_manager, 'btn', 'Yes')
+    self.no_btn = Button(self.elements,( self.rect.centerx - 200, self.rect.centery + 75 ), event_manager, 'negative_btn', 'No', 'WHITE')
+    self.yes_btn = Button(self.elements,( self.rect.centerx + 200, self.rect.centery + 75), event_manager, 'btn', 'Yes')
 
     self.interactive_elements.append(self.no_btn)
     self.interactive_elements.append(self.yes_btn)
 
   def draw(self):
+    self.elements.draw(self.screen)
     self.screen.blit(self.overlay, (0, 0))
     self.screen.blit(self.image, self.rect)
     self.screen.blit(self.text, self.text_rect)
-    self.no_btn.draw()
-    self.yes_btn.draw()
 
   def update(self):
+    self.elements.update()
     self.update_cursor_state()
     self.check_click()
 
