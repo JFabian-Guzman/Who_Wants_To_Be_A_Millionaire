@@ -12,25 +12,26 @@ import random
 class Play(State):
   def __init__(self, event_manager,file_manager):
     super().__init__(event_manager)
-    self.elements = pygame.sprite.Group()
-    self.screen = pygame.display.get_surface()
+
+    self.save_level = 0
     self.current_level = 0
     self.question_index = 0
     self.current_lives = 1
     self.click_handled = False
-    self.file_manager = file_manager
+    self.display_modal = False
+    self.display_surrender_modal = False
+    self.options = []
+    self.file_manager = file_manager   
+
     for position in GAME:
       self.interactive_elements.append(Option("Option", position, self.elements))
     self.question = Question(self.elements, event_manager)
-    self.score = Score( (WINDOW_WIDTH/2,310), self.elements)
-    self.surrender = Surrender((300,90), self.elements, self.event_manager)
-    self.modal = ConfirmModal((WINDOW_WIDTH//2, WINDOW_HEIGHT//2), self.event_manager)
-    self.surrender_modal = SurrenderModal((WINDOW_WIDTH//2, WINDOW_HEIGHT//2), self.event_manager)
+    self.score = Score(  self.elements)
+    self.surrender = Surrender(self.elements, self.event_manager)
+    self.modal = ConfirmModal(self.event_manager)
+    self.surrender_modal = SurrenderModal(self.event_manager)
+
     self.interactive_elements.append(self.surrender)
-    self.options = []
-    self.save_level = 0
-    self.display_modal = False
-    self.display_surrender_modal = False
 
     # Set up events
     self.question.set_up_question_events()
@@ -89,7 +90,6 @@ class Play(State):
   def validate_answer(self, *args):
     answer = self.file_manager.get_data()[self.current_level][self.question_index]["answer"]
     if(answer.lower() == self.interactive_elements[args[0]].get_title().lower()):
-      print("CORRECTO")
       self.current_level += 1
       self.surrender.set_level(self.current_level)
       if self.current_level % 5 == 0:
@@ -102,7 +102,6 @@ class Play(State):
         self.update_display_data()
         self.score.next_level()
     else:
-      print("INCORRECTO")
       self.current_lives -= 1
       if self.current_lives == 0:
         answer = self.file_manager.get_data()[self.current_level][self.question_index]["answer"]

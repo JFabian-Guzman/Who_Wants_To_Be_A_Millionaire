@@ -7,13 +7,14 @@ class Button(pygame.sprite.Sprite):
             super().__init__(group)
         else:
             super().__init__()
+        self.screen = pygame.display.get_surface()
 
         self.image = pygame.image.load(join("assets", "img", type + '.png')).convert_alpha()
         self.rect = self.image.get_rect(center=position)
-        self.screen = pygame.display.get_surface()
-        self.font = pygame.font.Font(join("assets", "fonts", "PressStart2P-Regular.ttf"), 14)
-        self.text = self.font.render(text, True, COLORS[color])
+
+        self.text = TEXT.render(text, True, COLORS[color])
         self.text_rect = self.text.get_rect(center=self.rect.center)
+        
         self.event_manager = event_manager
 
     def draw(self):

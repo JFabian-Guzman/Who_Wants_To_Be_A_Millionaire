@@ -14,7 +14,7 @@ class Win(State):
   def __init__(self, event_manager):
     super().__init__(event_manager)
 
-    self.box = Box(self.elements, self.event_manager)
+    self.box = Box(self.elements)
 
     self.reward_message = ""
 

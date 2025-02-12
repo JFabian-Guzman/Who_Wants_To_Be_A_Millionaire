@@ -2,7 +2,6 @@ from config.settings import *
 from os.path import join
 from states.MenuState import *
 from utils.Cursor import *
-from utils.Groups import *
 from utils.EventManager import *
 from states.StateMachine import *
 from utils.Background import *

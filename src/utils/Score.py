@@ -1,27 +1,31 @@
 from config.settings import *
 from os.path import join
+from utils.Coin import *
 
+SCORE_POSITION = (WINDOW_WIDTH/2,310)
 class Score(pygame.sprite.Sprite):
-  def __init__(self, position, groups):
+  def __init__(self, groups):
     super().__init__(groups)
-    pygame.font.init()  
-    self.image = pygame.image.load(join("assets", "img" ,"score.png")).convert_alpha()
-    self.rect = self.image.get_rect(center = position)
     self.screen = pygame.display.get_surface()
-    self.font = pygame.font.Font(join("assets", "fonts", "PressStart2P-Regular.ttf"), 20)
+    self.elements = pygame.sprite.Group()
+
+    self.image = pygame.image.load(join("assets", "img" ,"score.png")).convert_alpha()
+    self.rect = self.image.get_rect(center = SCORE_POSITION)
+
     self.current_level = 0
+
     self.update_rewards()
-    self.coin = pygame.image.load(join("assets", "img" ,"coin.png")).convert_alpha()
-    self.coin_rect = self.coin.get_rect(midleft = (self.text_rect.right + 20, self.text_rect.centery - 2))
+    COIN_POSITION = (self.text_rect.right + 20, self.text_rect.centery - 2)
+    Coin(COIN_POSITION, self.elements)
     
 
   def update(self):
     self.screen.blit(self.text, self.text_rect)
-    self.screen.blit(self.coin, self.coin_rect)
+    self.elements.draw(self.screen)
     self.update_rewards()
 
   def update_rewards(self):
-    self.text = self.font.render(REWARDS[self.current_level], True, COLORS["BLACK"])
+    self.text = TITLE.render(REWARDS[self.current_level], True, COLORS["BLACK"])
     self.text_rect = self.text.get_rect(center = self.rect.center)
 
   def next_level(self):

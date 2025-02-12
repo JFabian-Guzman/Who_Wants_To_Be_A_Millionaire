@@ -7,7 +7,7 @@ from utils.Button import *
 class Credits(State):
   def __init__(self, event_manager):
     super().__init__(event_manager)
-    self.box = Box(self.elements, event_manager)
+    self.box = Box(self.elements)
     box_rect = self.box.get_rect()
 
     TITLE_POSTION = (box_rect.centerx, box_rect.top + 75)

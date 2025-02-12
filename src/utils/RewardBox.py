@@ -1,6 +1,5 @@
 from config.settings import *
 from os.path import join
-from utils.BackBtn import *
 from utils.Button import *
 
 class RewardsBox(pygame.sprite.Sprite):
