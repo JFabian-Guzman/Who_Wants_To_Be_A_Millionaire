@@ -1,4 +1,5 @@
 import pygame
+from os.path import join
 
 WINDOW_WIDTH, WINDOW_HEIGHT = 1280, 720
 COLORS = {
@@ -16,6 +17,12 @@ BANNER = {
 
 MAX_LENGTH_OPTIONS = 48
 MAX_LENGTH_QUESTION = 128
+
+PRESS_START_2P = join("assets", "fonts", "PressStart2P-Regular.ttf")
+pygame.font.init()  
+TITLE = pygame.font.Font(PRESS_START_2P, 20)
+SUB_TITLE = pygame.font.Font(PRESS_START_2P, 16)
+TEXT = pygame.font.Font(PRESS_START_2P, 13)
 
 MENU = [
   {"TITLE": "Play", "POSITION": (WINDOW_WIDTH // 2 - 375, WINDOW_HEIGHT // 2 - 50) },
