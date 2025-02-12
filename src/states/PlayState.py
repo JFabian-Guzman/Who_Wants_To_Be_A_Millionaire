@@ -79,6 +79,7 @@ class Play(State):
         self.click_handled = False
 
   def reset_game(self, *args):
+    self.save_level = 0
     self.current_level = 0
     self.score.restart()
     self.current_lives = 1
