@@ -22,11 +22,15 @@ class Play(State):
     self.current_level = 0
     self.question_index = 0
     self.current_lives = 1
+    self.number_questions = 0
     self.click_handled = False
     self.display_modal = False
     self.display_surrender_modal = False
+    self.active_shield = False
+    self.answer = ""
     self.options = []
-    self.file_manager = file_manager   
+    self.lifelines = []
+    self.file_manager = file_manager  
 
     for position in OPTION_POSITIONS:
       self.interactive_elements.append(Option("Option", position, self.elements))
@@ -35,12 +39,12 @@ class Play(State):
     self.surrender = Surrender(self.elements, self.event_manager)
     self.modal = ConfirmModal(self.event_manager)
     self.surrender_modal = SurrenderModal(self.event_manager)
-    self.heart_lifeline = Lifeline(LIFELINE_1_POSITION, "heart_lifeline")
+    self.shield_lifeline = Lifeline(LIFELINE_1_POSITION, "shield_lifeline")
     self.fifty_fifty_lifeline = Lifeline(LIFELINE_2_POSITION, "fifty_fifty_lifeline")
     self.switch_lifeline = Lifeline(LIFELINE_3_POSITION, "switch_lifeline")
 
     self.interactive_elements.append(self.surrender)
-    self.interactive_elements.append(self.heart_lifeline)
+    self.interactive_elements.append(self.shield_lifeline)
     self.interactive_elements.append(self.fifty_fifty_lifeline)
     self.interactive_elements.append(self.switch_lifeline)
 
@@ -49,9 +53,9 @@ class Play(State):
 
   def draw(self):
     self.elements.draw(self.screen)
-    self.heart_lifeline.draw_available()
-    self.fifty_fifty_lifeline.draw_available()
-    self.switch_lifeline.draw_available()
+    self.shield_lifeline.draw()
+    self.fifty_fifty_lifeline.draw()
+    self.switch_lifeline.draw()
 
   def update(self):
     self.elements.update()
@@ -64,29 +68,60 @@ class Play(State):
     else:
       self.update_cursor_state()
       self.display_options()
-      self.check_answer()
+      self.click_option()
+      self.click_lifeline()
 
   def display_options(self):
     for i in range (4):
       self.interactive_elements[i].set_title(self.options[i])
 
-  def generate_random_index(self):
-    row_size = len(self.file_manager.get_data()[self.current_level])
-    self.question_index = random.randrange(row_size)
+  def generate_random_index(self, *args):
+    self.number_questions = len(self.file_manager.get_data()[self.current_level])
+    self.question_index = random.randrange(self.number_questions)
+    if self.number_questions > 1:
+      # Avoid generating the same question
+      while self.options == self.file_manager.get_data()[self.current_level][self.question_index]["options"]:
+        self.question_index= random.randrange(self.number_questions)
+
 
   def update_display_data(self, *args):
-    self.generate_random_index()
     self.options = self.file_manager.get_data()[self.current_level][self.question_index]["options"]
+    self.answer = self.file_manager.get_data()[self.current_level][self.question_index]["answer"]
     question = self.file_manager.get_data()[self.current_level][self.question_index]["question"]
     self.event_manager.notify("change_question", question)
 
-  def check_answer(self):
+  def shuffle_options(self, *args):
+    random.shuffle(self.options)
+
+  def click_option(self):
     if pygame.mouse.get_pressed()[0]: 
         if not self.click_handled:
             for i in range (4):
-                if self.interactive_elements[i].get_rect().collidepoint(pygame.mouse.get_pos()):
+                if self.interactive_elements[i].get_rect().collidepoint(pygame.mouse.get_pos()) and self.interactive_elements[i].get_title() != '':
                     self.modal.set_option(i)
                     self.switch_modal()
+                    self.click_handled = True
+                    return
+    else:
+        self.click_handled = False
+
+  def click_lifeline(self):
+    if pygame.mouse.get_pressed()[0]: 
+        if not self.click_handled:
+            for lifeline in self.lifelines:
+                if lifeline.get_rect().collidepoint(pygame.mouse.get_pos()):
+                    if lifeline.get_type() == "fifty_fifty_lifeline":
+                      self.set_options(lifeline.fifty_fifty_lifeline(self.options, self.answer))
+                    elif lifeline.get_type() == "switch_lifeline":
+                      prev_index = self.question_index
+                      self.generate_random_index()
+                      self.update_display_data()
+                      if prev_index != self.question_index:
+                        self.shuffle_options()
+                    elif lifeline.get_type() == "shield_lifeline":
+                      self.active_shield = True
+                    self.lifelines.remove(lifeline)
+                    lifeline.disable()
                     self.click_handled = True
                     return
     else:
@@ -95,18 +130,32 @@ class Play(State):
   def reset_game(self, *args):
     self.save_level = 0
     self.current_level = 0
-    self.score.restart()
     self.current_lives = 1
+
+    self.score.restart()
+
+    self.lifelines.clear()
+    self.fifty_fifty_lifeline.enable()
+    self.switch_lifeline.enable()
+    self.shield_lifeline.enable()
+    
+    self.lifelines.append(self.switch_lifeline)
+    self.lifelines.append(self.fifty_fifty_lifeline)
+    self.lifelines.append(self.shield_lifeline)
+    
 
   def switch_modal(self, *args):
     self.display_modal = not self.display_modal
     self.surrender.set_disable(self.display_modal)
 
+  # args[0] = index of the option
   def validate_answer(self, *args):
-    answer = self.file_manager.get_data()[self.current_level][self.question_index]["answer"]
-    if(answer.lower() == self.interactive_elements[args[0]].get_title().lower()):
+    # Check the answer with the selected option
+    if(self.answer.lower() == self.interactive_elements[args[0]].get_title().lower()):
       self.current_level += 1
+      self.active_shield = False
       self.surrender.set_level(self.current_level)
+      # Check if it is a save level (5, 10, 15)
       if self.current_level % 5 == 0:
         self.save_level = self.current_level
 
@@ -114,13 +163,18 @@ class Play(State):
         self.event_manager.notify("set_state", "win")
         self.event_manager.notify("final_reward", self.current_level - 1)
       else:
+        self.generate_random_index()
         self.update_display_data()
+        self.shuffle_options()
         self.score.next_level()
     else:
+      if self.active_shield:
+        self.active_shield = False
+        self.options[args[0]] = ''
+        return
       self.current_lives -= 1
       if self.current_lives == 0:
-        answer = self.file_manager.get_data()[self.current_level][self.question_index]["answer"]
-        self.event_manager.notify("game_over_message", (answer, self.save_level))
+        self.event_manager.notify("game_over_message", (self.answer, self.save_level))
         self.event_manager.notify("set_state", "game over")
   
   def switch_surrender_modal(self, *args):
@@ -137,9 +191,15 @@ class Play(State):
 
 
   def set_up_play_events(self):
-    self.event_manager.subscribe("generate_question", self.update_display_data)
+    self.event_manager.subscribe("display_question", self.update_display_data)
+    self.event_manager.subscribe("choose_random_question", self.generate_random_index)
+    self.event_manager.subscribe("shuffle_options", self.shuffle_options)
     self.event_manager.subscribe("reset_game", self.reset_game)
     self.event_manager.subscribe("switch_modal", self.switch_modal)
     self.event_manager.subscribe("validate_answer", self.validate_answer)
     self.event_manager.subscribe("display_surrender_modal", self.switch_surrender_modal)
     self.event_manager.subscribe("display_win_screen", self.display_win_screen)
+
+  def set_options(self, options):
+    self.options = options
+

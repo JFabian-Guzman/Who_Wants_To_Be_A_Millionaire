@@ -19,7 +19,9 @@ class StateMachine:
     elif state == "game":
       self.event_manager.notify("load_data")
       self.event_manager.notify("reset_game")
-      self.event_manager.notify("generate_question")
+      self.event_manager.notify("choose_random_question")
+      self.event_manager.notify("display_question")
+      self.event_manager.notify("shuffle_options")
     elif state == "instructions":
       self.event_manager.notify("erase_continue_btn")
 
