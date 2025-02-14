@@ -8,6 +8,7 @@ from utils.Surrender import *
 from utils.ConfirmModal import *
 from utils.SurrederModal import *
 from utils.LifeLine import *
+from utils.Heart import *
 import random
 
 LIFELINE_1_POSITION = (WINDOW_WIDTH/2 , WINDOW_HEIGHT/2 - 275)
@@ -21,7 +22,7 @@ class Play(State):
     self.save_level = 0
     self.current_level = 0
     self.question_index = 0
-    self.current_lives = 1
+    self.lives = 0
     self.number_questions = 0
     self.click_handled = False
     self.display_modal = False
@@ -42,11 +43,13 @@ class Play(State):
     self.shield_lifeline = Lifeline(LIFELINE_1_POSITION, "shield_lifeline")
     self.fifty_fifty_lifeline = Lifeline(LIFELINE_2_POSITION, "fifty_fifty_lifeline")
     self.switch_lifeline = Lifeline(LIFELINE_3_POSITION, "switch_lifeline")
+    self.hearts = []
 
     self.interactive_elements.append(self.surrender)
     self.interactive_elements.append(self.shield_lifeline)
     self.interactive_elements.append(self.fifty_fifty_lifeline)
     self.interactive_elements.append(self.switch_lifeline)
+
 
     # Set up events
     self.question.set_up_question_events()
@@ -82,7 +85,6 @@ class Play(State):
       # Avoid generating the same question
       while self.options == self.file_manager.get_data()[self.current_level][self.question_index]["options"]:
         self.question_index= random.randrange(self.number_questions)
-
 
   def update_display_data(self, *args):
     self.options = self.file_manager.get_data()[self.current_level][self.question_index]["options"]
@@ -127,22 +129,29 @@ class Play(State):
     else:
         self.click_handled = False
 
-  def reset_game(self, *args):
+  def start_game(self, *args):
     self.save_level = 0
     self.current_level = 0
-    self.current_lives = 1
+    self.lives = 3
 
     self.score.restart()
 
     self.lifelines.clear()
+    self.lifelines.append(self.switch_lifeline)
+    self.lifelines.append(self.fifty_fifty_lifeline)
+    self.lifelines.append(self.shield_lifeline)
+
     self.fifty_fifty_lifeline.enable()
     self.switch_lifeline.enable()
     self.shield_lifeline.enable()
     
-    self.lifelines.append(self.switch_lifeline)
-    self.lifelines.append(self.fifty_fifty_lifeline)
-    self.lifelines.append(self.shield_lifeline)
+    self.generate_hearts()
     
+  def generate_hearts(self):
+    self.hearts.clear()
+    for i in range(self.lives):
+        heart_position = (WINDOW_WIDTH/2 + 425 - (50 * i), WINDOW_HEIGHT/2 - 275)
+        self.hearts.append(Heart(heart_position, self.elements))
 
   def switch_modal(self, *args):
     self.display_modal = not self.display_modal
@@ -150,8 +159,9 @@ class Play(State):
 
   # args[0] = index of the option
   def validate_answer(self, *args):
+    option_position = args[0]
     # Check the answer with the selected option
-    if(self.answer.lower() == self.interactive_elements[args[0]].get_title().lower()):
+    if(self.answer.lower() == self.interactive_elements[option_position].get_title().lower()):
       self.current_level += 1
       self.active_shield = False
       self.surrender.set_level(self.current_level)
@@ -170,10 +180,11 @@ class Play(State):
     else:
       if self.active_shield:
         self.active_shield = False
-        self.options[args[0]] = ''
+        self.options[option_position] = ''
         return
-      self.current_lives -= 1
-      if self.current_lives == 0:
+      self.hearts[len(self.hearts) - self.lives].disable()
+      self.lives -= 1
+      if self.lives == 0:
         self.event_manager.notify("game_over_message", (self.answer, self.save_level))
         self.event_manager.notify("set_state", "game over")
   
@@ -194,7 +205,7 @@ class Play(State):
     self.event_manager.subscribe("display_question", self.update_display_data)
     self.event_manager.subscribe("choose_random_question", self.generate_random_index)
     self.event_manager.subscribe("shuffle_options", self.shuffle_options)
-    self.event_manager.subscribe("reset_game", self.reset_game)
+    self.event_manager.subscribe("start_game", self.start_game)
     self.event_manager.subscribe("switch_modal", self.switch_modal)
     self.event_manager.subscribe("validate_answer", self.validate_answer)
     self.event_manager.subscribe("display_surrender_modal", self.switch_surrender_modal)
