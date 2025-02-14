@@ -29,6 +29,7 @@ class Play(State):
     self.display_surrender_modal = False
     self.active_shield = False
     self.answer = ""
+    self.question = ""
     self.options = []
     self.lifelines = []
     self.file_manager = file_manager  
@@ -83,14 +84,14 @@ class Play(State):
     self.question_index = random.randrange(self.number_questions)
     if self.number_questions > 1:
       # Avoid generating the same question
-      while self.options == self.file_manager.get_data()[self.current_level][self.question_index]["options"]:
+      while self.question == self.file_manager.get_data()[self.current_level][self.question_index]["question"]:
         self.question_index= random.randrange(self.number_questions)
 
   def update_display_data(self, *args):
     self.options = self.file_manager.get_data()[self.current_level][self.question_index]["options"]
     self.answer = self.file_manager.get_data()[self.current_level][self.question_index]["answer"]
-    question = self.file_manager.get_data()[self.current_level][self.question_index]["question"]
-    self.event_manager.notify("change_question", question)
+    self.question = self.file_manager.get_data()[self.current_level][self.question_index]["question"]
+    self.event_manager.notify("change_question", self.question)
 
   def shuffle_options(self, *args):
     random.shuffle(self.options)
@@ -117,8 +118,8 @@ class Play(State):
                     elif lifeline.get_type() == "switch_lifeline":
                       prev_index = self.question_index
                       self.generate_random_index()
-                      self.update_display_data()
                       if prev_index != self.question_index:
+                        self.update_display_data()
                         self.shuffle_options()
                     elif lifeline.get_type() == "shield_lifeline":
                       self.active_shield = True
