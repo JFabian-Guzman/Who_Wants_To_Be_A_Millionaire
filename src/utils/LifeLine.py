@@ -20,7 +20,7 @@ class Lifeline(pygame.sprite.Sprite):
   def disable(self):
     self.image = pygame.image.load(join("assets", "img" ,"lifeline_disable.png")).convert_alpha()
     self.available = False
-  
+
   def enable(self):
     self.image = pygame.image.load(join("assets", "img" ,"lifeline.png")).convert_alpha()
     self.available = True
@@ -30,7 +30,7 @@ class Lifeline(pygame.sprite.Sprite):
       return
     result = []
     random_option = random.choice(options)
-    while random_option == answer:
+    while random_option == answer or random_option == '':
       random_option = random.choice(options)
     # This keeps the original order of the options
     for option in options:
