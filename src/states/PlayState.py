@@ -29,12 +29,13 @@ class Play(State):
     self.display_surrender_modal = False
     self.active_shield = False
     self.answer = ""
+    self.difficulty = ""
     self.options = []
     self.lifelines = []
     self.file_manager = file_manager  
 
     for position in OPTION_POSITIONS:
-      self.interactive_elements.append(Option("Option", position, self.elements))
+      self.interactive_elements.append(Option("", position, self.elements))
     self.question = Question(self.elements, event_manager)
     self.score = Score(  self.elements)
     self.surrender = Surrender(self.elements, self.event_manager)
@@ -200,6 +201,8 @@ class Play(State):
       self.event_manager.notify("set_state", "win")
       self.event_manager.notify("final_reward", self.current_level)
 
+  def set_difficulty(self, *args):
+    self.difficulty = args[0]
 
   def set_up_play_events(self):
     self.event_manager.subscribe("display_question", self.update_display_data)
@@ -210,6 +213,7 @@ class Play(State):
     self.event_manager.subscribe("validate_answer", self.validate_answer)
     self.event_manager.subscribe("display_surrender_modal", self.switch_surrender_modal)
     self.event_manager.subscribe("display_win_screen", self.display_win_screen)
+    self.event_manager.subscribe("set_difficulty", self.set_difficulty)
 
   def set_options(self, options):
     self.options = options

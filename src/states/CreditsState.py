@@ -10,7 +10,7 @@ class Credits(State):
     self.box = Box(self.elements)
     box_rect = self.box.get_rect()
 
-    TITLE_POSTION = (box_rect.centerx, box_rect.top + 75)
+    TITLE_POSTION = (box_rect.centerx, box_rect.top + 50)
     SUB_TITLE_1_POSITION =(box_rect.centerx, box_rect.top + 125)
     SUB_TITLE_2_POSITION = (box_rect.centerx, box_rect.top + 225)
     TEXT_1_POSITION = (box_rect.centerx, box_rect.top + 175)
