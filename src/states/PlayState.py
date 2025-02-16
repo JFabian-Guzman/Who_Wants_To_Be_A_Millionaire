@@ -22,6 +22,7 @@ class Play(State):
     self.save_level = 0
     self.current_level = 0
     self.question_index = 0
+    self.total_lives = 0
     self.lives = 0
     self.number_questions = 0
     self.click_handled = False
@@ -46,6 +47,9 @@ class Play(State):
     self.fifty_fifty_lifeline = Lifeline(LIFELINE_2_POSITION, "fifty_fifty_lifeline")
     self.switch_lifeline = Lifeline(LIFELINE_3_POSITION, "switch_lifeline")
     self.hearts = []
+    for i in range(5):
+        heart_position = (WINDOW_WIDTH/2 + 425 - (50 * i), WINDOW_HEIGHT/2 - 275)
+        self.hearts.append(Heart(heart_position))
 
     self.interactive_elements.append(self.surrender)
     self.interactive_elements.append(self.shield_lifeline)
@@ -56,11 +60,15 @@ class Play(State):
     # Set up events
     self.question.set_up_question_events()
 
+
   def draw(self):
     self.elements.draw(self.screen)
     self.shield_lifeline.draw()
     self.fifty_fifty_lifeline.draw()
     self.switch_lifeline.draw()
+    for i in range(self.total_lives):
+      self.hearts[i].draw()
+
 
   def update(self):
     self.elements.update()
@@ -134,7 +142,8 @@ class Play(State):
   def start_game(self, *args):
     self.save_level = 0
     self.current_level = 0
-    self.lives = 3
+
+    self.load_difficulty()
 
     self.score.restart()
 
@@ -147,13 +156,20 @@ class Play(State):
     self.switch_lifeline.enable()
     self.shield_lifeline.enable()
     
-    self.generate_hearts()
+
+  def load_difficulty(self):
+    print(self.difficulty)
+    if self.difficulty == 'Easy':
+      self.lives = 5
+    elif self.difficulty == 'Normal':
+      self.lives = 3
+    elif self.difficulty == 'Hard':
+      self.lives = 1
+
+    for i in range (self.lives):
+      self.hearts[i].enable()
+    self.total_lives= self.lives
     
-  def generate_hearts(self):
-    self.hearts.clear()
-    for i in range(self.lives):
-        heart_position = (WINDOW_WIDTH/2 + 425 - (50 * i), WINDOW_HEIGHT/2 - 275)
-        self.hearts.append(Heart(heart_position, self.elements))
 
   def switch_modal(self, *args):
     self.display_modal = not self.display_modal
@@ -184,7 +200,7 @@ class Play(State):
         self.active_shield = False
         self.options[option_position] = ''
         return
-      self.hearts[len(self.hearts) - self.lives].disable()
+      self.hearts[self.total_lives - self.lives].disable()
       self.lives -= 1
       if self.lives == 0:
         self.event_manager.notify("game_over_message", (self.answer, self.save_level))

@@ -79,11 +79,11 @@ class Difficulty(State):
                     return
           if self.continue_btn.get_rect().collidepoint(pygame.mouse.get_pos()):
             if self.is_difficulty_selected():
-              if self.continue_btn.check_notify_state("game"):
-                self.event_manager.notify("set_difficulty", self.active_difficulty.get_title())
-                self.active_difficulty.set_active(False)
-                self.display_warning_message = False
-                self.active_difficulty = None
+              self.event_manager.notify("set_difficulty", self.active_difficulty.get_title())
+              self.continue_btn.check_notify_state("game")
+              self.active_difficulty.set_active(False)
+              self.display_warning_message = False
+              self.active_difficulty = None
             else:
               self.display_warning_message = True
           if self.back_btn.check_notify_state("rewards"):
