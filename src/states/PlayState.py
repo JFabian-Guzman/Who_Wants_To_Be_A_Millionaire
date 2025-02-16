@@ -25,10 +25,13 @@ class Play(State):
     self.total_lives = 0
     self.lives = 0
     self.number_questions = 0
+    self.correct_answers = 0
+    self.wrong_answer = 0
     self.click_handled = False
     self.display_modal = False
     self.display_surrender_modal = False
     self.active_shield = False
+    self.practice_mode = False
     self.answer = ""
     self.difficulty = ""
     self.question = ""
@@ -39,7 +42,7 @@ class Play(State):
     for position in OPTION_POSITIONS:
       self.interactive_elements.append(Option("", position, self.elements))
     self.question = Question(self.elements, event_manager)
-    self.score = Score(  self.elements)
+    self.score = Score(self.elements)
     self.surrender = Surrender(self.elements, self.event_manager)
     self.modal = ConfirmModal(self.event_manager)
     self.surrender_modal = SurrenderModal(self.event_manager)
@@ -142,6 +145,8 @@ class Play(State):
   def start_game(self, *args):
     self.save_level = 0
     self.current_level = 0
+    self.practice_mode = False
+    self.score.set_practice_mode(False)
 
     self.load_difficulty()
 
@@ -159,7 +164,13 @@ class Play(State):
 
   def load_difficulty(self):
     print(self.difficulty)
-    if self.difficulty == 'Easy':
+    if self.difficulty == 'Practice':
+      self.lives = 0
+      self.correct_answers = 0
+      self.wrong_answer = 0
+      self.score.set_practice_mode(True)
+      self.practice_mode = True
+    elif self.difficulty == 'Easy':
       self.lives = 5
     elif self.difficulty == 'Normal':
       self.lives = 3
@@ -186,6 +197,8 @@ class Play(State):
       # Check if it is a save level (5, 10, 15)
       if self.current_level % 5 == 0:
         self.save_level = self.current_level
+      if self.practice_mode:
+        self.correct_answers += 1
 
       if self.current_level == LAST_LEVEL:
         self.event_manager.notify("set_state", "win")
@@ -202,9 +215,15 @@ class Play(State):
         return
       self.hearts[self.total_lives - self.lives].disable()
       self.lives -= 1
-      if self.lives == 0:
+      if self.lives == 0 and not self.practice_mode:
         self.event_manager.notify("game_over_message", (self.answer, self.save_level))
         self.event_manager.notify("set_state", "game over")
+      if self.practice_mode:
+        self.current_level += 1
+        self.generate_random_index()
+        self.update_display_data()
+        self.shuffle_options()
+        self.wrong_answer += 1
   
   def switch_surrender_modal(self, *args):
     self.click_handled = True
