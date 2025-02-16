@@ -198,7 +198,7 @@ class Play(State):
       if self.current_level % 5 == 0:
         self.save_level = self.current_level
       if self.practice_mode:
-        self.correct_answers += 1
+        self.score.increment_correct_answers()
 
       if self.current_level == LAST_LEVEL:
         self.event_manager.notify("set_state", "win")
@@ -223,7 +223,7 @@ class Play(State):
         self.generate_random_index()
         self.update_display_data()
         self.shuffle_options()
-        self.wrong_answer += 1
+        self.score.increment_wrong_answers()
   
   def switch_surrender_modal(self, *args):
     self.click_handled = True

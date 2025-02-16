@@ -36,6 +36,7 @@ class Score(pygame.sprite.Sprite):
       self.screen.blit(self.negative_score, self.negative_score_rect)
       self.screen.blit(self.correct_icon, self.correct_rect)
       self.screen.blit(self.wrong_icon, self.wrong_rect)
+      self.update_score_board()
     else:
       self.screen.blit(self.text, self.text_rect)
       self.elements.draw(self.screen)
@@ -64,11 +65,11 @@ class Score(pygame.sprite.Sprite):
   def set_practice_mode(self,state):
     self.practice_mode = state
 
-  def set_correct_answers(self, value):
-    self.correct_answers = value
+  def increment_correct_answers(self):
+    self.correct_answers += 1
 
-  def set_wrong_answers(self, value):
-    self.wrong_answers = value
+  def increment_wrong_answers(self):
+    self.wrong_answers += 1
 
   def get_title(self):
     return self.title
