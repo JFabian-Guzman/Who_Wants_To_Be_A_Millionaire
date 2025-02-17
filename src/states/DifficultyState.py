@@ -67,33 +67,52 @@ class Difficulty(State):
     return is_selected
 
   def check_click(self):
-      if pygame.mouse.get_pressed()[0]: 
-        if not self.click_handled:
-          for difficulty in self.difficulties:
-                if difficulty.get_rect().collidepoint(pygame.mouse.get_pos()):
-                    if self.active_difficulty:
-                      self.active_difficulty.set_active(False)
-                    difficulty.set_active(True)
-                    self.active_difficulty = difficulty
-                    self.click_handled = True
-                    return
-          if self.continue_btn.get_rect().collidepoint(pygame.mouse.get_pos()):
-            if self.is_difficulty_selected():
-              self.event_manager.notify("set_difficulty", self.active_difficulty.get_title())
-              self.continue_btn.check_notify_state("game")
-              self.active_difficulty.set_active(False)
-              self.display_warning_message = False
-              self.active_difficulty = None
-            else:
-              self.display_warning_message = True
-          if self.back_btn.check_notify_state("rewards"):
+    if not pygame.mouse.get_pressed()[0]:
+        self.click_handled = False
+        return
+
+    if self.click_handled:
+        return
+
+    if self.check_difficulty_click():
+        self.click_handled = True
+        return
+
+    if self.check_continue_click():
+        self.click_handled = True
+        return
+
+    if self.check_back_click():
+        self.click_handled = True
+
+  def check_difficulty_click(self):
+    for difficulty in self.difficulties:
+        if difficulty.get_rect().collidepoint(pygame.mouse.get_pos()):
             if self.active_difficulty:
-              self.active_difficulty.set_active(False)
-              self.display_warning_message = False
-              self.active_difficulty = None
-          self.click_handled = True
-      else:
-          self.click_handled = False
+                self.active_difficulty.set_active(False)
+            difficulty.set_active(True)
+            self.active_difficulty = difficulty
+            return True
+    return False
 
-    
-
+  def check_continue_click(self):
+    if self.continue_btn.get_rect().collidepoint(pygame.mouse.get_pos()):
+        if self.is_difficulty_selected():
+            self.event_manager.notify("set_difficulty", self.active_difficulty.get_title())
+            self.continue_btn.check_notify_state("game")
+            self.active_difficulty.set_active(False)
+            self.display_warning_message = False
+            self.active_difficulty = None
+        else:
+            self.display_warning_message = True
+        return True
+    return False
+  
+  def check_back_click(self):
+    if self.back_btn.check_notify_state("rewards"):
+        if self.active_difficulty:
+            self.active_difficulty.set_active(False)
+            self.display_warning_message = False
+            self.active_difficulty = None
+        return True
+    return False

@@ -17,17 +17,20 @@ class StateMachine:
       state = "instructions"
       self.event_manager.notify("display_continue_btn")
     elif state == "game":
-      self.event_manager.notify("load_data")
-      self.event_manager.notify("start_game")
-      self.event_manager.notify("choose_random_question")
-      self.event_manager.notify("display_question")
-      self.event_manager.notify("shuffle_options")
+      self.load_game()
     elif state == "instructions":
       self.event_manager.notify("erase_continue_btn")
 
     self.current_state = self.states[state]
     self.current_state.set_click_handle(True)
     
+
+  def load_game(self):
+    self.event_manager.notify("load_data")
+    self.event_manager.notify("start_game")
+    self.event_manager.notify("choose_random_question")
+    self.event_manager.notify("display_question")
+    self.event_manager.notify("shuffle_options")
 
   def update_state(self, *args):
     if self.current_state:
