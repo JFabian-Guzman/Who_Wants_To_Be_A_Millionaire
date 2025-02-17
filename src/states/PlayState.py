@@ -95,7 +95,7 @@ class Play(State):
     self.number_questions = len(self.file_manager.get_data()[self.current_level])
     self.question_index = random.randrange(self.number_questions)
     if self.number_questions > 1:
-      # Avoid generating the same question
+      # Avoid generating the same question if a switch is made
       while self.question == self.file_manager.get_data()[self.current_level][self.question_index]["question"]:
         self.question_index= random.randrange(self.number_questions)
 
@@ -128,11 +128,7 @@ class Play(State):
                     if lifeline.get_type() == "fifty_fifty_lifeline":
                       self.set_options(lifeline.fifty_fifty_lifeline(self.options, self.answer))
                     elif lifeline.get_type() == "switch_lifeline":
-                      prev_index = self.question_index
-                      self.generate_random_index()
-                      if prev_index != self.question_index:
-                        self.update_display_data()
-                        self.shuffle_options()
+                      self.switch_lifeline()
                     elif lifeline.get_type() == "shield_lifeline":
                       self.active_shield = True
                     self.lifelines.remove(lifeline)
@@ -142,6 +138,13 @@ class Play(State):
     else:
         self.click_handled = False
 
+  def switch_lifeline(self):
+    prev_index = self.question_index
+    self.generate_random_index()
+    if prev_index != self.question_index:
+      self.update_display_data()
+      self.shuffle_options()
+
   def start_game(self, *args):
     self.save_level = 0
     self.current_level = 0
@@ -149,6 +152,10 @@ class Play(State):
     self.score.set_practice_mode(False)
 
     self.load_difficulty()
+    
+    for i in range (self.lives):
+      self.hearts[i].enable()
+    self.total_lives = self.lives
 
     self.score.restart()
 
@@ -163,7 +170,6 @@ class Play(State):
     
 
   def load_difficulty(self):
-    print(self.difficulty)
     if self.difficulty == 'Practice':
       self.lives = 0
       self.correct_answers = 0
@@ -177,68 +183,84 @@ class Play(State):
     elif self.difficulty == 'Hard':
       self.lives = 1
 
-    for i in range (self.lives):
-      self.hearts[i].enable()
-    self.total_lives= self.lives
+    
     
 
   def switch_modal(self, *args):
     self.display_modal = not self.display_modal
     self.surrender.set_disable(self.display_modal)
 
-  # args[0] = index of the option
   def validate_answer(self, *args):
     option_position = args[0]
-    # Check the answer with the selected option
-    if(self.answer.lower() == self.interactive_elements[option_position].get_title().lower()):
-      self.current_level += 1
-      self.active_shield = False
-      self.surrender.set_level(self.current_level)
-      # Check if it is a save level (5, 10, 15)
-      if self.current_level % 5 == 0:
-        self.save_level = self.current_level
-      if self.practice_mode:
-        self.score.increment_correct_answers()
-      print(self.current_level)
-      if self.current_level == LAST_LEVEL:
-        if self.practice_mode:
-          self.correct_answers += 1
-          self.event_manager.notify("set_state", "practice summary")
-          self.event_manager.notify("practice_results", (self.correct_answers, self.wrong_answer))
-        else:
-          self.event_manager.notify("set_state", "win")
-          self.event_manager.notify("final_reward", self.current_level - 1)
-      else:
-        self.generate_random_index()
-        self.update_display_data()
-        self.shuffle_options()
-        self.score.next_level()
+    selected_option = self.interactive_elements[option_position].get_title().lower()
+    correct_answer = self.answer.lower()
+
+    if selected_option == correct_answer:
+        self.handle_correct_answer()
     else:
-      if self.active_shield:
+        self.handle_wrong_answer(option_position)
+
+  def handle_correct_answer(self):
+    self.current_level += 1
+    self.active_shield = False
+    self.surrender.set_level(self.current_level)
+
+    # Save levels (5,10,15)
+    if self.current_level % 5 == 0:
+        self.save_level = self.current_level
+
+    if self.practice_mode:
+        self.score.increment_correct_answers()
+        self.correct_answers += 1
+
+    if self.current_level == LAST_LEVEL:
+        self.handle_last_level()
+    else:
+        self.change_question()
+        self.score.next_level()
+  
+  def handle_wrong_answer(self, option_position):
+    if self.active_shield:
         self.active_shield = False
         self.options[option_position] = ''
         return
-      self.hearts[self.total_lives - self.lives].disable()
-      self.lives -= 1
-      if self.lives == 0 and not self.practice_mode:
+
+    # heart position = self.total_lives - self.lives
+    self.hearts[self.total_lives - self.lives].disable()
+    self.lives -= 1
+
+    if self.lives == 0 and not self.practice_mode:
         self.event_manager.notify("game_over_message", (self.answer, self.save_level))
         self.event_manager.notify("set_state", "game over")
-      if self.practice_mode:
+    elif self.practice_mode:
         self.current_level += 1
         self.wrong_answer += 1
         if self.current_level == LAST_LEVEL:
-          self.event_manager.notify("set_state", "practice summary")
-          self.event_manager.notify("practice_results", (self.correct_answers, self.wrong_answer))
+            self.display_practice_summary()
         else:
-          self.generate_random_index()
-          self.update_display_data()
-          self.shuffle_options()
-          self.score.increment_wrong_answers()
-  
+            self.change_question()
+            self.score.increment_wrong_answers()
+
+  def handle_last_level(self):
+    if self.practice_mode:
+        self.display_practice_summary()
+    else:
+        self.event_manager.notify("set_state", "win")
+        self.event_manager.notify("final_reward", self.current_level - 1)
+
+  def display_practice_summary(self):
+    self.event_manager.notify("set_state", "practice summary")
+    self.event_manager.notify("practice_results", (self.correct_answers, self.wrong_answer)) 
+
   def switch_surrender_modal(self, *args):
     self.click_handled = True
     self.display_surrender_modal = not self.display_surrender_modal
     self.surrender.switch_modal_display()
+
+  def change_question(self):
+    self.generate_random_index()
+    self.update_display_data()
+    self.shuffle_options()
 
   def display_win_screen(self, *args):
     if self.current_level == 0:
@@ -263,4 +285,3 @@ class Play(State):
 
   def set_options(self, options):
     self.options = options
-
