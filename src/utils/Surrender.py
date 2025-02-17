@@ -18,7 +18,6 @@ class Surrender(pygame.sprite.Sprite):
     
     self.text = TEXT.render("Surrender", True, COLORS["BLACK"])
     self.text_rect = self.text.get_rect(center = self.rect.center)
-    
 
   def update(self):
     self.screen.blit(self.text, self.text_rect)

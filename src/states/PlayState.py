@@ -152,7 +152,7 @@ class Play(State):
     self.score.set_practice_mode(False)
 
     self.load_difficulty()
-    
+
     for i in range (self.lives):
       self.hearts[i].enable()
     self.total_lives = self.lives
@@ -262,9 +262,11 @@ class Play(State):
     self.update_display_data()
     self.shuffle_options()
 
-  def display_win_screen(self, *args):
+  def display_final_screen(self, *args):
     if self.current_level == 0:
       self.event_manager.notify("set_state", "menu")
+    elif self.practice_mode:
+      self.display_practice_summary()
     else:
       self.event_manager.notify("set_state", "win")
       self.event_manager.notify("final_reward", self.current_level)
@@ -280,7 +282,7 @@ class Play(State):
     self.event_manager.subscribe("switch_modal", self.switch_modal)
     self.event_manager.subscribe("validate_answer", self.validate_answer)
     self.event_manager.subscribe("display_surrender_modal", self.switch_surrender_modal)
-    self.event_manager.subscribe("display_win_screen", self.display_win_screen)
+    self.event_manager.subscribe("display_final_screen", self.display_final_screen)
     self.event_manager.subscribe("set_difficulty", self.set_difficulty)
 
   def set_options(self, options):

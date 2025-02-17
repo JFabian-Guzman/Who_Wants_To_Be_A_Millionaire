@@ -12,6 +12,7 @@ class SurrenderModal(pygame.sprite.Sprite):
     self.interactive_elements = []
     self.event_manager = event_manager
     self.click_handled = True
+    self.practice_mode = False
 
     self.image = pygame.image.load(join("assets", "img" ,"question.png")).convert_alpha()
     self.rect = self.image.get_rect(center = MODAL_POSITION)
@@ -47,11 +48,17 @@ class SurrenderModal(pygame.sprite.Sprite):
     if pygame.mouse.get_pressed()[0]: 
       if not self.click_handled:
         if self.yes_btn.get_rect().collidepoint(pygame.mouse.get_pos()):
-          self.event_manager.notify("display_win_screen")
+          if self.practice_mode:
+            self.event_manager.notify("display_practice_summary")
+          else:
+            self.event_manager.notify("display_final_screen")
         self.event_manager.notify("display_surrender_modal")
         self.click_handled = True
     else:
         self.click_handled = False
+
+  def set_practice_mode(self, state):
+    self.practice_mode = state
 
   def update_cursor_state(self):
     for element in self.interactive_elements:
