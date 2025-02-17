@@ -15,6 +15,7 @@ from states.RewardState import *
 from states.WinState import *
 from states.GameOverState import *
 from states.DifficultyState import *
+from states.PracticeSummaryState import *
 
 class Game:
   def __init__(self):
@@ -50,6 +51,7 @@ class Game:
     self.win = Win(self.event_manager)
     self.game_over = GameOver(self.event_manager)
     self.difficulty = Difficulty(self.event_manager)
+    self.practice_summary = Practice(self.event_manager)
 
     # Add states to the state_machine
     self.state_machine.add_state("menu", self.menu)
@@ -62,6 +64,7 @@ class Game:
     self.state_machine.add_state("win", self.win)
     self.state_machine.add_state("game over", self.game_over)
     self.state_machine.add_state("difficulty", self.difficulty)
+    self.state_machine.add_state("practice summary", self.practice_summary)
 
 
     #set up events
@@ -72,6 +75,7 @@ class Game:
     self.instructions.set_up_instruction_events()
     self.win.set_up_win_events()
     self.game_over.set_up_game_over_events()
+    self.practice_summary.set_up_practice_events()
 
     #default state
     self.event_manager.notify("set_state", "menu")

@@ -199,10 +199,15 @@ class Play(State):
         self.save_level = self.current_level
       if self.practice_mode:
         self.score.increment_correct_answers()
-
+      print(self.current_level)
       if self.current_level == LAST_LEVEL:
-        self.event_manager.notify("set_state", "win")
-        self.event_manager.notify("final_reward", self.current_level - 1)
+        if self.practice_mode:
+          self.correct_answers += 1
+          self.event_manager.notify("set_state", "practice summary")
+          self.event_manager.notify("practice_results", (self.correct_answers, self.wrong_answer))
+        else:
+          self.event_manager.notify("set_state", "win")
+          self.event_manager.notify("final_reward", self.current_level - 1)
       else:
         self.generate_random_index()
         self.update_display_data()
@@ -220,10 +225,15 @@ class Play(State):
         self.event_manager.notify("set_state", "game over")
       if self.practice_mode:
         self.current_level += 1
-        self.generate_random_index()
-        self.update_display_data()
-        self.shuffle_options()
-        self.score.increment_wrong_answers()
+        self.wrong_answer += 1
+        if self.current_level == LAST_LEVEL:
+          self.event_manager.notify("set_state", "practice summary")
+          self.event_manager.notify("practice_results", (self.correct_answers, self.wrong_answer))
+        else:
+          self.generate_random_index()
+          self.update_display_data()
+          self.shuffle_options()
+          self.score.increment_wrong_answers()
   
   def switch_surrender_modal(self, *args):
     self.click_handled = True

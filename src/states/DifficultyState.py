@@ -87,9 +87,10 @@ class Difficulty(State):
             else:
               self.display_warning_message = True
           if self.back_btn.check_notify_state("rewards"):
-            self.active_difficulty.set_active(False)
-            self.display_warning_message = False
-            self.active_difficulty = None
+            if self.active_difficulty:
+              self.active_difficulty.set_active(False)
+              self.display_warning_message = False
+              self.active_difficulty = None
           self.click_handled = True
       else:
           self.click_handled = False
