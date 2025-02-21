@@ -83,7 +83,7 @@ class Game:
     self.questions.set_up_read_events()
 
     #default state
-    self.event_manager.notify("set_state", "questions")
+    self.event_manager.notify("set_state", "menu")
     
 
   def stop_game(self, *args):
