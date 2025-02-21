@@ -5,14 +5,12 @@ import json
 class Question(pygame.sprite.Sprite):
   def __init__(self , groups, event_manager):
     super().__init__(groups)
-    pygame.font.init()  
     self.image = pygame.image.load(join("assets", "img" ,"question.png")).convert_alpha()
     self.rect = self.image.get_rect(center = (WINDOW_WIDTH/2,200))
     self.screen = pygame.display.get_surface()
-    self.font = pygame.font.Font(join("assets", "fonts", "PressStart2P-Regular.ttf"), 14)
     self.event_manager = event_manager
     self.title = ''
-    self.text = self.font.render(self.title, True, COLORS["WHITE"])
+    self.text = TEXT.render(self.title, True, COLORS["WHITE"])
     self.text_rect = self.text.get_rect(center = self.rect.center)
 
   def update(self):
@@ -20,7 +18,7 @@ class Question(pygame.sprite.Sprite):
     self.display_question()
 
   def display_question(self):
-    self.text = self.font.render(self.title, True, COLORS["WHITE"])
+    self.text = TEXT.render(self.title, True, COLORS["WHITE"])
     self.text_rect = self.text.get_rect(center = self.rect.center)
 
   def wrap_text(self, text):

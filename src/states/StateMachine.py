@@ -20,10 +20,12 @@ class StateMachine:
       self.load_game()
     elif state == "instructions":
       self.event_manager.notify("erase_continue_btn")
+    elif state == "questions":
+      self.event_manager.notify("load_data")
+      self.event_manager.notify("fetch_questions")
 
     self.current_state = self.states[state]
     self.current_state.set_click_handle(True)
-    
 
   def load_game(self):
     self.event_manager.notify("load_data")

@@ -184,8 +184,6 @@ class Play(State):
       self.lives = 1
 
     
-    
-
   def switch_modal(self, *args):
     self.display_modal = not self.display_modal
     self.surrender.set_disable(self.display_modal)
