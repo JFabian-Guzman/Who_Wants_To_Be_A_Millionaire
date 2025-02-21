@@ -19,15 +19,17 @@ class Questions(State):
     self.title_rect = self.title.get_rect(center= TITLE_POSITION)
     self.file_manager = file_manager
     self.level = 1
+    self.data = self.file_manager.get_data()[self.level]
+    self.full_pages = 0
+    self.remaining_questions = 0
     self.boxes = []
-    self.pagination_number = 0
+    self.page_number = 0
     self.pagination = []
     self.active_pagination = []
     for i in range(9):
       self.pagination.append(PaginationBox(((WINDOW_WIDTH / 2 - 200) + (50 * i), (WINDOW_HEIGHT / 2 + 260)), str(i + 1))) 
-      # self.interactive_elements.append(self.pagination[i])
 
-    self.interactive_elements.append(self.back_btn)
+    
 
   def draw(self):
     self.elements.draw(self.screen)
@@ -46,32 +48,55 @@ class Questions(State):
     self.check_hover_on_icons()
 
   def fetch_data(self, *args):
+    self.clear_data()
+    self.set_pagination()
+    self.load_page()
+
+  def clear_data(self):
+    self.page_number = 0
+    self.interactive_elements.clear()
     self.boxes.clear()
-    data = self.file_manager.get_data()[self.level]
-    row_length = len(data)
-    print("ROW LENGTH: " + str(row_length))
-    first_question_i = self.pagination_number * 3
-    full_pages = row_length // 3
-    remaining_questions = row_length % 3
-    last_question_i = first_question_i + 3 if self.pagination_number < full_pages else first_question_i + remaining_questions
-    total_pages = full_pages if remaining_questions == 0 else full_pages + 1
+    self.active_pagination.clear()
+
+  def set_pagination(self):
+    self.data = self.file_manager.get_data()[self.level]
+    row_length = len(self.data)
+    self.full_pages = row_length // 3
+    self.remaining_questions = row_length % 3
+    total_pages = self.full_pages if self.remaining_questions == 0 else self.full_pages + 1
+
     for i in range(total_pages):
       self.active_pagination.append(self.pagination[i])
-      self.interactive_elements.append(self.pagination[i])
+      
+    self.update_interactice_elements()
 
+  def load_page(self):
+    self.boxes.clear()
+    first_question_i = self.page_number * 3
+    last_question_i = first_question_i + 3 if self.page_number < self.full_pages else first_question_i + self.remaining_questions
     for i in range(first_question_i, last_question_i):
-        question = data[i]["question"]
-        options = ", ".join(data[i]["options"])
-        id = data[i]["id"]
+        question = self.data[i]["question"]
+        options = ", ".join(self.data[i]["options"])
+        id = self.data[i]["id"]
         self.boxes.append(CrudBox(question, options, id, (WINDOW_WIDTH / 2, (WINDOW_HEIGHT / 2 - 150) + (150 * (i - first_question_i))), self.event_manager))
 
   def check_click(self):
     if pygame.mouse.get_pressed()[0]: 
       if not self.click_handled:
-        self.back_btn.check_notify_state("manage questions")
+        self.btn_click()
+        self.pagination_click()
         self.click_handled = True
     else:
         self.click_handled = False
+
+  def btn_click(self):
+    self.back_btn.check_notify_state("manage questions")
+
+  def pagination_click(self):
+    for page in self.active_pagination:
+      if page.rect.collidepoint(pygame.mouse.get_pos()):
+        self.page_number = page.get_number() - 1
+        self.load_page()
 
   def set_level(self, level):
     self.level = level
@@ -85,3 +110,8 @@ class Questions(State):
       if box.get_interactive_elements()[0].rect.collidepoint(pygame.mouse.get_pos()) or box.get_interactive_elements()[1].rect.collidepoint(pygame.mouse.get_pos()):
         self.event_manager.notify("change_cursor", 'hover')
         break
+
+  def update_interactice_elements(self):
+    self.interactive_elements.append(self.back_btn)
+    for pagination_box in self.active_pagination:
+      self.interactive_elements.append(pagination_box)

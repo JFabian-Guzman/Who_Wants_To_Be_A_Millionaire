@@ -8,6 +8,7 @@ class PaginationBox(pygame.sprite.Sprite):
         self.image = pygame.image.load(join("assets", "img", 'pagination_box.png')).convert_alpha()
         self.rect = self.image.get_rect(center=position)
         
+        self.number = int(number)
         self.text = TEXT.render(number, True, COLORS["WHITE"])
         self.text_rect = self.text.get_rect(center = self.rect.center)
 
@@ -15,4 +16,7 @@ class PaginationBox(pygame.sprite.Sprite):
         self.screen.blit(self.image, self.rect)
         self.screen.blit(self.text, self.text_rect)
 
+
+    def get_number(self):
+        return self.number
 
