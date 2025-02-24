@@ -128,7 +128,7 @@ class Play(State):
                     if lifeline.get_type() == "fifty_fifty_lifeline":
                       self.set_options(lifeline.fifty_fifty_lifeline(self.options, self.answer))
                     elif lifeline.get_type() == "switch_lifeline":
-                      self.switch_lifeline()
+                      self.switch()
                     elif lifeline.get_type() == "shield_lifeline":
                       self.active_shield = True
                     self.lifelines.remove(lifeline)
@@ -138,7 +138,8 @@ class Play(State):
     else:
         self.click_handled = False
 
-  def switch_lifeline(self):
+  def switch(self):
+    print("HOLA")
     prev_index = self.question_index
     self.generate_random_index()
     if prev_index != self.question_index:

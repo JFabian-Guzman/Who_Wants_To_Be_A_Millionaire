@@ -30,7 +30,6 @@ class Questions(State):
       self.pagination.append(PaginationBox(((WINDOW_WIDTH / 2 - 200) + (50 * i), (WINDOW_HEIGHT / 2 + 260)), str(i + 1))) 
 
     
-
   def draw(self):
     self.elements.draw(self.screen)
     self.screen.blit(self.title_background, self.title_background_rect)
@@ -68,7 +67,7 @@ class Questions(State):
     for i in range(total_pages):
       self.active_pagination.append(self.pagination[i])
       
-    self.update_interactice_elements()
+    self.update_interactive_elements()
 
   def load_page(self):
     self.boxes.clear()
@@ -77,14 +76,16 @@ class Questions(State):
     for i in range(first_question_i, last_question_i):
         question = self.data[i]["question"]
         options = ", ".join(self.data[i]["options"])
+        answer = self.data[i]["answer"]
         id = self.data[i]["id"]
-        self.boxes.append(CrudBox(question, options, id, (WINDOW_WIDTH / 2, (WINDOW_HEIGHT / 2 - 150) + (150 * (i - first_question_i))), self.event_manager))
+        self.boxes.append(CrudBox(question, options, answer,id, (WINDOW_WIDTH / 2, (WINDOW_HEIGHT / 2 - 150) + (150 * (i - first_question_i))), self.event_manager))
 
   def check_click(self):
     if pygame.mouse.get_pressed()[0]: 
       if not self.click_handled:
         self.btn_click()
         self.pagination_click()
+        self.edit_click()
         self.click_handled = True
     else:
         self.click_handled = False
@@ -111,7 +112,17 @@ class Questions(State):
         self.event_manager.notify("change_cursor", 'hover')
         break
 
-  def update_interactice_elements(self):
+  def edit_click(self):
+    if pygame.mouse.get_pressed()[0]: 
+        if not self.click_handled:
+            for box in self.boxes:
+                if box.get_interactive_elements()[0].rect.collidepoint(pygame.mouse.get_pos()):
+                    box.change_to_edit()
+                    return
+    else:
+        self.click_handled = False
+
+  def update_interactive_elements(self):
     self.interactive_elements.append(self.back_btn)
     for pagination_box in self.active_pagination:
       self.interactive_elements.append(pagination_box)
