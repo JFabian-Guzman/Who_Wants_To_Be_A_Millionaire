@@ -101,6 +101,11 @@ class Game:
       for event in pygame.event.get():
         if event.type == pygame.QUIT:
           self.stop_game()
+
+        #Handle keyboard
+        if event.type == pygame.KEYDOWN:
+          self.event_manager.notify("keyboard_input", event)
+
       # Draw
       self.background.draw_background()
 
