@@ -9,7 +9,6 @@ class CrudBox(pygame.sprite.Sprite):
     self.screen = pygame.display.get_surface()
     self.interactive_elements = []
 
-    self.id = id
     self.event_manager = event_manager
 
     self.image = pygame.image.load(join("assets", "img" ,"crud_box.png")).convert_alpha()
@@ -21,6 +20,7 @@ class CrudBox(pygame.sprite.Sprite):
     self.data.append(question)
     self.data.append(options)
     self.data.append(answer)
+    self.data.append(id)
 
     self.interactive_elements.append(self.pencil_icon)
     self.interactive_elements.append(self.trash_icon )

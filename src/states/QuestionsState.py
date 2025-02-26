@@ -22,8 +22,6 @@ class Questions(State):
     self.add_box = AddQuestion(self.elements)
     
 
-
-
     self.file_manager = file_manager
     self.level = 1
     self.data = self.file_manager.get_data()[self.level]

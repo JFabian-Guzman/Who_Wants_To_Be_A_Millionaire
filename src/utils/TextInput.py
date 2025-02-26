@@ -2,7 +2,8 @@ from config.settings import *
 
 class TextInput:
     def __init__(self, position, width, height, event_manager):
-        self.rect = pygame.Rect(position[0], position[1], width, height)
+        self.rect = pygame.Rect(0, 0, width, height)
+        self.rect.center = position
         self.input = ""
         self.active = False
         self.handled = False
@@ -35,6 +36,7 @@ class TextInput:
 
     def check_keyboard_input(self, *args):
         event = args[0]
+        print("UNICODE:" + event.unicode)
         if self.active:
             if event.key == pygame.K_BACKSPACE:
                 self.input = self.input[:-1]

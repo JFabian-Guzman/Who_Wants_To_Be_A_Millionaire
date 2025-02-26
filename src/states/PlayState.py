@@ -139,7 +139,6 @@ class Play(State):
         self.click_handled = False
 
   def switch(self):
-    print("HOLA")
     prev_index = self.question_index
     self.generate_random_index()
     if prev_index != self.question_index:
