@@ -29,6 +29,9 @@ class TextInput:
     
     def set_default_text(self, text):
         self.input = text
+    
+    def get_input_text(self):
+        return self.input
 
     def check_keyboard_input(self, *args):
         event = args[0]

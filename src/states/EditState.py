@@ -19,6 +19,7 @@ class Edit(State):
     self.answer = ''
 
     self.back_btn = Button(self.elements,BTN_POSITION, event_manager, 'negative_btn', 'Go Back', 'WHITE')
+    self.edit_btn = Button(self.elements,RIGHT_BTN_POSITION, event_manager, 'btn', 'Edit', 'BLACK')
 
     self.title_background = pygame.image.load(join("assets", "img" ,"score.png")).convert_alpha()
     self.title_background_rect = self.title_background.get_rect(center = TITLE_POSITION)
@@ -26,13 +27,19 @@ class Edit(State):
     self.title_rect = self.title.get_rect(center= TITLE_POSITION)
 
     self.inputs = []
-    for i in range(6):
+    position = (self.box.rect.left + 100, self.box.rect.top + 75)
+    self.inputs.append(TextInput(position, 650, 30, event_manager))
+    self.inputs[0].set_up_input_events()
+
+    for i in range(1,6):
       position = (self.box.rect.left + 100, self.box.rect.top + 75 + i * 70)
       self.inputs.append(TextInput(position, 400, 30, event_manager))
       self.inputs[i].set_up_input_events()
 
+    self.edit_data = []
 
     self.interactive_elements.append(self.back_btn)
+    self.interactive_elements.append(self.edit_btn)
 
     self.subtitles = [
       TEXT.render("Question", True, COLORS["AMBER"]),
@@ -61,15 +68,21 @@ class Edit(State):
 
   def set_data(self, *args):
     data = args[0]
-    self.question = data[0]
-    self.options = data[1]
-    self.answer = data[2]
+    # Question text
+    self.inputs[0].set_default_text(data[0])
+    # Options text
+    options = data[1].split(',')
+    for i in range(0,4):
+      self.inputs[i + 1].set_default_text(options[i].strip())
+    # Answer text
+    self.inputs[5].set_default_text(data[2])
 
   def check_click(self):
     if pygame.mouse.get_pressed()[0]: 
       if not self.click_handled:
         self.back_btn.check_notify_state("questions")
         self.check_input_click()
+        self.check_edit_click()
         self.click_handled = True
     else:
         self.click_handled = False
@@ -81,6 +94,13 @@ class Edit(State):
       else:
         input.toggle_active(False)
 
+  def check_edit_click(self):
+    if self.edit_btn.rect.collidepoint(pygame.mouse.get_pos()):
+      self.edit_data.clear()
+      for input in self.inputs:
+        self.edit_data.append(input.get_input_text())
+
+      print(self.edit_data)
 
   def set_up_edit_events(self):
     self.event_manager.subscribe("set_edit_data", self.set_data)
