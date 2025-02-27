@@ -85,9 +85,10 @@ class Edit(State):
     # Options text
     options = data[1].split(',')
     for i in range(0,4):
-      self.inputs[i + 1].set_default_text(options[i].strip())
-    # Answer text
-    # self.inputs[5].set_default_text(data[2])
+      option = options[i].strip()
+      self.inputs[i + 1].set_default_text(option)
+      if option == data[2]: #answer
+        self.answer_selector[i].change_state(True)
     # ID
     self.id = data[3]
 
@@ -115,6 +116,11 @@ class Edit(State):
       self.edit_data.clear()
       for input in self.inputs:
         self.edit_data.append(input.get_input_text())
+      # Search the option with active check(answer)  
+      for index, check in enumerate(self.answer_selector):
+        print("state: " + str(check.get_state()))
+        if check.get_state():
+          self.edit_data.append(self.inputs[index + 1].get_input_text())
       self.edit_data.append(self.id)
       
       self.event_manager.notify("edit_file", self.edit_data)
@@ -122,9 +128,11 @@ class Edit(State):
   def check_option_click(self):
     for check in self.answer_selector:
       if check.rect.collidepoint(pygame.mouse.get_pos()):
+        for other_check in self.answer_selector:
+          other_check.change_state(False)
+        # Set the clicked option to True
         check.change_state(True)
-      else:
-        check.change_state(False)
+        break
   
 
   def set_up_edit_events(self):

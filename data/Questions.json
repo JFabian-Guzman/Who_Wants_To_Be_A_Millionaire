@@ -91,7 +91,7 @@
             "0",
             "1",
             "2",
-            "3"
+            "6"
         ],
         "level": 1
     },
@@ -434,7 +434,7 @@
     {
         "id": 37,
         "question": "Who is the author of 'The Catcher in the Rye'?",
-        "answer": "J.D. Salinger",
+        "answer": "F. Scott Fitzgerald",
         "options": [
             "J.D. Salinger",
             "F. Scott Fitzgerald",

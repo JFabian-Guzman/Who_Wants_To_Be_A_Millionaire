@@ -19,6 +19,7 @@ class FileManager():
 
   def edit_file(self, *args):
         data = args[0]
+        print("DATAAA:" + str(data))
         new_data = {
           "question": data[0],
           "options": [data[1], data[2], data[3], data[4]],

@@ -12,7 +12,6 @@ class Check(pygame.sprite.Sprite):
     self.is_answer = False
 
   def change_state(self, state):
-    print(state)
     self.is_answer = state
     if self.is_answer:
       self.image = pygame.image.load(join("assets", "img" ,"check.png")).convert_alpha()
@@ -20,5 +19,6 @@ class Check(pygame.sprite.Sprite):
       self.image = pygame.image.load(join("assets", "img" ,"check_disable.png")).convert_alpha()
   
 
-
+  def get_state(self):
+    return self.is_answer
 
