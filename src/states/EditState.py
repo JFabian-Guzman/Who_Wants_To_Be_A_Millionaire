@@ -95,6 +95,7 @@ class Edit(State):
       option = options[i].strip()
       self.inputs[i + 1].set_default_text(option)
       if option == data[2]: #answer
+        print("SET TO TRUE")
         self.answer_selector[i].change_state(True)
     # ID
     self.id = data[3]
@@ -112,8 +113,9 @@ class Edit(State):
         self.click_handled = False
 
   def check_back_click(self):
-    self.back_btn.check_notify_state("questions")
-    self.clear()
+    if self.back_btn.rect.collidepoint(pygame.mouse.get_pos()):
+      self.back_btn.check_notify_state("questions")
+      self.clear()
 
   def check_input_click(self):
     for input in self.inputs:
@@ -135,6 +137,7 @@ class Edit(State):
       self.edit_data.append(self.id)
       
       self.event_manager.notify("edit_file", self.edit_data)
+      self.event_manager.notify("set_state", "questions")
     
   def check_option_click(self):
     for check in self.answer_selector:
@@ -146,7 +149,6 @@ class Edit(State):
         break
 
   def clear(self):
-    self.id = ''
     self.warning = ''
     for check in self.answer_selector:
       check.change_state(False)

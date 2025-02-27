@@ -4,8 +4,8 @@
         "question": "What is the capital of France?",
         "answer": "Paris",
         "options": [
-            "Pari",
-            "San Jos",
+            "Paris",
+            "San Jose",
             "Madrid",
             "Lima"
         ],
@@ -17,7 +17,7 @@
         "answer": "4",
         "options": [
             "1",
-            "2",
+            "76",
             "3",
             "4"
         ],
@@ -89,7 +89,7 @@
         "answer": "2",
         "options": [
             "0",
-            "1",
+            "90",
             "2",
             "6"
         ],
