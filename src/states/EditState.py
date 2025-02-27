@@ -32,11 +32,11 @@ class Edit(State):
     self.question_rect = self.quesiton_background.get_rect(center = (WINDOW_WIDTH/2,250))
     self.title_background_rect = self.title_background.get_rect(center = TITLE_POSITION)
 
-    self.inputs.append(TextInput(self.question_rect.center, 650, 60, event_manager))
+    self.inputs.append(TextInput(self.question_rect.center, 875, 60, event_manager, 'question'))
 
     for index, position in enumerate(OPTION_POSITIONS):
       self.option_rects.append(self.option_background.get_rect(center=position))
-      self.inputs.append(TextInput(position, 350, 60, event_manager))
+      self.inputs.append(TextInput(position, 350, 60, event_manager, 'option'))
       check_position = (self.option_rects[index].center[0] + 230, self.option_rects[index].center[1] )
       checK_item = Check(check_position, self.elements)
       self.answer_selector.append(checK_item)
@@ -70,7 +70,7 @@ class Edit(State):
       self.screen.blit(self.option_background, self.option_rects[i])
 
     for input in self.inputs:
-      input.draw(self.screen)
+      input.draw()
     self.update_cursor_state()
     self.check_click()
     
