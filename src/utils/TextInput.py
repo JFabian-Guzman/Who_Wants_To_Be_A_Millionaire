@@ -65,7 +65,14 @@ class TextInput:
                 self.input = self.input[:-1]
             else:
                 if (self.type == 'option' and len(self.input) < MAX_LENGTH_OPTIONS) or (self.type == 'question' and len(self.input) < MAX_LENGTH_QUESTION):
+                    self.event_manager.notify("warning", '')
                     self.input += event.unicode
+                else:
+                    if self.type == 'option':
+                        self.event_manager.notify("warning", OPTION_MAX_LENGTH_WARNING)
+                    else:
+                        self.event_manager.notify("warning", QUESTION_MAX_LENGTH_WARNING)
+                    
 
     def set_up_input_events(self):
         self.event_manager.subscribe("keyboard_input", self.check_keyboard_input)

@@ -64,6 +64,10 @@ LAST_LEVEL = 5
 
 
 # TEXTS
+
+OPTION_MAX_LENGTH_WARNING = "You've reached the maximum option length of 24 characters"
+QUESTION_MAX_LENGTH_WARNING = "You've reached the maximum option length of 128 characters"
+
 INSTRUCTIONS = """
 Students should read the questions and choose 
 

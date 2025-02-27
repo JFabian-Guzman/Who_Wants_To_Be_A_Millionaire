@@ -20,6 +20,7 @@ class Edit(State):
     self.option_rects = []
     self.answer_selector = []
     self.title = TITLE.render("Edit Question", True, COLORS["BLACK"])
+    self.warning = ''
 
 
     self.quesiton_background = pygame.image.load(join("assets", "img" ,"question.png")).convert_alpha()
@@ -33,6 +34,7 @@ class Edit(State):
     self.title_background_rect = self.title_background.get_rect(center = TITLE_POSITION)
 
     self.inputs.append(TextInput(self.question_rect.center, 875, 60, event_manager, 'question'))
+
 
     for index, position in enumerate(OPTION_POSITIONS):
       self.option_rects.append(self.option_background.get_rect(center=position))
@@ -64,6 +66,7 @@ class Edit(State):
     self.elements.draw(self.screen)
     self.screen.blit(self.title_background, self.title_background_rect)
     self.screen.blit(self.quesiton_background, self.question_rect)
+    self.draw_text()
   
     self.screen.blit(self.title, self.title_rect)
     for i in range(4):
@@ -71,12 +74,16 @@ class Edit(State):
 
     for input in self.inputs:
       input.draw()
-    self.update_cursor_state()
-    self.check_click()
     
+  def draw_text(self):
+    warning_text = TEXT.render(self.warning, True, COLORS['AMBER'])
+    warning_rect = warning_text.get_rect(center = (WINDOW_WIDTH/2,175))
+    self.screen.blit(warning_text, warning_rect)
 
   def update(self):
     self.elements.update()
+    self.update_cursor_state()
+    self.check_click()
 
   def set_data(self, *args):
     data = args[0]
@@ -134,7 +141,10 @@ class Edit(State):
         check.change_state(True)
         break
   
+  def set_warning(self, *args):
+    self.warning = args[0]
 
   def set_up_edit_events(self):
     self.event_manager.subscribe("set_edit_data", self.set_data)
+    self.event_manager.subscribe("warning", self.set_warning)
 
