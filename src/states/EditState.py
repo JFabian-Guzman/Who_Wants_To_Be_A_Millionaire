@@ -103,13 +103,17 @@ class Edit(State):
   def check_click(self):
     if pygame.mouse.get_pressed()[0]: 
       if not self.click_handled:
-        self.back_btn.check_notify_state("questions")
+        self.check_back_click()
         self.check_input_click()
         self.check_edit_click()
         self.check_option_click()
         self.click_handled = True
     else:
         self.click_handled = False
+
+  def check_back_click(self):
+    self.back_btn.check_notify_state("questions")
+    self.clear()
 
   def check_input_click(self):
     for input in self.inputs:
@@ -140,6 +144,12 @@ class Edit(State):
         # Set the clicked option to True
         check.change_state(True)
         break
+
+  def clear(self):
+    self.id = ''
+    self.warning = ''
+    for check in self.answer_selector:
+      check.change_state(False)
   
   def set_warning(self, *args):
     self.warning = args[0]
