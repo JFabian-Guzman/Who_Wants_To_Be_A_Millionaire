@@ -15,7 +15,7 @@ class ManageQuestions(State):
     self.levels = []
     self.title_background = pygame.image.load(join("assets", "img" ,"score.png")).convert_alpha()
     self.title_background_rect = self.title_background.get_rect(center = TITLE_POSITION)
-    self.title = TITLE.render("Question Manager", True, COLORS["BLACK"])
+    self.title = TITLE.render("Question Manager\n     Levels", True, COLORS["BLACK"])
     self.title_rect = self.title.get_rect(center= TITLE_POSITION)
 
 

@@ -67,7 +67,7 @@ class Edit(State):
     self.elements.draw(self.screen)
     self.screen.blit(self.title_background, self.title_background_rect)
     self.screen.blit(self.quesiton_background, self.question_rect)
-    self.draw_text()
+    self.draw_warning()
   
     self.screen.blit(self.title, self.title_rect)
     for i in range(4):
@@ -76,7 +76,7 @@ class Edit(State):
     for input in self.inputs:
       input.draw()
     
-  def draw_text(self):
+  def draw_warning(self):
     warning_text = TEXT.render(self.warning, True, COLORS['AMBER'])
     warning_rect = warning_text.get_rect(center = (WINDOW_WIDTH/2,175))
     self.screen.blit(warning_text, warning_rect)

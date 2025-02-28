@@ -20,6 +20,8 @@ class Add(State):
     self.answer_selector = []
     self.new_data = []
     self.level = 0
+    self.warning = ''
+    self.error = ''
 
     self.quesiton_background = pygame.image.load(join("assets", "img" ,"question.png")).convert_alpha()
     self.option_background = pygame.image.load(join("assets", "img" ,"option.png")).convert_alpha()
@@ -61,6 +63,8 @@ class Add(State):
     self.screen.blit(self.title_background, self.title_background_rect)
     self.screen.blit(self.quesiton_background, self.question_rect)
     self.draw_title()
+    self.draw_warning()
+    self.draw_error()
 
     for i in range(4):
       self.screen.blit(self.option_background, self.option_rects[i])
@@ -69,9 +73,19 @@ class Add(State):
       input.draw()
 
   def draw_title(self):
-    title = TITLE.render("Add Question\n  Level: " + str(self.level), True, COLORS["BLACK"])
+    title = TITLE.render("Add Question\n  Level: " + str(self.level + 1), True, COLORS["BLACK"])
     title_rect = title.get_rect(center= TITLE_POSITION)
     self.screen.blit(title, title_rect)
+
+  def draw_warning(self):
+    warning_text = TEXT.render(self.warning, True, COLORS['AMBER'])
+    warning_rect = warning_text.get_rect(center = (WINDOW_WIDTH/2,175))
+    self.screen.blit(warning_text, warning_rect)
+
+  def draw_error(self):
+    error_text = TEXT.render(self.error, True, COLORS['RED'])
+    error_rect = error_text.get_rect(center = (WINDOW_WIDTH/2,200))
+    self.screen.blit(error_text, error_rect)
 
   def update(self):
     self.elements.update()
@@ -102,20 +116,43 @@ class Add(State):
         input.toggle_active(False)
 
   def check_add_click(self):
+    error = False
+    answer_selected = False
     if self.add_btn.rect.collidepoint(pygame.mouse.get_pos()):
       # Remove the prev data to append the new one
       self.new_data.clear()
       for input in self.inputs:
-        self.new_data.append(input.get_input_text())
+        option_text = input.get_input_text()
+        if option_text == '':
+          self.show_error('option')
+          error = True
+        elif option_text in self.new_data:
+          self.show_error('duplicate')
+          error = True
+        else:
+            self.new_data.append(option_text)
       # Search the option with active check(answer)  
       for index, check in enumerate(self.answer_selector):
-
         if check.get_state():
           self.new_data.append(self.inputs[index + 1].get_input_text())
+          answer_selected = True
+      if not answer_selected:
+        self.show_error('answer')
+        error = True
+    
       self.new_data.append(self.level)
-      self.event_manager.notify("add_file", self.new_data)
-      # self.event_manager.notify("set_state", "questions")
+      if not error:
+        self.event_manager.notify("add_file", self.new_data)
+        self.event_manager.notify("set_state", "questions")
 
+
+  def show_error(self, type):
+    if type == 'answer':
+      self.error = 'Please select an answer before proceeding'
+    elif type == 'option':
+      self.error = 'Oops! Make sure to fill in all the inputs'
+    elif type == 'duplicate':
+      self.error = 'Each option should be unique. Please check and try again!'
   def check_option_click(self):
     for check in self.answer_selector:
       if check.rect.collidepoint(pygame.mouse.get_pos()):
@@ -126,7 +163,7 @@ class Add(State):
         break
 
   def set_level(self, level):
-    self.level = level + 1
+    self.level = level
 
   def clear(self):
     self.warning = ''
@@ -135,5 +172,9 @@ class Add(State):
     for input in self.inputs:
       input.set_text('')
 
+  def set_warning(self, *args):
+    self.warning = args[0]
+
   def set_up_add_events(self):
     self.event_manager.subscribe("level", self.set_level)
+    self.event_manager.subscribe("warning", self.set_warning)

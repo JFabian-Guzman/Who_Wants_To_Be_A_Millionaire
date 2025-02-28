@@ -17,8 +17,6 @@ class Questions(State):
     self.back_btn = Button(self.elements,BTN_POSITION, event_manager, 'negative_btn', 'Go Back', 'WHITE')
     self.title_background = pygame.image.load(join("assets", "img" ,"score.png")).convert_alpha()
     self.title_background_rect = self.title_background.get_rect(center = TITLE_POSITION)
-    self.title = TITLE.render("Question Manager", True, COLORS["BLACK"])
-    self.title_rect = self.title.get_rect(center= TITLE_POSITION)
     self.add_box = AddQuestion(self.elements)
     
 
@@ -38,12 +36,16 @@ class Questions(State):
   def draw(self):
     self.elements.draw(self.screen)
     self.screen.blit(self.title_background, self.title_background_rect)
-    self.screen.blit(self.title, self.title_rect)
+    self.draw_title()
     for pagination_box in self.active_pagination:
       pagination_box.draw()
     for box in self.boxes:
       box.draw()
     
+  def draw_title(self):
+    title = TITLE.render("Question Manager\n    Level: " + str(self.level + 1), True, COLORS["BLACK"])
+    title_rect = title.get_rect(center= TITLE_POSITION)
+    self.screen.blit(title, title_rect)
     
   def update(self):
     self.elements.update()
