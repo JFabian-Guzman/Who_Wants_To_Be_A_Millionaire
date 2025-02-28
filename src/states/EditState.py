@@ -39,15 +39,16 @@ class Edit(State):
     for index, position in enumerate(OPTION_POSITIONS):
       self.option_rects.append(self.option_background.get_rect(center=position))
       self.inputs.append(TextInput(position, 350, 60, event_manager, 'option'))
-      check_position = (self.option_rects[index].center[0] + 230, self.option_rects[index].center[1] )
-      checK_item = Check(check_position, self.elements)
-      self.answer_selector.append(checK_item)
-      self.interactive_elements.append(checK_item)
-
       
+
+    for index, rect in enumerate(self.option_rects):
+      offset = 230 if index < 2 else -230
+      check_position = (rect.center[0] + offset, rect.center[1])
+      check_item = Check(check_position, self.elements)
+      self.answer_selector.append(check_item)
+      self.interactive_elements.append(check_item)
+
     
-
-
     self.back_btn = Button(self.elements,BTN_POSITION, event_manager, 'negative_btn', 'Go Back', 'WHITE')
     self.edit_btn = Button(self.elements,EDIT_BTN_POSITION, event_manager, 'btn', 'Save', 'BLACK')
 
