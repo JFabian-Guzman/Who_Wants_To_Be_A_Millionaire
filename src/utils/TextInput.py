@@ -52,7 +52,7 @@ class TextInput:
             self.color = self.color_passive
             self.border_thickness = 2
 
-    def set_default_text(self, text):
+    def set_text(self, text):
         self.input = text
 
     def get_input_text(self):

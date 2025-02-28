@@ -107,14 +107,14 @@ class Questions(State):
 
   def add_click(self):
     if self.add_box.rect.collidepoint(pygame.mouse.get_pos()):
-      print("CHANGE STATE HERE")
+      self.event_manager.notify("set_state", "add")
 
   def set_level(self, level):
     self.level = level
 
-  def set_up_read_events(self):
+  def set_up_question_events(self):
     self.event_manager.subscribe("fetch_questions", self.fetch_data)
-    self.event_manager.subscribe("question_level", self.set_level)
+    self.event_manager.subscribe("level", self.set_level)
 
   def check_hover_on_icons(self):
     for box in self.boxes:

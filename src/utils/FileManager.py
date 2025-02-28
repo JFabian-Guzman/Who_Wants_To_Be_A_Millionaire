@@ -58,9 +58,46 @@ class FileManager():
         else:
             print(f"Error: Object with ID {id} not found.")
 
+  def add_file(self, *args):
+        data = args[0]
+        new_data = {
+          "id": '',
+          "question": data[0],
+          "answer": data[5],
+          "options": [data[1], data[2], data[3], data[4]],
+          "level": data[6]
+        }
+
+        file_path = join("data", "Questions.json")
+        if not isfile(file_path):
+            print("Error: File not found.")
+            return
+        # Load data
+        with open(file_path, "r") as file:
+            try:
+                data_file = json.load(file)
+            except json.JSONDecodeError:
+                print("Error: JSON file is corrupted.")
+                return
+        
+        # Find the next ID
+        last_id = max((obj.get("id", -1) for obj in data_file), default=-1)
+        new_id = last_id + 1
+        new_data["id"] = new_id
+
+
+        data_file.append(new_data)
+
+        print(new_data)
+                
+        with open(file_path, "w") as file:
+            json.dump(data_file, file, indent=4)
+        print(f"Successfully saved object with ID {id}.")
+
   def get_data(self):
     return self.data
 
   def set_up_file_events(self):
     self.event_manager.subscribe("load_data", self.load_data)
     self.event_manager.subscribe("edit_file", self.edit_file)
+    self.event_manager.subscribe("add_file", self.add_file)

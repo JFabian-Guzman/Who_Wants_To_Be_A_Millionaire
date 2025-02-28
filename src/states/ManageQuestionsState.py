@@ -55,7 +55,7 @@ class ManageQuestions(State):
   def level_click(self):
     for level in self.levels:
       if level.rect.collidepoint(pygame.mouse.get_pos()):
-        self.event_manager.notify("question_level", int(level.get_number()) - 1)
+        self.event_manager.notify("level", int(level.get_number()) - 1)
         self.event_manager.notify("set_state", "questions")
 
 
