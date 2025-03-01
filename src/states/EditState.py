@@ -21,6 +21,7 @@ class Edit(State):
     self.answer_selector = []
     self.title = TITLE.render("Edit Question", True, COLORS["BLACK"])
     self.warning = ''
+    self.error = ''
 
 
     self.quesiton_background = pygame.image.load(join("assets", "img" ,"question.png")).convert_alpha()
@@ -68,6 +69,7 @@ class Edit(State):
     self.screen.blit(self.title_background, self.title_background_rect)
     self.screen.blit(self.quesiton_background, self.question_rect)
     self.draw_warning()
+    self.draw_error()
   
     self.screen.blit(self.title, self.title_rect)
     for i in range(4):
@@ -80,6 +82,11 @@ class Edit(State):
     warning_text = TEXT.render(self.warning, True, COLORS['AMBER'])
     warning_rect = warning_text.get_rect(center = (WINDOW_WIDTH/2,175))
     self.screen.blit(warning_text, warning_rect)
+
+  def draw_error(self):
+    error_text = TEXT.render(self.error, True, COLORS['RED'])
+    error_rect = error_text.get_rect(center = (WINDOW_WIDTH/2,200))
+    self.screen.blit(error_text, error_rect)
 
   def update(self):
     self.elements.update()
@@ -126,21 +133,37 @@ class Edit(State):
         input.toggle_active(False)
 
   def check_edit_click(self):
+    error = False
     if self.edit_btn.rect.collidepoint(pygame.mouse.get_pos()):
       # Remove the prev data to append the new one
       self.edit_data.clear()
       for input in self.inputs:
-        self.edit_data.append(input.get_input_text())
+        option_text = input.get_input_text()
+        if option_text == '':
+          self.show_error('option')
+          error = True
+        elif option_text in self.edit_data:
+          self.show_error('duplicate')
+          error = True
+        else:
+            self.edit_data.append(option_text)
       # Search the option with active check(answer)  
       for index, check in enumerate(self.answer_selector):
         print("state: " + str(check.get_state()))
         if check.get_state():
           self.edit_data.append(self.inputs[index + 1].get_input_text())
       self.edit_data.append(self.id)
-      
-      self.event_manager.notify("edit_file", self.edit_data)
-      self.event_manager.notify("set_state", "questions")
+      if not error:
+        self.event_manager.notify("edit_file", self.edit_data)
+        self.event_manager.notify("set_state", "questions")
+        self.clear()
     
+  def show_error(self, type):
+    if type == 'option':
+      self.error = 'Oops! Make sure to fill in all the inputs'
+    elif type == 'duplicate':
+      self.error = 'Each option should be unique. Please check and try again!'
+
   def check_option_click(self):
     for check in self.answer_selector:
       if check.rect.collidepoint(pygame.mouse.get_pos()):
@@ -152,6 +175,7 @@ class Edit(State):
 
   def clear(self):
     self.warning = ''
+    self.error = ''
     for check in self.answer_selector:
       check.change_state(False)
   

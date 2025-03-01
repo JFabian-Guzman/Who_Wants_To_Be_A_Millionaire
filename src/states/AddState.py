@@ -144,6 +144,7 @@ class Add(State):
       if not error:
         self.event_manager.notify("add_file", self.new_data)
         self.event_manager.notify("set_state", "questions")
+        self.clear()
 
 
   def show_error(self, type):
@@ -153,6 +154,8 @@ class Add(State):
       self.error = 'Oops! Make sure to fill in all the inputs'
     elif type == 'duplicate':
       self.error = 'Each option should be unique. Please check and try again!'
+
+
   def check_option_click(self):
     for check in self.answer_selector:
       if check.rect.collidepoint(pygame.mouse.get_pos()):
@@ -167,6 +170,7 @@ class Add(State):
 
   def clear(self):
     self.warning = ''
+    self.error = ''
     for check in self.answer_selector:
       check.change_state(False)
     for input in self.inputs:

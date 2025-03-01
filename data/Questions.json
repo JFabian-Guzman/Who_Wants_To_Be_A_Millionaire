@@ -6,7 +6,7 @@
         "options": [
             "Paris",
             "San Jose",
-            "Madrid",
+            "Cartago",
             "Lima"
         ],
         "level": 0
@@ -88,8 +88,8 @@
         "question": "What is the smallest prime number?",
         "answer": "2",
         "options": [
-            "0",
-            "90",
+            "97",
+            "98",
             "2",
             "6"
         ],
@@ -514,5 +514,29 @@
             "testtt"
         ],
         "level": 7
+    },
+    {
+        "id": 44,
+        "question": "TEST 10",
+        "answer": "23",
+        "options": [
+            "OKOK",
+            "123",
+            "23",
+            "1234"
+        ],
+        "level": 9
+    },
+    {
+        "id": 45,
+        "question": "TEST 11",
+        "answer": "432",
+        "options": [
+            "321",
+            "132",
+            "432",
+            "4323"
+        ],
+        "level": 9
     }
 ]
