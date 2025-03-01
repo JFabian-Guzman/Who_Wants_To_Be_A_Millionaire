@@ -5,6 +5,7 @@ from utils.Button import *
 from utils.CrudBox import *
 from utils.PaginationBox import *
 from utils.AddQuestions import *
+from utils.DeleteModal import *
 
 TITLE_POSITION = (WINDOW_WIDTH/2  ,75)
 BTN_POSITION = ( WINDOW_WIDTH//2 - 350, 75)
@@ -18,6 +19,7 @@ class Questions(State):
     self.title_background = pygame.image.load(join("assets", "img" ,"score.png")).convert_alpha()
     self.title_background_rect = self.title_background.get_rect(center = TITLE_POSITION)
     self.add_box = AddQuestion(self.elements)
+    self.delete_modal = DeleteModal(event_manager)
     
 
     self.file_manager = file_manager
@@ -42,6 +44,7 @@ class Questions(State):
     for box in self.boxes:
       box.draw()
     
+    
   def draw_title(self):
     title = TITLE.render("Question Manager\n    Level: " + str(self.level + 1), True, COLORS["BLACK"])
     title_rect = title.get_rect(center= TITLE_POSITION)
@@ -49,9 +52,13 @@ class Questions(State):
     
   def update(self):
     self.elements.update()
-    self.update_cursor_state()
-    self.check_click()
-    self.check_hover_on_icons()
+    if self.delete_modal.is_open():
+      self.delete_modal.draw()
+      self.delete_modal.update()
+    else:
+      self.update_cursor_state()
+      self.check_click()
+      self.check_hover_on_icons()
 
   def fetch_data(self, *args):
     self.clear_data()
@@ -94,6 +101,7 @@ class Questions(State):
         self.pagination_click()
         self.edit_click()
         self.add_click()
+        self.delete_click()
         self.click_handled = True
     else:
         self.click_handled = False
@@ -128,6 +136,13 @@ class Questions(State):
     for box in self.boxes:
         if box.get_interactive_elements()[0].rect.collidepoint(pygame.mouse.get_pos()):
             box.change_to_edit()
+            return
+
+  def delete_click(self):
+    for box in self.boxes:
+        if box.get_interactive_elements()[1].rect.collidepoint(pygame.mouse.get_pos()):
+            self.delete_modal.set_id(box.get_id())
+            self.delete_modal.show_modal()
             return
 
   def update_interactive_elements(self):

@@ -16,6 +16,7 @@ class CrudBox(pygame.sprite.Sprite):
 
     self.pencil_icon = Icon((self.rect.midright[0] - 80, self.rect.midright[1] + 40),"pencil")
     self.trash_icon = Icon((self.rect.midright[0] - 25, self.rect.midright[1] + 40),"trash")
+    self.id = id
     self.data = []
     self.data.append(question)
     self.data.append(options)
@@ -45,6 +46,9 @@ class CrudBox(pygame.sprite.Sprite):
 
   def get_interactive_elements(self):
     return self.interactive_elements
+
+  def get_id(self):
+     return self.id
 
   def wrap_text(self, text):
         wrap_text = text

@@ -492,30 +492,6 @@
         "level": 1
     },
     {
-        "id": 42,
-        "question": "test",
-        "answer": "option a",
-        "options": [
-            "option a",
-            "option b",
-            "option c",
-            "option d"
-        ],
-        "level": 8
-    },
-    {
-        "id": 43,
-        "question": "questions 1",
-        "answer": "tes",
-        "options": [
-            "tes",
-            "test",
-            "testt",
-            "testtt"
-        ],
-        "level": 7
-    },
-    {
         "id": 44,
         "question": "TEST 10",
         "answer": "23",
