@@ -24,10 +24,11 @@ class CrudBox(pygame.sprite.Sprite):
         self.setup_text_elements(question, options, answer)
 
     def setup_text_elements(self, question, options, answer):
-        wrap_options = self.wrap_text(options)
-        wrap_answer = self.wrap_text(answer)
+        wrap_question =  self.wrap_text(question, 70)
+        wrap_options = self.wrap_text(options, 10)
+        wrap_answer = self.wrap_text(answer, 10)
 
-        self.question = TEXT.render("Question: " + question, True, COLORS["WHITE"])
+        self.question = TEXT.render("Question: " + wrap_question, True, COLORS["WHITE"])
         self.question_rect = self.question.get_rect(midleft=(self.rect.midleft[0] + 20, self.rect.midleft[1] - 45))
         self.options = TEXT.render("Options: " + wrap_options, True, COLORS["WHITE"])
         self.options_rect = self.options.get_rect(midleft=(self.rect.midleft[0] + 20, self.rect.midleft[1]))
@@ -47,15 +48,15 @@ class CrudBox(pygame.sprite.Sprite):
 
     def get_id(self):
         return self.id
-
-    def wrap_text(self, text):
+    
+    def wrap_text(self, text, left_switch):
         wrap_text = text
         if len(text) > 60:
-            split = len(text) - 10
+            split = len(text) - left_switch
             if text[split].isalpha():
-                wrap_text = text[:split] + "-\n\n" + text[split:]
+                wrap_text = text[:split] + "-\n" + text[split:]
             else:
-                wrap_text = text[:split] + "\n\n" + text[split:]
+                wrap_text = text[:split] + "\n" + text[split:]
         return wrap_text
 
     def change_to_edit(self):
