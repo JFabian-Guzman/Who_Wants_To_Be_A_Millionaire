@@ -22,10 +22,9 @@ class GameOver(State):
         self.reward = ''
 
         self.no_btn = Button(self.elements, LEFT_BTN_POSITION, event_manager, 'negative_btn', 'No', 'WHITE')
-        self.yes_btn = Button(self.elements,RIGHT_BTN_POSITION, event_manager, 'btn', 'Yes')
+        self.yes_btn = Button(self.elements, RIGHT_BTN_POSITION, event_manager, 'btn', 'Yes')
 
         GameOverFlag(self.elements)
-        
         Coin(COIN_POSITION, self.elements)
 
         self.interactive_elements.append(self.no_btn)
@@ -43,16 +42,18 @@ class GameOver(State):
 
     def draw(self):
         self.elements.draw(self.screen)
+        self.draw_text_elements()
+        self.check_click()
+
+    def draw_text_elements(self):
         for text_surface, position in self.text_elements:
             text_rect = text_surface.get_rect(center=position)
             self.screen.blit(text_surface, text_rect)
-        self.check_click()
 
     def update(self):
         self.elements.update()
         self.update_cursor_state()
 
-    # args = [[Correct_answer, Level]]
     def set_reward(self, *args):
         data = args[0]
         self.answer = data[0]

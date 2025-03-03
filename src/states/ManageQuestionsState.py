@@ -10,23 +10,26 @@ BTN_POSITION = ( WINDOW_WIDTH//2 - 350, 75)
 class ManageQuestions(State):
   def __init__(self, event_manager):
     super().__init__(event_manager)
+    self.setup_ui(event_manager)
+    self.setup_levels()
 
-    self.back_btn = Button(self.elements,BTN_POSITION, event_manager, 'negative_btn', 'Go Back', 'WHITE')
-    self.levels = []
-    self.title_background = pygame.image.load(join("assets", "img" ,"score.png")).convert_alpha()
-    self.title_background_rect = self.title_background.get_rect(center = TITLE_POSITION)
+
+  def setup_ui(self, event_manager):
+    self.back_btn = Button(self.elements, BTN_POSITION, event_manager, 'negative_btn', 'Go Back', 'WHITE')
+    self.title_background = pygame.image.load(join("assets", "img", "score.png")).convert_alpha()
+    self.title_background_rect = self.title_background.get_rect(center=TITLE_POSITION)
     self.title = TITLE.render("Question Manager\n     Levels", True, COLORS["BLACK"])
-    self.title_rect = self.title.get_rect(center= TITLE_POSITION)
-
-
-    for row in range(3):
-      for col in range(1, 6):
-        position = (175 + (150 * col), WINDOW_HEIGHT // 2 - 150 + (150 * row))
-        level = LevelBox(self.elements, position, str(row * 5 + col))
-        self.levels.append(level)
-        self.interactive_elements.append(level)
-
+    self.title_rect = self.title.get_rect(center=TITLE_POSITION)
     self.interactive_elements.append(self.back_btn)
+
+  def setup_levels(self):
+    self.levels = []
+    for row in range(3):
+        for col in range(1, 6):
+            position = (175 + (150 * col), WINDOW_HEIGHT // 2 - 150 + (150 * row))
+            level = LevelBox(self.elements, position, str(row * 5 + col))
+            self.levels.append(level)
+            self.interactive_elements.append(level)
 
   def draw(self):
     self.elements.draw(self.screen)

@@ -98,31 +98,30 @@ class Game:
 
   def run(self):
     while self.running:
-      dt = self.clock.tick() / 1000
-      fps = self.clock.get_fps()  
-      # print(f"FPS: {fps:.2f}")
-      for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-          self.stop_game()
+        self.clock.tick(self.fps)
 
-        #Handle keyboard
-        if event.type == pygame.KEYDOWN:
-          self.event_manager.notify("keyboard_input", event)
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                self.stop_game()
 
-      # Draw
-      self.background.draw_background()
+            # Handle keyboard
+            if event.type == pygame.KEYDOWN:
+                self.event_manager.notify("keyboard_input", event)
 
-      # Update
-      self.global_sprites.update()
+        # Draw
+        self.background.draw_background()
 
-      # Event_handler
-      self.state_machine.handle_events("update_state")
+        # Update
+        self.global_sprites.update()
 
-      # Draw global sprites last to ensure they are rendered on top of all other elements
-      self.global_sprites.draw(self.screen)
+        # Event_handler
+        self.state_machine.handle_events("update_state")
 
-      pygame.display.update()
-      self.clock.tick(self.fps)
+        # Draw global sprites last to ensure they are rendered on top of all other elements
+        self.global_sprites.draw(self.screen)
+
+        pygame.display.update()
+
     pygame.quit()
 
 

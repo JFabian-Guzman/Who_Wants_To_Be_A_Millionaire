@@ -13,11 +13,16 @@ class TextInput:
         self.color_passive = (115, 115, 115)
         self.color = self.color_passive
         self.border_thickness = 2
+        self.backspace_delay = 100
+        self.last_backspace_time = 0
         self.type = type
 
     def draw(self):
         pygame.draw.rect(self.screen, self.color, self.rect, self.border_thickness)
         self.draw_text()
+
+    def update(self):
+        self.check_keyboard_backspace()
 
     def draw_text(self):
         lines = self.wrap_text(self.input)
@@ -57,13 +62,20 @@ class TextInput:
 
     def get_input_text(self):
         return self.input
+    
+    def check_keyboard_backspace(self):
+        key = pygame.key.get_pressed()
+        current_time = pygame.time.get_ticks()
+        if self.active:
+            if key[pygame.K_BACKSPACE] == True:
+                if current_time - self.last_backspace_time > self.backspace_delay:
+                    self.input = self.input[:-1]
+                    self.last_backspace_time = current_time
 
     def check_keyboard_input(self, *args):
         event = args[0]
         if self.active:
-            if event.key == pygame.K_BACKSPACE:
-                self.input = self.input[:-1]
-            else:
+            if event.key != pygame.K_BACKSPACE:
                 if (self.type == 'option' and len(self.input) < MAX_LENGTH_OPTIONS) or (self.type == 'question' and len(self.input) < MAX_LENGTH_QUESTION):
                     self.event_manager.notify("warning", '')
                     self.input += event.unicode

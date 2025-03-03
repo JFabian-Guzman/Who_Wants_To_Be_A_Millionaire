@@ -7,146 +7,149 @@ from utils.PaginationBox import *
 from utils.AddQuestions import *
 from utils.DeleteModal import *
 
-TITLE_POSITION = (WINDOW_WIDTH/2  ,75)
-BTN_POSITION = ( WINDOW_WIDTH//2 - 350, 75)
-
+TITLE_POSITION = (WINDOW_WIDTH / 2, 75)
+BTN_POSITION = (WINDOW_WIDTH // 2 - 350, 75)
 
 class Questions(State):
-  def __init__(self, event_manager, file_manager):
-    super().__init__(event_manager)
-    
-    self.back_btn = Button(self.elements,BTN_POSITION, event_manager, 'negative_btn', 'Go Back', 'WHITE')
-    self.title_background = pygame.image.load(join("assets", "img" ,"score.png")).convert_alpha()
-    self.title_background_rect = self.title_background.get_rect(center = TITLE_POSITION)
-    self.add_box = AddQuestion(self.elements)
-    self.delete_modal = DeleteModal(event_manager)
-    
+    def __init__(self, event_manager, file_manager):
+        super().__init__(event_manager)
+        self.file_manager = file_manager
+        self.level = 1
+        self.data = self.file_manager.get_data()[self.level]
+        self.full_pages = 0
+        self.remaining_questions = 0
+        self.boxes = []
+        self.page_number = 0
+        self.pagination = []
+        self.active_pagination = []
+        self.setup_ui(event_manager)
+        self.setup_pagination()
+        self.set_up_question_events()
 
-    self.file_manager = file_manager
-    self.level = 1
-    self.data = self.file_manager.get_data()[self.level]
-    self.full_pages = 0
-    self.remaining_questions = 0
-    self.boxes = []
-    self.page_number = 0
-    self.pagination = []
-    self.active_pagination = []
-    for i in range(9):
-      self.pagination.append(PaginationBox(((WINDOW_WIDTH / 2 - 200) + (50 * i), (WINDOW_HEIGHT / 2 + 260)), str(i + 1))) 
+    def setup_ui(self, event_manager):
+        self.back_btn = Button(self.elements, BTN_POSITION, event_manager, 'negative_btn', 'Go Back', 'WHITE')
+        self.title_background = pygame.image.load(join("assets", "img", "score.png")).convert_alpha()
+        self.title_background_rect = self.title_background.get_rect(center=TITLE_POSITION)
+        self.add_box = AddQuestion(self.elements)
+        self.delete_modal = DeleteModal(event_manager)
+        self.interactive_elements.append(self.back_btn)
+        self.interactive_elements.append(self.add_box)
 
-    
-  def draw(self):
-    self.elements.draw(self.screen)
-    self.screen.blit(self.title_background, self.title_background_rect)
-    self.draw_title()
-    for pagination_box in self.active_pagination:
-      pagination_box.draw()
-    for box in self.boxes:
-      box.draw()
-    
-    
-  def draw_title(self):
-    title = TITLE.render("Question Manager\n    Level: " + str(self.level + 1), True, COLORS["BLACK"])
-    title_rect = title.get_rect(center= TITLE_POSITION)
-    self.screen.blit(title, title_rect)
-    
-  def update(self):
-    self.elements.update()
-    if self.delete_modal.is_open():
-      self.delete_modal.draw()
-      self.delete_modal.update()
-    else:
-      self.update_cursor_state()
-      self.check_click()
-      self.check_hover_on_icons()
+    def setup_pagination(self):
+        for i in range(9):
+            self.pagination.append(PaginationBox(((WINDOW_WIDTH / 2 - 200) + (50 * i), (WINDOW_HEIGHT / 2 + 260)), str(i + 1)))
 
-  def fetch_data(self, *args):
-    self.clear_data()
-    self.set_pagination()
-    self.load_page()
+    def draw(self):
+        self.elements.draw(self.screen)
+        self.screen.blit(self.title_background, self.title_background_rect)
+        self.draw_title()
+        for pagination_box in self.active_pagination:
+            pagination_box.draw()
+        for box in self.boxes:
+            box.draw()
 
-  def clear_data(self):
-    self.page_number = 0
-    self.interactive_elements.clear()
-    self.boxes.clear()
-    self.active_pagination.clear()
+    def draw_title(self):
+        title = TITLE.render("Question Manager\n    Level: " + str(self.level + 1), True, COLORS["BLACK"])
+        title_rect = title.get_rect(center=TITLE_POSITION)
+        self.screen.blit(title, title_rect)
 
-  def set_pagination(self):
-    self.data = self.file_manager.get_data()[self.level]
-    row_length = len(self.data)
-    self.full_pages = row_length // 3
-    self.remaining_questions = row_length % 3
-    total_pages = self.full_pages if self.remaining_questions == 0 else self.full_pages + 1
+    def update(self):
+        self.elements.update()
+        if self.delete_modal.is_open():
+            self.delete_modal.draw()
+            self.delete_modal.update()
+        else:
+            self.update_cursor_state()
+            self.check_click()
+            self.check_hover_on_icons()
 
-    for i in range(total_pages):
-      self.active_pagination.append(self.pagination[i])
-      
-    self.update_interactive_elements()
+    def update_interactive_elements(self):
+        for pagination_box in self.active_pagination:
+            self.interactive_elements.append(pagination_box)
 
-  def load_page(self):
-    self.boxes.clear()
-    first_question_i = self.page_number * 3
-    last_question_i = first_question_i + 3 if self.page_number < self.full_pages else first_question_i + self.remaining_questions
-    for i in range(first_question_i, last_question_i):
-        question = self.data[i]["question"]
-        options = ", ".join(self.data[i]["options"])
-        answer = self.data[i]["answer"]
-        id = self.data[i]["id"]
-        self.boxes.append(CrudBox(question, options, answer,id, (WINDOW_WIDTH / 2, (WINDOW_HEIGHT / 2 - 150) + (150 * (i - first_question_i))), self.event_manager))
-
-  def check_click(self):
-    if pygame.mouse.get_pressed()[0]: 
-      if not self.click_handled:
-        self.btn_click()
-        self.pagination_click()
-        self.edit_click()
-        self.add_click()
-        self.delete_click()
-        self.click_handled = True
-    else:
-        self.click_handled = False
-
-  def btn_click(self):
-    self.back_btn.check_notify_state("manage questions")
-
-  def pagination_click(self):
-    for page in self.active_pagination:
-      if page.rect.collidepoint(pygame.mouse.get_pos()):
-        self.page_number = page.get_number() - 1
+    def fetch_data(self, *args):
+        self.clear_data()
+        self.set_pagination()
         self.load_page()
 
-  def add_click(self):
-    if self.add_box.rect.collidepoint(pygame.mouse.get_pos()):
-      self.event_manager.notify("set_state", "add")
+    def clear_data(self):
+        self.page_number = 0
+        self.interactive_elements.clear()
+        self.boxes.clear()
+        self.active_pagination.clear()
+        self.interactive_elements.append(self.back_btn)
+        self.interactive_elements.append(self.add_box)
 
-  def set_level(self, level):
-    self.level = level
+    def set_pagination(self):
+        self.data = self.file_manager.get_data()[self.level]
+        row_length = len(self.data)
+        self.full_pages = row_length // 3
+        self.remaining_questions = row_length % 3
+        total_pages = self.full_pages if self.remaining_questions == 0 else self.full_pages + 1
 
-  def set_up_question_events(self):
-    self.event_manager.subscribe("fetch_questions", self.fetch_data)
-    self.event_manager.subscribe("level", self.set_level)
+        for i in range(total_pages):
+            self.active_pagination.append(self.pagination[i])
 
-  def check_hover_on_icons(self):
-    for box in self.boxes:
-      if box.get_interactive_elements()[0].rect.collidepoint(pygame.mouse.get_pos()) or box.get_interactive_elements()[1].rect.collidepoint(pygame.mouse.get_pos()):
-        self.event_manager.notify("change_cursor", 'hover')
-        break
+        self.update_interactive_elements()
 
-  def edit_click(self):
-    for box in self.boxes:
-        if box.get_interactive_elements()[0].rect.collidepoint(pygame.mouse.get_pos()):
-            box.change_to_edit()
-            return
+    def load_page(self):
+        self.boxes.clear()
+        first_question_i = self.page_number * 3
+        last_question_i = first_question_i + 3 if self.page_number < self.full_pages else first_question_i + self.remaining_questions
+        for i in range(first_question_i, last_question_i):
+            question = self.data[i]["question"]
+            options = ", ".join(self.data[i]["options"])
+            answer = self.data[i]["answer"]
+            id = self.data[i]["id"]
+            self.boxes.append(CrudBox(question, options, answer, id, (WINDOW_WIDTH / 2, (WINDOW_HEIGHT / 2 - 150) + (150 * (i - first_question_i))), self.event_manager))
 
-  def delete_click(self):
-    for box in self.boxes:
-        if box.get_interactive_elements()[1].rect.collidepoint(pygame.mouse.get_pos()):
-            self.delete_modal.set_id(box.get_id())
-            self.delete_modal.show_modal()
-            return
+    def check_click(self):
+        if pygame.mouse.get_pressed()[0]:
+            if not self.click_handled:
+                self.btn_click()
+                self.pagination_click()
+                self.edit_click()
+                self.add_click()
+                self.delete_click()
+                self.click_handled = True
+        else:
+            self.click_handled = False
 
-  def update_interactive_elements(self):
-    self.interactive_elements.append(self.back_btn)
-    self.interactive_elements.append(self.add_box)
-    for pagination_box in self.active_pagination:
-      self.interactive_elements.append(pagination_box)
+    def btn_click(self):
+        self.back_btn.check_notify_state("manage questions")
+
+    def pagination_click(self):
+        for page in self.active_pagination:
+            if page.rect.collidepoint(pygame.mouse.get_pos()):
+                self.page_number = page.get_number() - 1
+                self.load_page()
+
+    def add_click(self):
+        if self.add_box.rect.collidepoint(pygame.mouse.get_pos()):
+            self.event_manager.notify("set_state", "add")
+
+    def edit_click(self):
+        for box in self.boxes:
+            if box.get_interactive_elements()[0].rect.collidepoint(pygame.mouse.get_pos()):
+                box.change_to_edit()
+                return
+
+    def delete_click(self):
+        for box in self.boxes:
+            if box.get_interactive_elements()[1].rect.collidepoint(pygame.mouse.get_pos()):
+                self.delete_modal.set_id(box.get_id())
+                self.delete_modal.show_modal()
+                return
+
+    def set_level(self, level):
+        self.level = level
+
+    def set_up_question_events(self):
+        self.event_manager.subscribe("fetch_questions", self.fetch_data)
+        self.event_manager.subscribe("level", self.set_level)
+
+    def check_hover_on_icons(self):
+        for box in self.boxes:
+            if box.get_interactive_elements()[0].rect.collidepoint(pygame.mouse.get_pos()) or box.get_interactive_elements()[1].rect.collidepoint(pygame.mouse.get_pos()):
+                self.event_manager.notify("change_cursor", 'hover')
+                break
