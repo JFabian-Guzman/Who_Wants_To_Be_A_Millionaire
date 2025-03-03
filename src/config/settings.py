@@ -14,7 +14,8 @@ COLORS = {
   "GREEN": "#4CAF50",
   "RED": "#F44336",
   "WHITE": "#FFFFFF",
-  "BLACK": "#000000"
+  "BLACK": "#000000",
+  "GRAY": (115, 115, 115)
 }
 
 # POSTIONS

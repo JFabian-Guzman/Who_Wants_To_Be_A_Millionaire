@@ -9,8 +9,8 @@ class TextInput:
         self.active = False
         self.handled = False
         self.event_manager = event_manager
-        self.color_active = pygame.Color('white')
-        self.color_passive = (115, 115, 115)
+        self.color_active = COLORS["WHITE"]
+        self.color_passive = COLORS["GRAY"]
         self.color = self.color_passive
         self.border_thickness = 2
         self.backspace_delay = 100

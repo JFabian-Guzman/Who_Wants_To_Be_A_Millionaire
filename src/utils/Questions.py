@@ -38,7 +38,6 @@ class Question(pygame.sprite.Sprite):
   
   def change_question(self, *args):
     self.title = self.wrap_text(args[0])
-    # self.title = args[0]
 
   def set_up_question_events(self):
     self.event_manager.subscribe("change_question", self.change_question)
