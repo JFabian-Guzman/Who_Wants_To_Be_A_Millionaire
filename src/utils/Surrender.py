@@ -40,6 +40,12 @@ class Surrender(pygame.sprite.Sprite):
     else:
         self.click_handled = False
 
+  def on_hover(self):
+    print("SURRENDER HOVER")
+
+  def reset_hover(self):
+    pass
+
   def switch_modal_display(self):
     self.is_modal_display = not self.is_modal_display
 

@@ -20,3 +20,8 @@ class PaginationBox(pygame.sprite.Sprite):
     def get_number(self):
         return self.number
 
+    def on_hover(self):
+        print("PAGINATION HOVER")
+
+    def reset_hover(self):
+        pass

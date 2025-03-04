@@ -15,3 +15,9 @@ class AddQuestion(pygame.sprite.Sprite):
 
   def update(self):
     self.screen.blit(self.add_icon, self.add_rect)
+
+  def on_hover(self):
+    print("ADD QUESTION HOVER")
+
+  def reset_hover(self):
+    pass

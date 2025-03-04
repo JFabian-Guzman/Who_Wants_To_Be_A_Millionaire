@@ -18,4 +18,8 @@ class LevelBox(pygame.sprite.Sprite):
   def get_number(self):
     return self.number
 
-  
+  def on_hover(self):
+    print("LEVEL HOVER")
+
+  def reset_hover(self):
+    pass

@@ -40,7 +40,11 @@ class Lifeline(pygame.sprite.Sprite):
         result.append('')
     return result
 
+  def on_hover(self):
+    print("LIFELINE HOVER")
 
+  def reset_hover(self):
+    pass
 
   def get_rect(self):
     return self.rect

@@ -40,7 +40,7 @@ class Menu(State):
         for option in self.options:
             if option.get_rect().collidepoint(pygame.mouse.get_pos()):
                 if option.get_title().lower() != 'exit':
-                    self.event_manager.notify("set_state", option.get_title().lower())
+                    option.start_animation(callback=lambda: self.event_manager.notify("set_state", option.get_title().lower()))
                 else:
                     self.event_manager.notify("stop_game")
                 self.click_handled = True

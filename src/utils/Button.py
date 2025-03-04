@@ -8,8 +8,22 @@ class Button(pygame.sprite.Sprite):
         else:
             super().__init__()
         self.screen = pygame.display.get_surface()
+        self.sprites = []
+        self.current_sprite = 0
+        self.run_animation = False
+        self.type = type
 
-        self.image = pygame.image.load(join("assets", "img", type + '.png')).convert_alpha()
+        self.sprites.append(pygame.image.load(join("assets", "img", type + '.png')).convert_alpha())
+        self.sprites.append(pygame.image.load(join("assets", "img", "hover_"+ type + '_animation1.png')).convert_alpha())
+        self.sprites.append(pygame.image.load(join("assets", "img", "hover_"+ type + '_animation2.png')).convert_alpha())
+        self.sprites.append(pygame.image.load(join("assets", "img", "hover_"+ type + '_animation3.png')).convert_alpha())
+        self.sprites.append(pygame.image.load(join("assets", "img", "hover_"+ type + '_animation4.png')).convert_alpha())
+        self.sprites.append(pygame.image.load(join("assets", "img", "hover_"+ type + '_animation5.png')).convert_alpha())
+        self.sprites.append(pygame.image.load(join("assets", "img", "hover_"+ type + '_animation6.png')).convert_alpha())
+        self.sprites.append(pygame.image.load(join("assets", "img", "hover_"+ type + '_animation7.png')).convert_alpha())
+        self.sprites.append(pygame.image.load(join("assets", "img", "hover_"+ type + '_animation8.png')).convert_alpha())
+
+        self.image = self.sprites[self.current_sprite]
         self.rect = self.image.get_rect(center=position)
 
         self.text = TEXT.render(text, True, COLORS[color])
@@ -19,16 +33,38 @@ class Button(pygame.sprite.Sprite):
 
     def draw(self):
         self.screen.blit(self.image, self.rect)
-        self.write_text()
 
     def update(self):
         self.write_text()
+        if self.run_animation:
+            self.animate()
 
     def write_text(self):
         self.screen.blit(self.text, self.text_rect)
 
     def get_rect(self):
         return self.rect
+    
+    def on_hover(self):
+        self.start_animation()
+
+    def reset_hover(self):
+        self.current_sprite = 0 
+        self.image = self.sprites[self.current_sprite]
+
+    def animate(self):
+        self.current_sprite += 0.8
+        print(self.type)
+        if self.current_sprite >= len(self.sprites):
+            self.current_sprite = len(self.sprites) - 1
+            self.stop_animation()
+        self.image = self.sprites[int(self.current_sprite)]
+
+    def start_animation(self):
+        self.run_animation = True
+
+    def stop_animation(self):
+        self.run_animation = False
 
     def check_notify_state(self, state: str):
         state_change = False

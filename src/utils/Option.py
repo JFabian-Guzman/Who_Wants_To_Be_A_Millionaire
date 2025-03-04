@@ -5,11 +5,27 @@ class Option(pygame.sprite.Sprite):
   def __init__(self, text , position, groups):
     super().__init__(groups)
 
+    self.sprites = []
     self.screen = pygame.display.get_surface()
+    self.current_sprite = 0
+    self.run_animation = False
+    self.animation_callback = None
+    
 
-    self.image = pygame.image.load(join("assets", "img" ,"option.png")).convert_alpha()
+
+    self.option_blue = pygame.image.load(join("assets", "img" ,"option.png")).convert_alpha()
+    self.option_organe = pygame.image.load(join("assets", "img" ,"option_animation1.png")).convert_alpha()
+    option_green = pygame.image.load(join("assets", "img" ,"option_animation2.png")).convert_alpha()
+
+    self.sprites.append(self.option_blue)
+    self.sprites.append(option_green)
+    self.sprites.append(self.option_organe)
+    self.sprites.append(option_green)
+    self.sprites.append(self.option_organe)
+    self.sprites.append(option_green)
+
+    self.image = self.sprites[self.current_sprite]
     self.rect = self.image.get_rect(center = position)
-
     self.display_text = self.wrap_text(text)
     
     self.text = TEXT.render(self.display_text, True, COLORS["WHITE"])
@@ -27,9 +43,38 @@ class Option(pygame.sprite.Sprite):
 
   def update(self):
     self.screen.blit(self.text, self.text_rect)
+    if self.run_animation:
+      self.animate()
+      
+
+  def animate(self):
+    self.current_sprite += 0.105
+    if self.current_sprite >= len(self.sprites):
+      self.current_sprite = 0
+      self.stop_animation()
+    self.image = self.sprites[int(self.current_sprite)]
+    
+  def on_hover(self):
+    if not self.run_animation:
+      self.sprites[0] = self.option_organe
+      self.image = self.sprites[0]
+
+  def reset_hover(self):
+    if not self.run_animation:
+      self.sprites[0] = self.option_blue
+      self.image = self.sprites[0]
 
   def get_rect(self):
     return self.rect
+  
+  def start_animation(self, callback=None):
+    self.run_animation = True
+    self.animation_callback = callback
+
+  def stop_animation(self):
+    self.run_animation = False
+    if self.animation_callback:
+      self.animation_callback()
 
   def get_title(self):
     return self.display_text

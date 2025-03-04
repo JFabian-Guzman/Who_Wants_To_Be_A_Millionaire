@@ -22,3 +22,8 @@ class Check(pygame.sprite.Sprite):
   def get_state(self):
     return self.is_answer
 
+  def on_hover(self):
+    print("CHECK HOVER")
+
+  def reset_hover(self):
+    pass

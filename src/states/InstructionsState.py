@@ -40,6 +40,7 @@ class Instructions(State):
         self.screen.blit(self.instructions, self.instructions_rect)
         if self.display_continue:
             self.continue_btn.draw()
+            self.continue_btn.update()
 
     def update(self):
         self.elements.update()
