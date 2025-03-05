@@ -32,6 +32,7 @@ class Play(State):
         self.display_surrender_modal = False
         self.active_shield = False
         self.practice_mode = False
+        self.is_option_animating = False
         self.answer = ""
         self.difficulty = ""
         self.question = ""
@@ -123,7 +124,7 @@ class Play(State):
 
     def click_option(self):
         if pygame.mouse.get_pressed()[0]:
-            if not self.click_handled:
+            if not self.click_handled and not self.is_option_animating:
                 for i in range(4):
                     if self.interactive_elements[i].get_rect().collidepoint(pygame.mouse.get_pos()) and self.interactive_elements[i].get_title() != '':
                         self.modal.set_option(i)
@@ -210,7 +211,7 @@ class Play(State):
         option = self.interactive_elements[option_position]
         selected_option = option.get_title().lower()
         correct_answer = self.answer.lower()
-
+        self.is_option_animating = True
         if selected_option == correct_answer:
             option.start_animation(callback=lambda: self.handle_correct_answer())
         else:
@@ -235,13 +236,14 @@ class Play(State):
             self.change_question()
             self.score.next_level()
 
+        self.is_option_animating = False
+
     def handle_wrong_answer(self, option_position):
         if self.active_shield:
             self.active_shield = False
             self.options[option_position] = ''
             return
 
-        # heart position = self.total_lives - self.lives
         self.hearts[self.total_lives - self.lives].disable()
         self.lives -= 1
 
@@ -256,6 +258,7 @@ class Play(State):
             else:
                 self.change_question()
                 self.score.increment_wrong_answers()
+        self.is_option_animating = False
 
     def handle_last_level(self):
         if self.practice_mode:

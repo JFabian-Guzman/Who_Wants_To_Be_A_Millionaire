@@ -12,6 +12,20 @@ class Surrender(pygame.sprite.Sprite):
     self.current_level = 0
     self.disable = False
     self.is_modal_display = False
+    self.run_animation = False
+
+    self.sprites = []
+    self.current_sprite = 0
+
+    self.sprites.append(pygame.image.load(join("assets", "img", 'btn.png')).convert_alpha())
+    self.sprites.append(pygame.image.load(join("assets", "img", "hover_btn_animation1.png")).convert_alpha())
+    self.sprites.append(pygame.image.load(join("assets", "img", "hover_btn_animation2.png")).convert_alpha())
+    self.sprites.append(pygame.image.load(join("assets", "img", "hover_btn_animation3.png")).convert_alpha())
+    self.sprites.append(pygame.image.load(join("assets", "img", "hover_btn_animation4.png")).convert_alpha())
+    self.sprites.append(pygame.image.load(join("assets", "img", "hover_btn_animation5.png")).convert_alpha())
+    self.sprites.append(pygame.image.load(join("assets", "img", "hover_btn_animation6.png")).convert_alpha())
+    self.sprites.append(pygame.image.load(join("assets", "img", "hover_btn_animation7.png")).convert_alpha())
+    self.sprites.append(pygame.image.load(join("assets", "img", "hover_btn_animation8.png")).convert_alpha())  
 
     self.image = pygame.image.load(join("assets", "img" ,"btn.png")).convert_alpha()
     self.rect = self.image.get_rect(center = SURRENDER_POSITION)
@@ -23,6 +37,8 @@ class Surrender(pygame.sprite.Sprite):
     self.screen.blit(self.text, self.text_rect)
     if not self.is_modal_display:
       self.check_surrender()
+    if self.run_animation:
+      self.animate()
 
   def set_level(self, level):
     self.current_level = level
@@ -41,11 +57,24 @@ class Surrender(pygame.sprite.Sprite):
         self.click_handled = False
 
   def on_hover(self):
-    print("SURRENDER HOVER")
+    self.start_animation()
 
   def reset_hover(self):
-    pass
+    self.current_sprite = 0 
+    self.image = self.sprites[self.current_sprite]
 
   def switch_modal_display(self):
     self.is_modal_display = not self.is_modal_display
 
+  def animate(self):
+    self.current_sprite += 0.8
+    if self.current_sprite >= len(self.sprites):
+        self.current_sprite = len(self.sprites) - 1
+        self.stop_animation()
+    self.image = self.sprites[int(self.current_sprite)]
+
+  def start_animation(self):
+    self.run_animation = True
+
+  def stop_animation(self):
+    self.run_animation = False
