@@ -62,7 +62,7 @@ class Difficulty(State):
 
     def draw_difficulty_overlays(self):
         for difficulty in self.difficulties:
-            if not difficulty.get_active():
+            if not difficulty.get_active() and not difficulty.get_hover():
                 difficulty.draw_overlay()
 
     def update(self):

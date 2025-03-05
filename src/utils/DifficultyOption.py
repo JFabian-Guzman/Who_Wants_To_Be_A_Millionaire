@@ -16,6 +16,7 @@ class DifficultyOption(pygame.sprite.Sprite):
 
     self.display_text = self.wrap_text(text)
     self.is_active = False
+    self.is_hovered = False
 
     self.text = TEXT.render(self.display_text, True, COLORS["BLACK"])
     self.text_rect = self.text.get_rect(center = self.rect.center)
@@ -49,10 +50,13 @@ class DifficultyOption(pygame.sprite.Sprite):
     self.is_active = state
 
   def on_hover(self):
-    print("DIFFICULTY OPTION HOVER")
+    self.is_hovered = True
 
   def reset_hover(self):
-    pass
+    self.is_hovered = False
+
+  def get_hover(self):
+    return self.is_hovered
 
   def set_title(self,text):
     self.title = text

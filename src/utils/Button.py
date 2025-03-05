@@ -54,7 +54,6 @@ class Button(pygame.sprite.Sprite):
 
     def animate(self):
         self.current_sprite += 0.8
-        print(self.type)
         if self.current_sprite >= len(self.sprites):
             self.current_sprite = len(self.sprites) - 1
             self.stop_animation()

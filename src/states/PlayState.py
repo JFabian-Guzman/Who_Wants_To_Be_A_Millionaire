@@ -97,6 +97,8 @@ class Play(State):
             self.display_options()
             self.click_option()
             self.click_lifeline()
+            for heart in self.hearts:
+                heart.update()
 
     def display_options(self):
         for i in range(4):
@@ -205,13 +207,14 @@ class Play(State):
 
     def validate_answer(self, *args):
         option_position = args[0]
-        selected_option = self.interactive_elements[option_position].get_title().lower()
+        option = self.interactive_elements[option_position]
+        selected_option = option.get_title().lower()
         correct_answer = self.answer.lower()
 
         if selected_option == correct_answer:
-            self.handle_correct_answer()
+            option.start_animation(callback=lambda: self.handle_correct_answer())
         else:
-            self.handle_wrong_answer(option_position)
+            option.start_animation(callback=lambda: self.handle_wrong_answer(option_position),wrong=True)
 
     def handle_correct_answer(self):
         self.current_level += 1

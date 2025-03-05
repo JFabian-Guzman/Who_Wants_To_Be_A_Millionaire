@@ -9,6 +9,7 @@ class Menu(State):
         super().__init__(event_manager)
         self.options = []
         self.click_handled = False
+        self.is_option_animating = False
         self.setup_options()
         self.setup_logo()
 
@@ -30,18 +31,23 @@ class Menu(State):
         self.update_user_click()
 
     def update_user_click(self):
-        if pygame.mouse.get_pressed()[0]:
-            if not self.click_handled:
-                self.handle_option_click()
+        if pygame.mouse.get_pressed()[0] and not self.click_handled and not self.is_option_animating:
+            self.handle_option_click()
         else:
             self.click_handled = False
 
     def handle_option_click(self):
+        mouse_pos = pygame.mouse.get_pos()
         for option in self.options:
-            if option.get_rect().collidepoint(pygame.mouse.get_pos()):
-                if option.get_title().lower() != 'exit':
-                    option.start_animation(callback=lambda: self.event_manager.notify("set_state", option.get_title().lower()))
-                else:
+            if option.get_rect().collidepoint(mouse_pos):
+                if option.get_title().lower() == 'exit':
                     self.event_manager.notify("stop_game")
-                self.click_handled = True
+                else:
+                    self.is_option_animating = True
+                    option.start_animation(callback=lambda: self.change_state(option))
+                self.click_handled = True    
                 return
+                
+    def change_state(self, option):
+        self.event_manager.notify("set_state", option.get_title().lower())
+        self.is_option_animating = False

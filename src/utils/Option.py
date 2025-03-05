@@ -6,23 +6,31 @@ class Option(pygame.sprite.Sprite):
     super().__init__(groups)
 
     self.sprites = []
+    self.sprites_wrong_answer = []
     self.screen = pygame.display.get_surface()
     self.current_sprite = 0
     self.run_animation = False
     self.animation_callback = None
+    self.is_wrong = False
     
-
-
     self.option_blue = pygame.image.load(join("assets", "img" ,"option.png")).convert_alpha()
     self.option_organe = pygame.image.load(join("assets", "img" ,"option_animation1.png")).convert_alpha()
     option_green = pygame.image.load(join("assets", "img" ,"option_animation2.png")).convert_alpha()
-
+    option_red = pygame.image.load(join("assets", "img" ,"option_wrong.png")).convert_alpha()
+    # Animation for correct answer
     self.sprites.append(self.option_blue)
     self.sprites.append(option_green)
     self.sprites.append(self.option_organe)
     self.sprites.append(option_green)
     self.sprites.append(self.option_organe)
     self.sprites.append(option_green)
+    # Animation for wrong answer
+    self.sprites_wrong_answer.append(self.option_organe)
+    self.sprites_wrong_answer.append(option_red)
+    self.sprites_wrong_answer.append(self.option_organe)
+    self.sprites_wrong_answer.append(option_red)
+    self.sprites_wrong_answer.append(self.option_organe)
+    self.sprites_wrong_answer.append(option_red)
 
     self.image = self.sprites[self.current_sprite]
     self.rect = self.image.get_rect(center = position)
@@ -44,16 +52,29 @@ class Option(pygame.sprite.Sprite):
   def update(self):
     self.screen.blit(self.text, self.text_rect)
     if self.run_animation:
-      self.animate()
-      
+      if self.is_wrong:
+        self.animate_wrong_answer()
+      else:
+        self.animate_correct_answer()
 
-  def animate(self):
+
+  def animate_correct_answer(self):
     self.current_sprite += 0.105
     if self.current_sprite >= len(self.sprites):
       self.current_sprite = 0
       self.stop_animation()
     self.image = self.sprites[int(self.current_sprite)]
     
+  def animate_wrong_answer(self):
+    self.current_sprite += 0.105
+    print(self.current_sprite)
+    if self.current_sprite >= len(self.sprites_wrong_answer):
+      self.current_sprite = 0
+      self.stop_animation()
+    self.image = self.sprites_wrong_answer[int(self.current_sprite)]
+
+    
+  
   def on_hover(self):
     if not self.run_animation:
       self.sprites[0] = self.option_organe
@@ -67,7 +88,8 @@ class Option(pygame.sprite.Sprite):
   def get_rect(self):
     return self.rect
   
-  def start_animation(self, callback=None):
+  def start_animation(self, callback=None, wrong=False):
+    self.is_wrong = wrong
     self.run_animation = True
     self.animation_callback = callback
 
