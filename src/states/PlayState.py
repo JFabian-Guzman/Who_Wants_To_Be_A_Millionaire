@@ -154,6 +154,8 @@ class Play(State):
         elif lifeline.get_type() == "switch_lifeline":
             self.switch()
         elif lifeline.get_type() == "shield_lifeline":
+            for heart in self.hearts:
+                heart.start_animation(shield= True)
             self.active_shield = True
         self.lifelines.remove(lifeline)
         self.animating = False
@@ -246,6 +248,9 @@ class Play(State):
         if self.active_shield:
             self.active_shield = False
             self.options[option_position] = ''
+            for heart in self.hearts:
+                heart.start_animation(shield=True, reverse =True)
+            self.animating = False
             return
 
         self.hearts[self.total_lives - self.lives].disable()
