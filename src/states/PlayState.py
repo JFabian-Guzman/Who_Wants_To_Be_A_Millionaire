@@ -32,7 +32,7 @@ class Play(State):
         self.display_surrender_modal = False
         self.active_shield = False
         self.practice_mode = False
-        self.is_option_animating = False
+        self.animating = False
         self.answer = ""
         self.difficulty = ""
         self.question = ""
@@ -100,6 +100,8 @@ class Play(State):
             self.click_lifeline()
             for heart in self.hearts:
                 heart.update()
+            for lifeline in self.lifelines:
+                lifeline.update()
 
     def display_options(self):
         for i in range(4):
@@ -124,7 +126,7 @@ class Play(State):
 
     def click_option(self):
         if pygame.mouse.get_pressed()[0]:
-            if not self.click_handled and not self.is_option_animating:
+            if not self.click_handled and not self.animating:
                 for i in range(4):
                     if self.interactive_elements[i].get_rect().collidepoint(pygame.mouse.get_pos()) and self.interactive_elements[i].get_title() != '':
                         self.modal.set_option(i)
@@ -136,10 +138,11 @@ class Play(State):
 
     def click_lifeline(self):
         if pygame.mouse.get_pressed()[0]:
-            if not self.click_handled:
+            if not self.click_handled and not self.animating:
                 for lifeline in self.lifelines:
                     if lifeline.get_rect().collidepoint(pygame.mouse.get_pos()):
-                        self.handle_lifeline_click(lifeline)
+                        self.animating = True
+                        lifeline.start_animation(callback=lambda: self.handle_lifeline_click(lifeline))
                         self.click_handled = True
                         return
         else:
@@ -153,7 +156,8 @@ class Play(State):
         elif lifeline.get_type() == "shield_lifeline":
             self.active_shield = True
         self.lifelines.remove(lifeline)
-        lifeline.disable()
+        self.animating = False
+
 
     def switch(self):
         prev_index = self.question_index
@@ -211,7 +215,7 @@ class Play(State):
         option = self.interactive_elements[option_position]
         selected_option = option.get_title().lower()
         correct_answer = self.answer.lower()
-        self.is_option_animating = True
+        self.animating = True
         if selected_option == correct_answer:
             option.start_animation(callback=lambda: self.handle_correct_answer())
         else:
@@ -236,7 +240,7 @@ class Play(State):
             self.change_question()
             self.score.next_level()
 
-        self.is_option_animating = False
+        self.animating = False
 
     def handle_wrong_answer(self, option_position):
         if self.active_shield:
@@ -258,7 +262,7 @@ class Play(State):
             else:
                 self.change_question()
                 self.score.increment_wrong_answers()
-        self.is_option_animating = False
+        self.animating = False
 
     def handle_last_level(self):
         if self.practice_mode:
