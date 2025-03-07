@@ -6,7 +6,9 @@ class LevelBox(pygame.sprite.Sprite):
   def __init__(self, group, position, number: str):
     super().__init__(group)
     self.screen = pygame.display.get_surface()
-    self.image = pygame.image.load(join("assets", "img", "number_box.png")).convert_alpha()
+    self.blue_box = pygame.image.load(join("assets", "img", "number_box.png")).convert_alpha()
+    self.orange_box = pygame.image.load(join("assets", "img", "number_box_orange.png")).convert_alpha()
+    self.image = self.blue_box;
     self.rect = self.image.get_rect(center=(position))
     self.number = number
     self.text = TITLE.render(number, True, COLORS["WHITE"])
@@ -19,7 +21,7 @@ class LevelBox(pygame.sprite.Sprite):
     return self.number
 
   def on_hover(self):
-    print("LEVEL HOVER")
+    self.image = self.orange_box
 
   def reset_hover(self):
-    pass
+    self.image = self.blue_box

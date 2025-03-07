@@ -12,6 +12,7 @@ class Lifeline(pygame.sprite.Sprite):
     self.run_animation = False
     self.current_sprite = 0
     self.animation_callback = None
+    self.hover_img = pygame.image.load(join("assets", "img" ,"lifeline_hover.png")).convert_alpha()
 
     self.sprites.append(pygame.image.load(join("assets", "img" ,"lifeline.png")).convert_alpha())
     self.sprites.append(pygame.image.load(join("assets", "img" ,"lifeline_disable.png")).convert_alpha())
@@ -62,10 +63,10 @@ class Lifeline(pygame.sprite.Sprite):
     self.image = self.sprites[int(self.current_sprite)]
 
   def on_hover(self):
-    pass
+    self.image = self.hover_img
 
   def reset_hover(self):
-    pass
+    self.image = self.sprites[self.current_sprite]
 
   def get_rect(self):
     return self.rect

@@ -41,7 +41,6 @@ class ManageQuestions(State):
     self.check_click()
     self.elements.update()
 
-
   def check_click(self):
     if pygame.mouse.get_pressed()[0]: 
       if not self.click_handled:
