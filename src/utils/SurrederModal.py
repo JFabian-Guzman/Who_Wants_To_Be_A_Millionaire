@@ -17,7 +17,7 @@ class SurrenderModal(pygame.sprite.Sprite):
         self.image = pygame.image.load(join("assets", "img", "question.png")).convert_alpha()
         self.rect = self.image.get_rect(center=MODAL_POSITION)
 
-        self.surrender_message = "You will keep your winnings.\n\nAre you sure you want to surrender?"
+        self.surrender_message = "You will keep your money.\n\nAre you sure you want to surrender?"
         self.text = TEXT.render(self.surrender_message, True, COLORS["WHITE"])
         self.text_rect = self.text.get_rect(center=TEXT_POSITION)
 
@@ -44,6 +44,8 @@ class SurrenderModal(pygame.sprite.Sprite):
         self.elements.update()
         self.update_cursor_state()
         self.check_click()
+        self.no_btn.update()
+        self.yes_btn.update()
 
     def check_click(self):
         if pygame.mouse.get_pressed()[0]:
@@ -62,9 +64,15 @@ class SurrenderModal(pygame.sprite.Sprite):
         self.practice_mode = state
 
     def update_cursor_state(self):
+        hover_detected = False
         for element in self.interactive_elements:
             if element.rect.collidepoint(pygame.mouse.get_pos()):
-                self.event_manager.notify("change_cursor", 'hover')
-                break
-        else:
+                if not hover_detected:
+                    element.on_hover()
+                    self.event_manager.notify("change_cursor", 'hover')
+                    hover_detected = True
+            else:
+                element.reset_hover()
+
+        if not hover_detected:
             self.event_manager.notify("change_cursor", 'default')
