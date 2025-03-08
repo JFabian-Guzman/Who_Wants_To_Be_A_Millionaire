@@ -3,7 +3,7 @@ from os.path import join
 from .State import *
 from utils.Button import *
 from utils.Box import *
-from utils.TextInput import *
+
 from utils.CheckAnswer import *
 
 BTN_POSITION = (WINDOW_WIDTH // 2 - 350, 75)
@@ -42,6 +42,7 @@ class Edit(State):
             self.option_rects.append(self.option_background.get_rect(center=position))
             self.inputs.append(TextInput(position, 350, 60, event_manager, 'option'))
         for input in self.inputs:
+            self.interactive_elements.append(input)
             input.set_up_input_events()
 
     def setup_buttons(self, event_manager):
@@ -179,3 +180,5 @@ class Edit(State):
     def set_up_edit_events(self):
         self.event_manager.subscribe("set_edit_data", self.set_data)
         self.event_manager.subscribe("warning", self.set_warning)
+
+    

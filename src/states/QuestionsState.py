@@ -150,6 +150,16 @@ class Questions(State):
 
     def check_hover_on_icons(self):
         for box in self.boxes:
-            if box.get_interactive_elements()[0].rect.collidepoint(pygame.mouse.get_pos()) or box.get_interactive_elements()[1].rect.collidepoint(pygame.mouse.get_pos()):
+            if box.get_interactive_elements()[0].rect.collidepoint(pygame.mouse.get_pos()):
+                box.get_interactive_elements()[0].on_hover()
                 self.event_manager.notify("change_cursor", 'hover')
                 break
+            else:
+                box.get_interactive_elements()[0].reset_hover()
+            
+            if  box.get_interactive_elements()[1].rect.collidepoint(pygame.mouse.get_pos()):
+                box.get_interactive_elements()[1].on_hover()
+                self.event_manager.notify("change_cursor", 'hover')
+                break
+            else:
+                box.get_interactive_elements()[1].reset_hover()

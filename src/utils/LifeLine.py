@@ -40,8 +40,6 @@ class Lifeline(pygame.sprite.Sprite):
     self.available = True
 
   def fifty_fifty_lifeline(self, options, answer):
-    if not self.available:
-      return
     result = []
     random_option = random.choice(options)
     while random_option == answer or random_option == '':
@@ -63,10 +61,11 @@ class Lifeline(pygame.sprite.Sprite):
     self.image = self.sprites[int(self.current_sprite)]
 
   def on_hover(self):
-    self.image = self.hover_img
+    if self.available:
+      self.image = self.hover_img
 
   def reset_hover(self):
-    self.image = self.sprites[self.current_sprite]
+    self.image = self.sprites[int(self.current_sprite)]
 
   def get_rect(self):
     return self.rect
@@ -80,5 +79,6 @@ class Lifeline(pygame.sprite.Sprite):
 
   def stop_animation(self):
     self.run_animation = False
+    self.available = False
     if self.animation_callback:
       self.animation_callback()

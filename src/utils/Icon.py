@@ -5,14 +5,17 @@ class Icon(pygame.sprite.Sprite):
     def __init__(self, position, name):
         super().__init__()
         self.screen = pygame.display.get_surface()
-        self.image = pygame.image.load(join("assets", "img", name + '.png')).convert_alpha()
+
+        self.icon = pygame.image.load(join("assets", "img", name + '.png')).convert_alpha()
+        self.icon_hover = pygame.image.load(join("assets", "img", name + '_hover.png')).convert_alpha()
+        self.image = self.icon
         self.rect = self.image.get_rect(midright=position)
 
     def draw(self):
         self.screen.blit(self.image, self.rect)
 
     def on_hover(self):
-        print("ICON HOVER")
+        self.image = self.icon_hover
 
     def reset_hover(self):
-        pass
+        self.image = self.icon

@@ -16,6 +16,9 @@ class Cursor(pygame.sprite.Sprite):
       self.image = pygame.image.load(join("assets", "img", "hover_cursor.png")).convert_alpha()
     elif mouse_type == 'default':
       self.image = pygame.image.load(join("assets", "img", "cursor.png")).convert_alpha()
+    elif mouse_type == 'text':
+      self.image = pygame.image.load(join("assets", "img", "text_cursor.png")).convert_alpha()
+
 
   def update(self):
     self.rect.topleft = pygame.mouse.get_pos()

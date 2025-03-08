@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 from utils.EventManager import *
 from config.settings import *
+from utils.TextInput import *
 
 class State(ABC):
   def __init__(self, event_manager: EventManager):
@@ -32,7 +33,11 @@ class State(ABC):
     hover_detected = False
     for element in self.interactive_elements:
         if element.rect.collidepoint(pygame.mouse.get_pos()):
-            if not hover_detected:
+            if isinstance(element, TextInput):
+                element.on_hover()
+                self.event_manager.notify("change_cursor", 'text')
+                hover_detected = True
+            elif not hover_detected:
                 element.on_hover()
                 self.event_manager.notify("change_cursor", 'hover')
                 hover_detected = True

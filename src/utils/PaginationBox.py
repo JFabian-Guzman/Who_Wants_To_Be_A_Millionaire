@@ -5,7 +5,9 @@ class PaginationBox(pygame.sprite.Sprite):
     def __init__(self, position, number):
         super().__init__()
         self.screen = pygame.display.get_surface()
-        self.image = pygame.image.load(join("assets", "img", 'pagination_box.png')).convert_alpha()
+        self.blue_box = pygame.image.load(join("assets", "img", 'pagination_box.png')).convert_alpha()
+        self.blue_box_hover = pygame.image.load(join("assets", "img", 'pagination_box_hover.png')).convert_alpha()
+        self.image = self.blue_box
         self.rect = self.image.get_rect(center=position)
         
         self.number = int(number)
@@ -21,7 +23,7 @@ class PaginationBox(pygame.sprite.Sprite):
         return self.number
 
     def on_hover(self):
-        print("PAGINATION HOVER")
+        self.image = self.blue_box_hover
 
     def reset_hover(self):
-        pass
+        self.image = self.blue_box

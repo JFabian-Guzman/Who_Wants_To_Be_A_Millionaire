@@ -86,5 +86,13 @@ class TextInput:
                         self.event_manager.notify("warning", QUESTION_MAX_LENGTH_WARNING)
                     
 
+    def on_hover(self):
+        self.color = self.color_active
+
+    def reset_hover(self):
+        if not self.active:
+            self.color = self.color_passive
+
+
     def set_up_input_events(self):
         self.event_manager.subscribe("keyboard_input", self.check_keyboard_input)

@@ -225,6 +225,9 @@ class Play(State):
 
     def handle_correct_answer(self):
         self.current_level += 1
+        if self.active_shield:
+            for heart in self.hearts:
+                heart.start_animation(shield=True, reverse =True)
         self.active_shield = False
         self.surrender.set_level(self.current_level)
 

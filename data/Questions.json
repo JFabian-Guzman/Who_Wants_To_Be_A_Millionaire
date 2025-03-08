@@ -1,10 +1,10 @@
 [
     {
         "id": 1,
-        "question": "What is the capital of France?csdcasdasdasdasdasdasdjbnxcjzknzxcjnzjkcnjzxncjzxncjknzxcjknzxjcknzxjkcnzxjkncjkzxncjkznxcjknzxjkc",
-        "answer": "Cartago",
+        "question": "What is the capital of France?",
+        "answer": "Paris",
         "options": [
-            "Parisdasndjasndjksanjdnasjdnasjkndkajsndjknasdjk",
+            "Paris",
             "San Jose",
             "Cartago",
             "Lima"
@@ -36,18 +36,6 @@
         "level": 0
     },
     {
-        "id": 4,
-        "question": "Who wrote 'To Kill a Mockingbird'?",
-        "answer": "Harper Lee",
-        "options": [
-            "Harper Lee",
-            "Mark Twain",
-            "Ernest Hemingway",
-            "F. Scott Fitzgerald"
-        ],
-        "level": 0
-    },
-    {
         "id": 5,
         "question": "What is the chemical symbol for water?",
         "answer": "H2O",
@@ -56,18 +44,6 @@
             "H2O",
             "CO2",
             "NaCl"
-        ],
-        "level": 0
-    },
-    {
-        "id": 6,
-        "question": "What is the speed of light?",
-        "answer": "299,792,458 mps",
-        "options": [
-            "150,000,000 mps",
-            "299,792,458 mps",
-            "300,000,000 mps",
-            "299,792,000 mps"
         ],
         "level": 0
     },
@@ -178,18 +154,6 @@
             "Hiroshima"
         ],
         "level": 1
-    },
-    {
-        "id": 16,
-        "question": "What is the boiling point of water?",
-        "answer": "100\u00c2\u00b0C",
-        "options": [
-            "90\u00c2\u00b0C",
-            "100\u00c2\u00b0C",
-            "110\u00c2\u00b0C",
-            "120\u00c2\u00b0C"
-        ],
-        "level": 2
     },
     {
         "id": 17,
