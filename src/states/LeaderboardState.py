@@ -2,6 +2,7 @@ from config.settings import *
 from os.path import join
 from .State import *
 from utils.Button import *
+from utils.PodiumBox import *
 
 TITLE_POSITION = (WINDOW_WIDTH // 2, 75)
 BTN_POSITION = (WINDOW_WIDTH // 2 - 350, 75)
@@ -18,12 +19,11 @@ class Leaderboard(State):
     self.text = TITLE.render("Leaderboard", True, COLORS["BLACK"])
     self.text_rect = self.text.get_rect(center=TITLE_POSITION)
     self.back_btn = Button(self.elements, BTN_POSITION, self.event_manager, 'negative_btn', 'Go Back', 'WHITE')
-    self.box_img = pygame.image.load(join("assets", "img", "leaderboard_box.png")).convert_alpha()
-    self.boxs = []
+    self.podiums = []
 
     for i in range(5):
       position = (WINDOW_WIDTH//2 , WINDOW_HEIGHT//2 - 175 + (100 * i))
-      self.boxs.append(self.box_img.get_rect(center=position)) 
+      self.podiums.append(PodiumBox(self.elements,position))
 
     self.interactive_elements.append(self.back_btn)
 
@@ -31,9 +31,14 @@ class Leaderboard(State):
     self.elements.draw(self.screen)
     self.screen.blit(self.title_background, self.title_background_rect)
     self.screen.blit(self.text, self.text_rect)
-    for box in self.boxs:
-      self.screen.blit(self.box_img, box)
+    for podium in self.podiums:
+      podium.draw()
     
+  def set_podiums(self, players):
+    sorted_players = sorted(players, key=lambda player: player["Points"], reverse=True)
+    for i, podium in enumerate(self.podiums):
+      podium.set_data(sorted_players[i]["Name"],str(sorted_players[i]["Points"]),i)
+
   def update(self):
     self.elements.update()
     self.update_cursor_state()
@@ -47,4 +52,5 @@ class Leaderboard(State):
     else:
         self.click_handled = False
 
-
+  def set_up_leaderboard_events(self):
+    self.event_manager.subscribe("set_podiums", self.set_podiums)

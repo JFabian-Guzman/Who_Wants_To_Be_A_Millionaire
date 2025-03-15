@@ -23,6 +23,9 @@ class StateMachine:
     elif state == "questions":
       self.event_manager.notify("load_data")
       self.event_manager.notify("fetch_questions")
+    elif state == "leaderboard":
+      self.event_manager.notify("get_podium")
+
 
     self.current_state = self.states[state]
     self.current_state.set_click_handle(True)

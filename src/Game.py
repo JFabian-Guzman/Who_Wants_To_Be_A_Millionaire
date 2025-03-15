@@ -87,6 +87,7 @@ class Game:
     self.questions.set_up_question_events()
     self.edit.set_up_edit_events()
     self.add.set_up_add_events()
+    self.leaderboard.set_up_leaderboard_events()
 
     #default state
     self.event_manager.notify("set_state", "menu")
