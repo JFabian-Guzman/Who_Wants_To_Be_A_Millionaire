@@ -9,7 +9,7 @@ from utils.FileManager import *
 from states.PlayState import *
 from states.InstructionsState import *
 from states.CreditsState import *
-from states.GlossaryState import *
+from states.LeaderboardState import *
 from states.ManageQuestionsState import *
 from states.RewardState import *
 from states.WinState import *
@@ -49,7 +49,7 @@ class Game:
     self.instructions = Instructions(self.event_manager)
     self.manage_questions = ManageQuestions(self.event_manager)
     self.credits = Credits(self.event_manager)
-    self.glossary = Glossary(self.event_manager)
+    self.leaderboard = Leaderboard(self.event_manager)
     self.rewards = Rewards(self.event_manager)
     self.win = Win(self.event_manager)
     self.game_over = GameOver(self.event_manager)
@@ -65,7 +65,7 @@ class Game:
     self.state_machine.add_state("instructions", self.instructions)
     self.state_machine.add_state("manage questions", self.manage_questions)
     self.state_machine.add_state("credits", self.credits)
-    self.state_machine.add_state("glossary", self.glossary)
+    self.state_machine.add_state("leaderboard", self.leaderboard)
     self.state_machine.add_state("rewards", self.rewards)
     self.state_machine.add_state("win", self.win)
     self.state_machine.add_state("game over", self.game_over)
@@ -74,7 +74,6 @@ class Game:
     self.state_machine.add_state("questions", self.questions)
     self.state_machine.add_state("edit", self.edit)
     self.state_machine.add_state("add", self.add)
-    
     
     #set up events
     self.set_up_game_events()
