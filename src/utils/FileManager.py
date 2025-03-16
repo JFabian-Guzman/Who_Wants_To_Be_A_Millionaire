@@ -122,6 +122,18 @@ class FileManager():
     print(f"Successfully deleted object with ID {id}.")
     
 
+  def get_podium(self, *args):
+    file_path = join("data", "Players.json")
+    if not isfile(file_path):
+        print("Error: File not found.")
+        return
+    
+
+    with open(file_path, "r") as file:
+      data_file = json.load(file)
+
+    self.event_manager.notify("set_podiums", data_file)
+
   def get_data(self):
     return self.data
 
@@ -130,3 +142,4 @@ class FileManager():
     self.event_manager.subscribe("edit_file", self.edit_file)
     self.event_manager.subscribe("add_file", self.add_file)
     self.event_manager.subscribe("delete", self.delete)
+    self.event_manager.subscribe("get_podium", self.get_podium)

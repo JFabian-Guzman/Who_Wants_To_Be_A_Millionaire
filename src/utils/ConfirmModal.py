@@ -66,9 +66,15 @@ class ConfirmModal(pygame.sprite.Sprite):
             self.click_handled = False
 
     def update_cursor_state(self):
+        hover_detected = False
         for element in self.interactive_elements:
             if element.rect.collidepoint(pygame.mouse.get_pos()):
-                self.event_manager.notify("change_cursor", 'hover')
-                break
-        else:
+                if not hover_detected:
+                    element.on_hover()
+                    self.event_manager.notify("change_cursor", 'hover')
+                    hover_detected = True
+            else:
+                element.reset_hover()
+
+        if not hover_detected:
             self.event_manager.notify("change_cursor", 'default')

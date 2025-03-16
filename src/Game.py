@@ -91,6 +91,7 @@ class Game:
     self.edit.set_up_edit_events()
     self.add.set_up_add_events()
     self.player.set_up_player_events()
+    self.leaderboard.set_up_leaderboard_events()
 
     #default state
     self.event_manager.notify("set_state", "menu")
