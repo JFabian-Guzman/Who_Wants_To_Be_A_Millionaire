@@ -76,7 +76,7 @@ class TextInput:
         event = args[0]
         if self.active:
             if event.key != pygame.K_BACKSPACE:
-                if (self.type == 'option' and len(self.input) < MAX_LENGTH_OPTIONS) or (self.type == 'question' and len(self.input) < MAX_LENGTH_QUESTION):
+                if (self.type == 'option' and len(self.input) < MAX_LENGTH_OPTIONS) or (self.type == 'question' and len(self.input) < MAX_LENGTH_QUESTION) or (self.type == 'name' and len(self.input) < MAX_NAME_LENGTH):
                     self.event_manager.notify("warning", '')
                     self.input += event.unicode
                 else:

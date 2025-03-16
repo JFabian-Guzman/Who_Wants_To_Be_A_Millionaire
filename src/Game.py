@@ -19,6 +19,7 @@ from states.PracticeSummaryState import *
 from states.QuestionsState import *
 from states.EditState import * 
 from states.AddState import *
+from states.PlayerState import *
 
 class Game:
   def __init__(self):
@@ -58,6 +59,7 @@ class Game:
     self.questions = Questions(self.event_manager , self.file_manager)
     self.edit = Edit(self.event_manager)
     self.add = Add(self.event_manager)
+    self.player = Player(self.event_manager)
 
     # Add states to the state_machine
     self.state_machine.add_state("menu", self.menu)
@@ -74,6 +76,7 @@ class Game:
     self.state_machine.add_state("questions", self.questions)
     self.state_machine.add_state("edit", self.edit)
     self.state_machine.add_state("add", self.add)
+    self.state_machine.add_state("player", self.player)
     
     #set up events
     self.set_up_game_events()
@@ -87,6 +90,7 @@ class Game:
     self.questions.set_up_question_events()
     self.edit.set_up_edit_events()
     self.add.set_up_add_events()
+    self.player.set_up_player_events()
 
     #default state
     self.event_manager.notify("set_state", "menu")

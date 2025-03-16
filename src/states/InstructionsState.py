@@ -51,7 +51,7 @@ class Instructions(State):
         if pygame.mouse.get_pressed()[0]:
             if not self.click_handled:
                 self.continue_btn.check_notify_state("rewards")
-                self.back_btn.check_notify_state("menu")
+                self.back_btn.check_notify_state("player")
                 self.click_handled = True
         else:
             self.click_handled = False
