@@ -55,7 +55,6 @@ class Heart(pygame.sprite.Sprite):
 
   def animate_destruction(self):
     self.current_sprite += 0.105
-    print(self.current_sprite)
     if self.current_sprite >= len(self.sprites):
         self.active = False
         self.current_sprite = len(self.sprites) - 1
@@ -65,13 +64,11 @@ class Heart(pygame.sprite.Sprite):
   def animate_shield(self):
     if self.reverse_animation:
         self.current_sprite -= 0.105
-        print(self.current_sprite)
         if self.current_sprite <= 0:
             self.current_sprite = 0
             self.stop_animation()
     else:
         self.current_sprite += 0.105
-        print(self.current_sprite)
         if self.current_sprite >= len(self.shield_sprites):
             self.current_sprite = len(self.shield_sprites) - 1
             self.stop_animation()

@@ -27,6 +27,7 @@ class Play(State):
         self.number_questions = 0
         self.correct_answers = 0
         self.wrong_answer = 0
+        self.final_score = 0
         self.click_handled = False
         self.display_modal = False
         self.display_surrender_modal = False
@@ -36,13 +37,17 @@ class Play(State):
         self.answer = ""
         self.difficulty = ""
         self.question = ""
+        self.player_name  = ""
         self.options = []
         self.lifelines = []
         self.file_manager = file_manager
+        self.start_time = pygame.time.get_ticks()
+        
 
         self.setup_interactive_elements()
         self.setup_lifelines()
         self.setup_hearts()
+        self.get_last_level()
 
         # Set up events
         self.question.set_up_question_events()
@@ -71,6 +76,10 @@ class Play(State):
             heart_position = (WINDOW_WIDTH / 2 + 425 - (50 * i), WINDOW_HEIGHT / 2 - 275)
             self.hearts.append(Heart(heart_position))
 
+    def get_last_level(self):
+        self.last_level = self.file_manager.get_last_level()
+
+        
     def draw(self):
         self.elements.draw(self.screen)
         self.draw_lifelines()
@@ -171,13 +180,17 @@ class Play(State):
     def start_game(self, *args):
         self.save_level = 0
         self.current_level = 0
+        self.final_score = 0
         self.practice_mode = False
         self.score.set_practice_mode(False)
 
+        self.get_last_level()
+        print("LASTTTT: " + str(self.last_level))
         self.load_difficulty()
         self.reset_hearts()
         self.score.restart()
         self.reset_lifelines()
+        self.restart_timer()
 
     def load_difficulty(self):
         if self.difficulty == 'Practice':
@@ -192,6 +205,14 @@ class Play(State):
             self.lives = 3
         elif self.difficulty == 'Hard':
             self.lives = 1
+
+    def restart_timer(self):
+        self.start_time = pygame.time.get_ticks()
+
+    def calc_score(self):
+        max_score = 100 * self.current_level
+        elapsed_time = round((pygame.time.get_ticks() - self.start_time) / 1000)
+        self.final_score += round(max_score / max(elapsed_time, 1))
 
     def reset_hearts(self):
         for i in range(self.lives):
@@ -229,7 +250,6 @@ class Play(State):
             for heart in self.hearts:
                 heart.start_animation(shield=True, reverse =True)
         self.active_shield = False
-        self.surrender.set_level(self.current_level)
 
         # Save levels (5,10,15)
         if self.current_level % 5 == 0:
@@ -239,11 +259,13 @@ class Play(State):
             self.score.increment_correct_answers()
             self.correct_answers += 1
 
-        if self.current_level == LAST_LEVEL:
+        if self.current_level == self.last_level:
             self.handle_last_level()
         else:
+            self.calc_score()
+            self.restart_timer()
             self.change_question()
-            self.score.next_level()
+            self.score.set_score(self.final_score)
 
         self.animating = False
 
@@ -265,7 +287,7 @@ class Play(State):
         elif self.practice_mode:
             self.current_level += 1
             self.wrong_answer += 1
-            if self.current_level == LAST_LEVEL:
+            if self.current_level == self.last_level:
                 self.display_practice_summary()
             else:
                 self.change_question()
@@ -300,10 +322,16 @@ class Play(State):
             self.display_practice_summary()
         else:
             self.event_manager.notify("set_state", "win")
-            self.event_manager.notify("final_reward", self.current_level)
+            self.event_manager.notify("final_reward", self.final_score)
 
     def set_difficulty(self, *args):
         self.difficulty = args[0]
+
+    def set_options(self, options):
+        self.options = options
+
+    def set_name(self, *args):
+        self.player_name = args[0]
 
     def set_up_play_events(self):
         self.event_manager.subscribe("display_question", self.update_display_data)
@@ -315,6 +343,4 @@ class Play(State):
         self.event_manager.subscribe("display_surrender_modal", self.switch_surrender_modal)
         self.event_manager.subscribe("display_final_screen", self.display_final_screen)
         self.event_manager.subscribe("set_difficulty", self.set_difficulty)
-
-    def set_options(self, options):
-        self.options = options
+        self.event_manager.subscribe("set_player_name", self.set_name)

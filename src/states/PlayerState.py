@@ -66,6 +66,7 @@ class Player(State):
             if(self.name_input.get_input_text() == ''):
                 self.display_error = True
             else:
+                self.event_manager.notify("set_player_name", self.name_input.get_input_text())
                 self.clear()
                 self.continue_btn.check_notify_state("instructions")
                 self.event_manager.notify("display_continue_btn")

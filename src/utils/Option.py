@@ -67,7 +67,6 @@ class Option(pygame.sprite.Sprite):
     
   def animate_wrong_answer(self):
     self.current_sprite += 0.105
-    print(self.current_sprite)
     if self.current_sprite >= len(self.sprites_wrong_answer):
       self.current_sprite = 0
       self.stop_animation()

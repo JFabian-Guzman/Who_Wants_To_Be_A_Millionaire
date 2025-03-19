@@ -17,6 +17,7 @@ class Score(pygame.sprite.Sprite):
         self.practice_mode = False
         self.correct_answers = 0
         self.wrong_answers = 0
+        self.score = 0
 
         self.update_rewards()
         self.add_coin()
@@ -52,10 +53,9 @@ class Score(pygame.sprite.Sprite):
     def update_normal_mode(self):
         self.screen.blit(self.text, self.text_rect)
         self.elements.draw(self.screen)
-        self.update_rewards()
 
     def update_rewards(self):
-        self.text = TITLE.render(REWARDS[self.current_level], True, COLORS["BLACK"])
+        self.text = TITLE.render(str(self.score), True, COLORS["BLACK"])
         self.text_rect = self.text.get_rect(center=self.rect.center)
 
     def update_score_board(self):
@@ -67,6 +67,10 @@ class Score(pygame.sprite.Sprite):
 
     def next_level(self):
         self.current_level += 1
+
+    def set_score(self, score):
+        self.score = score
+        self.update_rewards()
 
     def restart(self):
         self.current_level = 0

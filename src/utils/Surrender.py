@@ -9,7 +9,6 @@ class Surrender(pygame.sprite.Sprite):
     self.screen = pygame.display.get_surface()
     self.event_manager = event_manager
     self.click_handled = False
-    self.current_level = 0
     self.disable = False
     self.is_modal_display = False
     self.run_animation = False
@@ -39,9 +38,6 @@ class Surrender(pygame.sprite.Sprite):
       self.check_surrender()
     if self.run_animation:
       self.animate()
-
-  def set_level(self, level):
-    self.current_level = level
 
   def set_disable(self, *args):
     self.disable = args[0]

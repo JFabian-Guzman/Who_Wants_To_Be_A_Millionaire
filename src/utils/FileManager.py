@@ -19,7 +19,6 @@ class FileManager():
 
   def edit_file(self, *args):
         data = args[0]
-        print("DATAAA:" + str(data))
         new_data = {
           "question": data[0],
           "options": [data[1], data[2], data[3], data[4]],
@@ -136,6 +135,12 @@ class FileManager():
 
   def get_data(self):
     return self.data
+  
+  def get_last_level(self):
+    for level in range(len(self.data)):
+        if not self.data[level]:  
+            return level if level > 0 else 0
+    return len(self.data) 
 
   def set_up_file_events(self):
     self.event_manager.subscribe("load_data", self.load_data)

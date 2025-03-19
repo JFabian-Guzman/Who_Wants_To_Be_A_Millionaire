@@ -54,7 +54,6 @@ class Lifeline(pygame.sprite.Sprite):
 
   def animate(self):
     self.current_sprite += 0.075
-    print(self.current_sprite)
     if self.current_sprite >= len(self.sprites):
         self.current_sprite = len(self.sprites) - 1
         self.stop_animation()

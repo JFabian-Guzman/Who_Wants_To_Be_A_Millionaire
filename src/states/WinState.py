@@ -49,7 +49,7 @@ class Win(State):
         ]
 
     def set_reward(self, *args):
-        self.reward_message = "You win " + REWARDS[args[0]]
+        self.reward_message = "You win " + str(args[0])
         self.update_text_elements()
 
     def check_click(self):
