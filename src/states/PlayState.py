@@ -9,6 +9,8 @@ from utils.ConfirmModal import *
 from utils.SurrederModal import *
 from utils.LifeLine import *
 from utils.Heart import *
+from utils.Clock import *
+from utils.Checkpoint import *
 import random
 
 LIFELINE_1_POSITION = (WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2 - 275)
@@ -19,7 +21,7 @@ class Play(State):
     def __init__(self, event_manager, file_manager):
         super().__init__(event_manager)
 
-        self.save_level = 0
+        self.save_score = 0
         self.current_level = 0
         self.question_index = 0
         self.total_lives = 0
@@ -56,7 +58,9 @@ class Play(State):
         for position in OPTION_POSITIONS:
             self.interactive_elements.append(Option("", position, self.elements))
         self.question = Question(self.elements, self.event_manager)
+        self.clock = Clock(self.elements)
         self.score = Score(self.elements)
+        self.checkpoint = Checkpoint()
         self.surrender = Surrender(self.elements, self.event_manager)
         self.modal = ConfirmModal(self.event_manager)
         self.surrender_modal = SurrenderModal(self.event_manager)
@@ -84,6 +88,7 @@ class Play(State):
         self.elements.draw(self.screen)
         self.draw_lifelines()
         self.draw_hearts()
+        self.checkpoint.draw()
 
     def draw_lifelines(self):
         self.shield_lifeline.draw()
@@ -96,6 +101,7 @@ class Play(State):
 
     def update(self):
         self.elements.update()
+        self.clock.update_time()    
         if self.display_modal:
             self.modal.draw()
             self.modal.update()
@@ -103,6 +109,7 @@ class Play(State):
             self.surrender_modal.draw()
             self.surrender_modal.update()
         else:
+            self.checkpoint.update()
             self.update_cursor_state()
             self.display_options()
             self.click_option()
@@ -124,7 +131,7 @@ class Play(State):
             while self.question == self.file_manager.get_data()[self.current_level][self.question_index]["question"]:
                 self.question_index = random.randrange(self.number_questions)
 
-    def update_display_data(self, *args):
+    def update_display_data(self, *args): 
         self.options = self.file_manager.get_data()[self.current_level][self.question_index]["options"]
         self.answer = self.file_manager.get_data()[self.current_level][self.question_index]["answer"]
         self.question = self.file_manager.get_data()[self.current_level][self.question_index]["question"]
@@ -178,14 +185,14 @@ class Play(State):
             self.shuffle_options()
 
     def start_game(self, *args):
-        self.save_level = 0
+        self.save_score = 0
         self.current_level = 0
         self.final_score = 0
         self.practice_mode = False
         self.score.set_practice_mode(False)
+        self.score.set_score(self.final_score)
 
         self.get_last_level()
-        print("LASTTTT: " + str(self.last_level))
         self.load_difficulty()
         self.reset_hearts()
         self.score.restart()
@@ -208,6 +215,7 @@ class Play(State):
 
     def restart_timer(self):
         self.start_time = pygame.time.get_ticks()
+        self.clock.restart_time()
 
     def calc_score(self):
         max_score = 100 * self.current_level
@@ -253,19 +261,20 @@ class Play(State):
 
         # Save levels (5,10,15)
         if self.current_level % 5 == 0:
-            self.save_level = self.current_level
+            self.save_score = self.final_score
 
         if self.practice_mode:
             self.score.increment_correct_answers()
             self.correct_answers += 1
 
         if self.current_level == self.last_level:
-            self.handle_last_level()
+            self.display_final_screen()
         else:
             self.calc_score()
             self.restart_timer()
             self.change_question()
             self.score.set_score(self.final_score)
+            self.score.set_level(self.current_level + 1)
 
         self.animating = False
 
@@ -282,7 +291,7 @@ class Play(State):
         self.lives -= 1
 
         if self.lives == 0 and not self.practice_mode:
-            self.event_manager.notify("game_over_message", (self.answer, self.save_level))
+            self.event_manager.notify("game_over_message", (self.answer, self.save_score))
             self.event_manager.notify("set_state", "game over")
         elif self.practice_mode:
             self.current_level += 1
@@ -293,13 +302,6 @@ class Play(State):
                 self.change_question()
                 self.score.increment_wrong_answers()
         self.animating = False
-
-    def handle_last_level(self):
-        if self.practice_mode:
-            self.display_practice_summary()
-        else:
-            self.event_manager.notify("set_state", "win")
-            self.event_manager.notify("final_reward", self.current_level - 1)
 
     def display_practice_summary(self):
         self.event_manager.notify("set_state", "practice summary")

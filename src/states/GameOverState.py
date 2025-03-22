@@ -57,7 +57,7 @@ class GameOver(State):
     def set_reward(self, *args):
         data = args[0]
         self.answer = data[0]
-        self.reward = REWARDS[data[1]]
+        self.reward = str(data[1])
         self.update_text_elements()
 
     def check_click(self):

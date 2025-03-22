@@ -8,7 +8,7 @@ from utils.Coin import *
 
 RESTART_POSITION = (WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2 + 75)
 REWARD_POSITION = (WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 + 15)
-COIN_POSITION = (REWARD_POSITION[0] + 75, REWARD_POSITION[1] - 2)
+COIN_POSITION = (REWARD_POSITION[0] + 100, REWARD_POSITION[1] - 2)
 
 class Win(State):
     def __init__(self, event_manager):

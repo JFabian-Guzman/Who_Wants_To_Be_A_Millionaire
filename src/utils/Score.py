@@ -13,7 +13,7 @@ class Score(pygame.sprite.Sprite):
         self.image = pygame.image.load(join("assets", "img", "score.png")).convert_alpha()
         self.rect = self.image.get_rect(center=SCORE_POSITION)
 
-        self.current_level = 0
+        self.current_level = 1
         self.practice_mode = False
         self.correct_answers = 0
         self.wrong_answers = 0
@@ -25,7 +25,7 @@ class Score(pygame.sprite.Sprite):
         self.add_icons()
 
     def add_coin(self):
-        COIN_POSITION = (self.text_rect.right + 20, self.text_rect.centery - 2)
+        COIN_POSITION = (self.text_rect.right + 40, self.text_rect.centery - 2)
         Coin(COIN_POSITION, self.elements)
 
     def add_icons(self):
@@ -55,8 +55,8 @@ class Score(pygame.sprite.Sprite):
         self.elements.draw(self.screen)
 
     def update_rewards(self):
-        self.text = TITLE.render(str(self.score), True, COLORS["BLACK"])
-        self.text_rect = self.text.get_rect(center=self.rect.center)
+            self.text = TITLE.render(str(self.score), True, COLORS["BLACK"])
+            self.text_rect = self.text.get_rect(center=self.rect.center)
 
     def update_score_board(self):
         self.positive_score = TITLE.render(str(self.correct_answers), True, COLORS["BLACK"])
@@ -71,6 +71,9 @@ class Score(pygame.sprite.Sprite):
     def set_score(self, score):
         self.score = score
         self.update_rewards()
+
+    def set_level(self, level):
+        self.current_level = level
 
     def restart(self):
         self.current_level = 0
