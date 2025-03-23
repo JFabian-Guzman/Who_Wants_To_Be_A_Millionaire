@@ -1,22 +1,22 @@
 [
-  {
-    "Name": "Fabián",
-    "Points": 5500
-  },
-  {
-    "Name": "Susana",
-    "Points": 1500
-  },
-  {
-    "Name": "Mario",
-    "Points": 5500
-  },
-  {
-    "Name": "Natalia",
-    "Points": 5000
-  },
-  {
-    "Name": "Carmen",
-    "Points": 9500
-  }
+    {
+        "Name": "player 2",
+        "Points": 772
+    },
+    {
+        "Name": "fabian",
+        "Points": 509
+    },
+    {
+        "Name": "p",
+        "Points": 328
+    },
+    {
+        "Name": "Mario",
+        "Points": 275
+    },
+    {
+        "Name": "m",
+        "Points": 267
+    }
 ]

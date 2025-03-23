@@ -478,29 +478,5 @@
             "4323"
         ],
         "level": 9
-    },
-    {
-        "id": 46,
-        "question": "Perefksdjfnsd",
-        "answer": "correcta",
-        "options": [
-            "correcta",
-            "de",
-            "c",
-            "d"
-        ],
-        "level": 7
-    },
-    {
-        "id": 47,
-        "question": "HOLA",
-        "answer": "correcta",
-        "options": [
-            "f",
-            "d",
-            "c",
-            "correcta"
-        ],
-        "level": 8
     }
 ]

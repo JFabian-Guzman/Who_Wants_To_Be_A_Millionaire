@@ -48,3 +48,6 @@ class Checkpoint(pygame.sprite.Sprite):
 
   def stop_animation(self):
     self.run_animation = False
+
+  def restart_animation(self):
+    self.current_sprite = 0

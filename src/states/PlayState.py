@@ -88,7 +88,8 @@ class Play(State):
         self.elements.draw(self.screen)
         self.draw_lifelines()
         self.draw_hearts()
-        self.checkpoint.draw()
+        if self.current_level % 5 == 0 and self.current_level > 0:
+            self.checkpoint.draw()
 
     def draw_lifelines(self):
         self.shield_lifeline.draw()
@@ -109,7 +110,6 @@ class Play(State):
             self.surrender_modal.draw()
             self.surrender_modal.update()
         else:
-            self.checkpoint.update()
             self.update_cursor_state()
             self.display_options()
             self.click_option()
@@ -118,6 +118,9 @@ class Play(State):
                 heart.update()
             for lifeline in self.lifelines:
                 lifeline.update()
+            if self.current_level % 5 == 0 and self.current_level > 0:
+                self.checkpoint.update()
+            
 
     def display_options(self):
         for i in range(4):
@@ -254,6 +257,7 @@ class Play(State):
 
     def handle_correct_answer(self):
         self.current_level += 1
+        self.calc_score()
         if self.active_shield:
             for heart in self.hearts:
                 heart.start_animation(shield=True, reverse =True)
@@ -269,8 +273,8 @@ class Play(State):
 
         if self.current_level == self.last_level:
             self.display_final_screen()
+            self.event_manager.notify("write_podium", (self.player_name, self.final_score))
         else:
-            self.calc_score()
             self.restart_timer()
             self.change_question()
             self.score.set_score(self.final_score)
@@ -293,6 +297,7 @@ class Play(State):
         if self.lives == 0 and not self.practice_mode:
             self.event_manager.notify("game_over_message", (self.answer, self.save_score))
             self.event_manager.notify("set_state", "game over")
+            self.event_manager.notify("write_podium", (self.player_name, self.save_score))
         elif self.practice_mode:
             self.current_level += 1
             self.wrong_answer += 1
@@ -316,6 +321,9 @@ class Play(State):
         self.generate_random_index()
         self.update_display_data()
         self.shuffle_options()
+        if self.current_level % 5 == 0:
+            self.checkpoint.restart_animation()
+    
 
     def display_final_screen(self, *args):
         if self.current_level == 0:

@@ -126,12 +126,34 @@ class FileManager():
     if not isfile(file_path):
         print("Error: File not found.")
         return
-    
-
     with open(file_path, "r") as file:
       data_file = json.load(file)
 
     self.event_manager.notify("set_podiums", data_file)
+
+  def write_podium(self, *args):
+    data = args[0]
+    new_player = {
+      "Name": data[0],
+      "Points": data[1]
+    }
+
+    file_path = join("data", "Players.json")
+    if not isfile(file_path):
+        print("Error: File not found.")
+        return
+    with open(file_path, "r") as file:
+      players = json.load(file)
+
+    players.append(new_player)
+    sorted_players = sorted(players, key=lambda player: player["Points"], reverse=True)
+    # Top 5
+    if len(sorted_players) > 5:
+      sorted_players.pop()
+    
+    with open(file_path, "w") as file:
+        json.dump(sorted_players, file, indent=4)
+    print(f"Successfully updated leaderboard with player {data[0]}")
 
   def get_data(self):
     return self.data
@@ -148,3 +170,4 @@ class FileManager():
     self.event_manager.subscribe("add_file", self.add_file)
     self.event_manager.subscribe("delete", self.delete)
     self.event_manager.subscribe("get_podium", self.get_podium)
+    self.event_manager.subscribe("write_podium", self.write_podium)

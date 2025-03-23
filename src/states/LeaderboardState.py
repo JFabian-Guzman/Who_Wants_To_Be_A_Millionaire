@@ -20,6 +20,7 @@ class Leaderboard(State):
     self.text_rect = self.text.get_rect(center=TITLE_POSITION)
     self.back_btn = Button(self.elements, BTN_POSITION, self.event_manager, 'negative_btn', 'Go Back', 'WHITE')
     self.podiums = []
+    self.podium_len = 0
 
     for i in range(5):
       position = (WINDOW_WIDTH//2 , WINDOW_HEIGHT//2 - 175 + (100 * i))
@@ -31,13 +32,15 @@ class Leaderboard(State):
     self.elements.draw(self.screen)
     self.screen.blit(self.title_background, self.title_background_rect)
     self.screen.blit(self.text, self.text_rect)
-    for podium in self.podiums:
-      podium.draw()
+    for i in range(self.podium_len):
+      self.podiums[i].draw()
     
   def set_podiums(self, players):
     sorted_players = sorted(players, key=lambda player: player["Points"], reverse=True)
-    for i, podium in enumerate(self.podiums):
-      podium.set_data(sorted_players[i]["Name"],str(sorted_players[i]["Points"]),i)
+    self.podium_len = len(sorted_players)
+
+    for i, player in enumerate(sorted_players):
+      self.podiums[i].set_data(player["Name"],str(player["Points"]),i)
 
   def update(self):
     self.elements.update()
