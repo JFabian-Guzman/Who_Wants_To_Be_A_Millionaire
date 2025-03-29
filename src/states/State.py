@@ -7,6 +7,7 @@ class State(ABC):
   def __init__(self, event_manager: EventManager):
     self.elements = pygame.sprite.Group()
     self.screen = pygame.display.get_surface()
+    self.width, self.height = self.screen.get_size()
     self.event_manager = event_manager
     self.click_handle = False
     self.interactive_elements = []

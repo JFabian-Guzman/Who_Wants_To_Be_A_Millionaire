@@ -12,6 +12,7 @@ class Option(pygame.sprite.Sprite):
     self.run_animation = False
     self.animation_callback = None
     self.is_wrong = False
+    self.text = text
     
     self.option_blue = pygame.image.load(join("assets", "img" ,"option.png")).convert_alpha()
     self.option_organe = pygame.image.load(join("assets", "img" ,"option_animation1.png")).convert_alpha()
@@ -32,25 +33,22 @@ class Option(pygame.sprite.Sprite):
     self.sprites_wrong_answer.append(self.option_organe)
     self.sprites_wrong_answer.append(option_red)
 
-    self.image = self.sprites[self.current_sprite]
-    self.rect = self.image.get_rect(center = position)
-    self.display_text = self.wrap_text(text)
-    
-    self.text = TEXT.render(self.display_text, True, COLORS["WHITE"])
-    self.text_rect = self.text.get_rect(center = self.rect.center)
+    self.update_position(position)
 
-  def wrap_text(self, text):
-        wrap_text = text
-        if len(text) > 24:
-            mid = len(text) // 2
-            if ord(text[mid]) >= 65 and ord(text[mid]) <= 90 or ord(text[mid]) >= 97 and ord(text[mid]) <= 122:
-              wrap_text =  text[:mid] + "-\n" + text[mid:]
+    
+
+  def wrap_text(self):
+        wrap_text = self.text
+        if len(self.text) > 24:
+            mid = len(self.text) // 2
+            if ord(self.text[mid]) >= 65 and ord(self.text[mid]) <= 90 or ord(self.text[mid]) >= 97 and ord(self.text[mid]) <= 122:
+              wrap_text =  self.text[:mid] + "-\n" + self.text[mid:]
             else:
-              wrap_text = text[:mid] + "\n" + text[mid:]
+              wrap_text = self.text[:mid] + "\n" + self.text[mid:]
         return wrap_text
 
   def update(self):
-    self.screen.blit(self.text, self.text_rect)
+    self.screen.blit(self.text_obj, self.text_rect)
     if self.run_animation:
       if self.is_wrong:
         self.animate_wrong_answer()
@@ -72,7 +70,13 @@ class Option(pygame.sprite.Sprite):
       self.stop_animation()
     self.image = self.sprites_wrong_answer[int(self.current_sprite)]
 
+  def update_position(self, position):
+    self.image = self.sprites[self.current_sprite]
+    self.rect = self.image.get_rect(center = position)
+    self.display_text = self.wrap_text()
     
+    self.text_obj = TEXT.render(self.display_text, True, COLORS["WHITE"])
+    self.text_rect = self.text_obj.get_rect(center = self.rect.center)
   
   def on_hover(self):
     if not self.run_animation:

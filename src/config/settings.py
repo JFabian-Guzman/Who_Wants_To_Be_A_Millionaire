@@ -1,11 +1,10 @@
 import pygame
+from pygame.locals import *
 from os.path import join
 
 # SIZE
 WINDOW_WIDTH, WINDOW_HEIGHT = 1280, 720
-BANNER = {
-  "SIZE":  (WINDOW_WIDTH, 65),
-}
+
 
 # COLORS
 COLORS = {
@@ -49,10 +48,10 @@ TEXT = pygame.font.Font(PRESS_START_2P, 13)
 # MENU OPTIONS
 MENU = [
   {"TITLE": "Play", "POSITION": (WINDOW_WIDTH // 2 - 375, WINDOW_HEIGHT // 2 - 50) },
-  {"TITLE": "Leaderboard", "POSITION": (WINDOW_WIDTH // 2 - 375, WINDOW_HEIGHT // 2 + 200)},
-  {"TITLE": "Manage Questions", "POSITION": (WINDOW_WIDTH // 2 - 375, WINDOW_HEIGHT // 2 + 75)},
   {"TITLE": "Instructions", "POSITION": (WINDOW_WIDTH // 2 + 375, WINDOW_HEIGHT // 2 - 50)},
+  {"TITLE": "Manage Questions", "POSITION": (WINDOW_WIDTH // 2 - 375, WINDOW_HEIGHT // 2 + 75)},
   {"TITLE": "Credits", "POSITION": (WINDOW_WIDTH // 2 + 375, WINDOW_HEIGHT // 2 + 75)},
+  {"TITLE": "Leaderboard", "POSITION": (WINDOW_WIDTH // 2 - 375, WINDOW_HEIGHT // 2 + 200)},
   {"TITLE": "Exit", "POSITION": (WINDOW_WIDTH // 2 + 375, WINDOW_HEIGHT // 2 + 200)}
 ]
 

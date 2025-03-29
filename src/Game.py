@@ -21,11 +21,12 @@ from states.EditState import *
 from states.AddState import *
 from states.PlayerState import *
 
+
 class Game:
   def __init__(self):
     # Initialize the game
     pygame.init()
-    self.screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
+    self.screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT), RESIZABLE )
     pygame.display.set_caption("Who wants to be a millionaire?")
     self.clock = pygame.time.Clock()
     self.fps = 60
@@ -80,6 +81,7 @@ class Game:
     
     #set up events
     self.set_up_game_events()
+    self.menu.set_up_menu_events()
     self.state_machine.set_up_machine_events()
     self.cursor.set_up_cursor_events()
     self.play.set_up_play_events()
@@ -107,10 +109,15 @@ class Game:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.stop_game()
+            elif event.type == VIDEORESIZE:
+              self.screen = pygame.display.set_mode(event.dict['size'], RESIZABLE)
+              self.background.update_elements_size()
+              self.event_manager.notify("update_size")
 
             # Handle keyboard
             if event.type == pygame.KEYDOWN:
                 self.event_manager.notify("keyboard_input", event)
+              
 
         # Draw
         self.background.draw_background()

@@ -1,12 +1,10 @@
 from config.settings import *
 from os.path import join
 
+BANNER_HEIGHT = 65
 class Background:
     def __init__(self):
-        self.screen = pygame.display.get_surface()
-        self.load_background_image()
-        self.create_overlay()
-        self.create_banner()
+        self.update_elements_size()
 
     def load_background_image(self):
         background_img = pygame.image.load(join("assets", "img", "background.jpeg")).convert()
@@ -18,8 +16,8 @@ class Background:
         self.overlay.set_alpha(128)  # Transparency level
 
     def create_banner(self):
-        self.banner = pygame.Surface(BANNER["SIZE"])
-        self.banner_rect = self.banner.get_rect(bottom=WINDOW_HEIGHT)
+        self.banner = pygame.Surface((self.width, BANNER_HEIGHT))
+        self.banner_rect = self.banner.get_rect(bottom=self.height)
 
     def draw_banner(self):
         self.banner.fill(COLORS["WHITE"])
@@ -27,9 +25,9 @@ class Background:
         self.screen.blit(self.banner, self.banner_rect)
 
     def draw_logos(self):
-        ucr_logo, ucr_rect = self.load_logo("ucr_logo.png", (300, 60), left=0, centery=BANNER["SIZE"][1] // 2)
-        elm_logo, elm_rect = self.load_logo("elm_logo.png", (300, 50), center=(WINDOW_WIDTH // 2, BANNER["SIZE"][1] // 2))
-        tcu_logo, tcu_rect = self.load_logo("tcu_logo.png", (30, 60), center=(WINDOW_WIDTH - 100, BANNER["SIZE"][1] // 2))
+        ucr_logo, ucr_rect = self.load_logo("ucr_logo.png", (300, 60), left=0, centery=BANNER_HEIGHT // 2)
+        elm_logo, elm_rect = self.load_logo("elm_logo.png", (300, 50), center=(self.width // 2, BANNER_HEIGHT // 2))
+        tcu_logo, tcu_rect = self.load_logo("tcu_logo.png", (30, 60), center=(self.width - 100, BANNER_HEIGHT // 2))
 
         self.banner.blit(ucr_logo, ucr_rect)
         self.banner.blit(elm_logo, elm_rect)
@@ -45,3 +43,10 @@ class Background:
         self.screen.blit(self.background, (0, 0))
         self.screen.blit(self.overlay, (0, 0))
         self.draw_banner()
+
+    def update_elements_size(self):
+        self.screen = pygame.display.get_surface()
+        self.width, self.height = self.screen.get_size()
+        self.load_background_image()
+        self.create_overlay()
+        self.create_banner()

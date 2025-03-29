@@ -444,18 +444,6 @@
         "level": 6
     },
     {
-        "id": 41,
-        "question": "dsadsa",
-        "answer": "abc",
-        "options": [
-            "abc",
-            "e",
-            "ab",
-            "d"
-        ],
-        "level": 1
-    },
-    {
         "id": 44,
         "question": "TEST 10",
         "answer": "23",
