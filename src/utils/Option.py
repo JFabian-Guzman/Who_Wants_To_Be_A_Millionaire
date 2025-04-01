@@ -71,7 +71,7 @@ class Option(pygame.sprite.Sprite):
     self.image = self.sprites_wrong_answer[int(self.current_sprite)]
 
   def update_position(self, position):
-    self.image = self.sprites[self.current_sprite]
+    self.image = self.sprites[int(self.current_sprite)]
     self.rect = self.image.get_rect(center = position)
     self.display_text = self.wrap_text()
     

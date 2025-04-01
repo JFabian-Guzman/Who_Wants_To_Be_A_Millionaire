@@ -65,6 +65,10 @@ class Button(pygame.sprite.Sprite):
     def stop_animation(self):
         self.run_animation = False
 
+    def update_position(self, position):
+        self.rect = self.image.get_rect(center=position)
+        self.text_rect = self.text.get_rect(center=self.rect.center)
+
     def check_notify_state(self, state: str):
         state_change = False
         if self.rect.collidepoint(pygame.mouse.get_pos()):

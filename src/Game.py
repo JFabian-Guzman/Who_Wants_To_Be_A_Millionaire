@@ -103,6 +103,7 @@ class Game:
     self.running = False
 
   def run(self):
+    min_width, min_height = WINDOW_WIDTH, WINDOW_HEIGHT
     while self.running:
         self.clock.tick(self.fps)
 
@@ -110,7 +111,9 @@ class Game:
             if event.type == pygame.QUIT:
                 self.stop_game()
             elif event.type == VIDEORESIZE:
-              self.screen = pygame.display.set_mode(event.dict['size'], RESIZABLE)
+              new_width = max(event.dict['size'][0], min_width)
+              new_height = max(event.dict['size'][1], min_height)
+              self.screen = pygame.display.set_mode((new_width, new_height), RESIZABLE)
               self.background.update_elements_size()
               self.event_manager.notify("update_size")
 
