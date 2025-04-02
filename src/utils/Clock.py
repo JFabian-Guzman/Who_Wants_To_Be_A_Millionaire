@@ -6,8 +6,9 @@ class Clock(pygame.sprite.Sprite):
   def __init__(self, group):
     super().__init__(group)
     self.screen = pygame.display.get_surface()
+    self.width, self.height = self.screen.get_size()
     self.image = pygame.image.load(join("assets", "img", "clock_circle.png")).convert_alpha()
-    self.rect = self.image.get_rect( center = (WINDOW_WIDTH//2 ,WINDOW_HEIGHT//2 + 150) )
+    self.rect = self.image.get_rect( center = (self.width//2 ,self.height//2 + 150) )
     self.start_time = pygame.time.get_ticks()
     
   def update_time(self):
@@ -19,3 +20,8 @@ class Clock(pygame.sprite.Sprite):
   
   def restart_time(self):
     self.start_time = pygame.time.get_ticks()
+
+  def update_position(self):
+    self.screen = pygame.display.get_surface()
+    self.width, self.height = self.screen.get_size()
+    self.rect = self.image.get_rect( center = (self.width//2 ,self.height//2 + 150) )

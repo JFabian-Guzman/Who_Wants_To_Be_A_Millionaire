@@ -105,10 +105,10 @@ class Option(pygame.sprite.Sprite):
     return self.display_text
 
   def set_title(self,text):
-    self.title = text
-    self.display_text = self.wrap_text(text)
-    self.text = TEXT.render(self.display_text, True, COLORS["WHITE"])
-    self.text_rect = self.text.get_rect(center = self.rect.center)
+    self.text = text
+    self.display_text = self.wrap_text()
+    self.text_obj = TEXT.render(self.display_text, True, COLORS["WHITE"])
+    self.text_rect = self.text_obj.get_rect(center = self.rect.center)
 
 
 

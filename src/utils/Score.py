@@ -5,13 +5,13 @@ from utils.Coin import *
 SCORE_POSITION = (WINDOW_WIDTH / 2, 310)
 
 class Score(pygame.sprite.Sprite):
-    def __init__(self, groups):
+    def __init__(self, groups, position):
         super().__init__(groups)
         self.screen = pygame.display.get_surface()
         self.elements = pygame.sprite.Group()
 
         self.image = pygame.image.load(join("assets", "img", "score.png")).convert_alpha()
-        self.rect = self.image.get_rect(center=SCORE_POSITION)
+        self.rect = self.image.get_rect(center=position)
 
         self.current_level = 1
         self.practice_mode = False
@@ -26,7 +26,7 @@ class Score(pygame.sprite.Sprite):
 
     def add_coin(self):
         COIN_POSITION = (self.text_rect.right + 40, self.text_rect.centery - 2)
-        Coin(COIN_POSITION, self.elements)
+        self.coin = Coin(COIN_POSITION, self.elements)
 
     def add_icons(self):
         CHECK_POSITION = (self.positive_score_rect.right + 20, self.positive_score_rect.centery + 25)
@@ -92,3 +92,8 @@ class Score(pygame.sprite.Sprite):
 
     def get_title(self):
         return self.title
+    
+    def update_position(self, position):
+        self.rect = self.image.get_rect(center=position)
+        self.text_rect = self.text.get_rect(center=self.rect.center)
+        self.coin.update_position((self.text_rect.right + 40, self.text_rect.centery - 2))

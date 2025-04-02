@@ -85,3 +85,6 @@ class Heart(pygame.sprite.Sprite):
         self.current_sprite = len(self.shield_sprites) - 1
     else:
         self.current_sprite = 0
+
+  def update_position(self, position):
+    self.rect = self.image.get_rect(center=position)

@@ -52,38 +52,44 @@ class Play(State):
         self.get_last_level()
 
         # Set up events
-        self.question.set_up_question_events()
+        self.question_obj.set_up_question_events()
 
     def setup_interactive_elements(self):
-        for position in OPTION_POSITIONS:
+        self.positions = [
+            (self.width // 2 - 375, self.height // 2 + 100),
+            (self.width // 2 - 375, self.height // 2 + 200),
+            (self.width // 2 + 375, self.height // 2 + 100),
+            (self.width // 2 + 375, self.height // 2 + 200)
+        ]
+        for position in self.positions:
             self.interactive_elements.append(Option("", position, self.elements))
-        self.question = Question(self.elements, self.event_manager)
+        self.question_obj = Question(self.elements, self.event_manager)
+        self.question_rect = self.question_obj.get_rect()
         self.clock = Clock(self.elements)
-        self.score = Score(self.elements)
+        self.score = Score(self.elements, (self.question_rect.centerx, self.question_rect.bottom - 20))
         self.checkpoint = Checkpoint()
-        self.surrender = Surrender(self.elements, self.event_manager)
+        self.surrender = Surrender(self.elements, self.event_manager, (self.question_rect.left + 150, self.question_rect.top + 15))
         self.modal = ConfirmModal(self.event_manager)
         self.surrender_modal = SurrenderModal(self.event_manager)
         self.interactive_elements.append(self.surrender)
 
     def setup_lifelines(self):
-        self.shield_lifeline = Lifeline(LIFELINE_1_POSITION, "shield_lifeline")
-        self.fifty_fifty_lifeline = Lifeline(LIFELINE_2_POSITION, "fifty_fifty_lifeline")
-        self.switch_lifeline = Lifeline(LIFELINE_3_POSITION, "switch_lifeline")
+        self.shield_lifeline = Lifeline((self.question_rect.centerx , self.question_rect.top + 15), "shield_lifeline")
+        self.fifty_fifty_lifeline = Lifeline((self.question_rect.centerx - 75 , self.question_rect.top + 15), "fifty_fifty_lifeline")
+        self.switch_lifeline = Lifeline((self.question_rect.centerx + 75 , self.question_rect.top + 15), "switch_lifeline")
         self.interactive_elements.append(self.shield_lifeline)
         self.interactive_elements.append(self.fifty_fifty_lifeline)
         self.interactive_elements.append(self.switch_lifeline)
 
     def setup_hearts(self):
         self.hearts = []
-        for i in range(5):
-            heart_position = (WINDOW_WIDTH / 2 + 425 - (50 * i), WINDOW_HEIGHT / 2 - 275)
+        for i_heart in range(5):
+            heart_position = (self.question_rect.right - 90 - (50 * i_heart), self.question_rect.top + 15)
             self.hearts.append(Heart(heart_position))
 
     def get_last_level(self):
         self.last_level = self.file_manager.get_last_level()
 
-        
     def draw(self):
         self.elements.draw(self.screen)
         self.draw_lifelines()
@@ -232,9 +238,9 @@ class Play(State):
 
     def reset_lifelines(self):
         self.lifelines.clear()
-        self.lifelines.append(self.switch_lifeline)
-        self.lifelines.append(self.fifty_fifty_lifeline)
         self.lifelines.append(self.shield_lifeline)
+        self.lifelines.append(self.fifty_fifty_lifeline)
+        self.lifelines.append(self.switch_lifeline)
 
         self.fifty_fifty_lifeline.enable()
         self.switch_lifeline.enable()
@@ -343,6 +349,37 @@ class Play(State):
     def set_name(self, *args):
         self.player_name = args[0]
 
+    def update_size(self, *args):
+        self.screen = pygame.display.get_surface()
+        self.width, self.height = self.screen.get_size()
+        self.positions = [
+            (self.width // 2 - 375, self.height // 2 + 100),
+            (self.width // 2 - 375, self.height // 2 + 200),
+            (self.width // 2 + 375, self.height // 2 + 100),
+            (self.width // 2 + 375, self.height // 2 + 200)
+        ]
+        for i, option in enumerate(self.interactive_elements[:4]):
+            option.update_position(self.positions[i])
+        self.clock.update_position()
+        self.question_obj.update_position()
+        self.question_rect = self.question_obj.get_rect()
+        self.surrender.update_position((self.question_rect.left + 150, self.question_rect.top + 15))
+        self.score.update_position((self.question_rect.centerx, self.question_rect.bottom - 20))
+        self.surrender_modal.update_position()
+        lifeline_pos = [
+            (self.question_rect.centerx , self.question_rect.top + 15), 
+            (self.question_rect.centerx - 75 , self.question_rect.top + 15), 
+            (self.question_rect.centerx + 75 , self.question_rect.top + 15)
+        ]
+        for i_pos_lifeline, lifeline in enumerate(self.lifelines):
+            lifeline.update_position(lifeline_pos[i_pos_lifeline])
+
+        for i_heart, heart in enumerate(self.hearts):
+            heart_position = (self.question_rect.right - 90 - (50 * i_heart), self.question_rect.top + 15)
+            heart.update_position(heart_position)
+
+
+
     def set_up_play_events(self):
         self.event_manager.subscribe("display_question", self.update_display_data)
         self.event_manager.subscribe("choose_random_question", self.generate_random_index)
@@ -354,3 +391,4 @@ class Play(State):
         self.event_manager.subscribe("display_final_screen", self.display_final_screen)
         self.event_manager.subscribe("set_difficulty", self.set_difficulty)
         self.event_manager.subscribe("set_player_name", self.set_name)
+        self.event_manager.subscribe("update_size", self.update_size)

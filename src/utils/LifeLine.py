@@ -81,3 +81,7 @@ class Lifeline(pygame.sprite.Sprite):
     self.available = False
     if self.animation_callback:
       self.animation_callback()
+
+  def update_position(self, position):
+    self.rect = self.image.get_rect(center=position)
+    self.icon_rect = self.icon.get_rect(center=self.rect.center)

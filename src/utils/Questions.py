@@ -5,8 +5,11 @@ import json
 class Question(pygame.sprite.Sprite):
   def __init__(self , groups, event_manager):
     super().__init__(groups)
+    self.screen = pygame.display.get_surface()
+    self.width, self.height = self.screen.get_size()
+
     self.image = pygame.image.load(join("assets", "img" ,"question.png")).convert_alpha()
-    self.rect = self.image.get_rect(center = (WINDOW_WIDTH/2,200))
+    self.rect = self.image.get_rect(center = (self.width//2, self.height//2 - 160))
     self.screen = pygame.display.get_surface()
     self.event_manager = event_manager
     self.title = ''
@@ -38,6 +41,11 @@ class Question(pygame.sprite.Sprite):
   
   def change_question(self, *args):
     self.title = self.wrap_text(args[0])
+
+  def update_position(self):
+    self.screen = pygame.display.get_surface()
+    self.width, self.height = self.screen.get_size()
+    self.rect = self.image.get_rect(center = (self.width//2, self.height//2 - 160))
 
   def set_up_question_events(self):
     self.event_manager.subscribe("change_question", self.change_question)

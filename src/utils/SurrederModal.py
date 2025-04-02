@@ -9,22 +9,23 @@ class SurrenderModal(pygame.sprite.Sprite):
         super().__init__()
         self.elements = pygame.sprite.Group()
         self.screen = pygame.display.get_surface()
+        self.width, self.height = self.screen.get_size()
         self.interactive_elements = []
         self.event_manager = event_manager
         self.click_handled = True
         self.practice_mode = False
 
         self.image = pygame.image.load(join("assets", "img", "question.png")).convert_alpha()
-        self.rect = self.image.get_rect(center=MODAL_POSITION)
+        self.rect = self.image.get_rect(center=(self.width // 2, self.height // 2 ))
 
         self.surrender_message = "You will keep your money.\n\nAre you sure you want to surrender?"
         self.text = TEXT.render(self.surrender_message, True, COLORS["WHITE"])
-        self.text_rect = self.text.get_rect(center=TEXT_POSITION)
+        self.text_rect = self.text.get_rect(center=self.rect.center)
 
         self.create_overlay()
 
-        self.no_btn = Button(self.elements, MODAL_BTN_LEFT_POSITION, event_manager, 'negative_btn', 'No', 'WHITE')
-        self.yes_btn = Button(self.elements, MODAL_BTN_RIGHT_POSITION, event_manager, 'btn', 'Yes')
+        self.no_btn = Button(self.elements, (self.rect.left + 125, self.rect.bottom - 55), event_manager, 'negative_btn', 'No', 'WHITE')
+        self.yes_btn = Button(self.elements, (self.rect.right - 125, self.rect.bottom - 55), event_manager, 'btn', 'Yes')
 
         self.interactive_elements.append(self.no_btn)
         self.interactive_elements.append(self.yes_btn)
@@ -76,3 +77,12 @@ class SurrenderModal(pygame.sprite.Sprite):
 
         if not hover_detected:
             self.event_manager.notify("change_cursor", 'default')
+
+    def update_position(self):
+        self.screen = pygame.display.get_surface()
+        self.width, self.height = self.screen.get_size()
+        self.rect = self.image.get_rect(center=(self.width // 2, self.height // 2))
+        self.text_rect = self.text.get_rect(center=self.rect.center)
+        self.create_overlay()
+        self.no_btn.update_position((self.rect.left + 125, self.rect.bottom - 55))
+        self.yes_btn.update_position((self.rect.right - 125, self.rect.bottom - 55))

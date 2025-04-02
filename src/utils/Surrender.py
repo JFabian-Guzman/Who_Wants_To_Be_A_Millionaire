@@ -4,7 +4,7 @@ from os.path import join
 
 SURRENDER_POSITION = (300,90)
 class Surrender(pygame.sprite.Sprite):
-  def __init__(self, groups, event_manager):
+  def __init__(self, groups, event_manager, position):
     super().__init__(groups)
     self.screen = pygame.display.get_surface()
     self.event_manager = event_manager
@@ -27,7 +27,7 @@ class Surrender(pygame.sprite.Sprite):
     self.sprites.append(pygame.image.load(join("assets", "img", "hover_btn_animation8.png")).convert_alpha())  
 
     self.image = pygame.image.load(join("assets", "img" ,"btn.png")).convert_alpha()
-    self.rect = self.image.get_rect(center = SURRENDER_POSITION)
+    self.rect = self.image.get_rect(center = position)
     
     self.text = TEXT.render("Surrender", True, COLORS["BLACK"])
     self.text_rect = self.text.get_rect(center = self.rect.center)
@@ -74,3 +74,7 @@ class Surrender(pygame.sprite.Sprite):
 
   def stop_animation(self):
     self.run_animation = False
+
+  def update_position(self, position):
+    self.rect = self.image.get_rect(center = position)
+    self.text_rect = self.text.get_rect(center = self.rect.center)
