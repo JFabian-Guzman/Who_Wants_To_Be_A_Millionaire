@@ -11,7 +11,7 @@ class Credits(State):
 
         self.setup_positions(box_rect)
         self.setup_text_elements()
-        self.setup_buttons(event_manager, box_rect)
+        self.setup_buttons( box_rect)
 
     def setup_positions(self, box_rect):
         self.TITLE_POSITION = (box_rect.centerx, box_rect.top + 50)
@@ -29,8 +29,8 @@ class Credits(State):
             (TEXT.render(CONTRIBUTORS, True, COLORS["WHITE"]), self.TEXT_2_POSITION)
         ]
 
-    def setup_buttons(self, event_manager, box_rect):
-        self.back_btn = Button(self.elements, (box_rect.midleft[0] + 170, box_rect.midleft[1] + 190), event_manager, 'negative_btn', 'Go Back', 'WHITE')
+    def setup_buttons(self,  box_rect):
+        self.back_btn = Button(self.elements, (box_rect.left + 150, box_rect.bottom - 75), self.event_manager, 'negative_btn', 'Go Back', 'WHITE')
         self.interactive_elements.append(self.back_btn)
 
     def draw(self):
@@ -54,3 +54,14 @@ class Credits(State):
                 self.click_handled = True
         else:
             self.click_handled = False
+
+    def update_size(self, *args):
+        self.box.updates_position()
+        box_rect = self.box.get_rect()
+        self.back_btn.update_position((box_rect.left + 150, box_rect.bottom - 75))
+        self.setup_positions(box_rect)
+        self.setup_text_elements()
+
+    def set_up_credits_events(self):
+        self.event_manager.subscribe("update_size", self.update_size)
+        
