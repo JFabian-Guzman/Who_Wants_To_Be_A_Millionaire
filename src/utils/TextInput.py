@@ -93,6 +93,8 @@ class TextInput:
         if not self.active:
             self.color = self.color_passive
 
+    def update_position(self, position):
+        self.rect.center = position
 
     def set_up_input_events(self):
         self.event_manager.subscribe("keyboard_input", self.check_keyboard_input)

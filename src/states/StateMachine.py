@@ -14,8 +14,8 @@ class StateMachine:
 
   def set_state(self, state: str):
     if state == "play":
-      state = "player"
-      self.event_manager.notify("clear_player_data")
+      state = "instructions"
+      self.event_manager.notify("display_continue_btn")
     elif state == "game":
       self.load_game()
     elif state == "instructions":

@@ -110,7 +110,8 @@ class Difficulty(State):
 
     def check_back_click(self):
         if self.back_btn.get_rect().collidepoint(pygame.mouse.get_pos()):
-            self.back_btn.check_notify_state("rewards")
+            self.back_btn.check_notify_state("player")
+            self.event_manager.notify("clear_player_data")
             self.reset_difficulty_selection()
             return True
         return False
