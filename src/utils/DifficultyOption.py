@@ -58,6 +58,10 @@ class DifficultyOption(pygame.sprite.Sprite):
   def get_hover(self):
     return self.is_hovered
 
+  def update_position(self, position):
+    self.rect = self.image.get_rect(center = position)
+    self.text_rect = self.text.get_rect(center = self.rect.center)
+
   def set_title(self,text):
     self.title = text
     self.display_text = self.wrap_text(text)
