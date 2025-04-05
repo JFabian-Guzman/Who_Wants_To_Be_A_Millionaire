@@ -98,7 +98,7 @@ class Game:
     self.credits.set_up_credits_events()
 
     #default state
-    self.event_manager.notify("set_state", "game over")
+    self.event_manager.notify("set_state", "menu")
     
 
   def stop_game(self, *args):

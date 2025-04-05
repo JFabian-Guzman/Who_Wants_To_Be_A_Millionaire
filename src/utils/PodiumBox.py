@@ -32,3 +32,9 @@ class PodiumBox(pygame.sprite.Sprite):
     self.player_points = points
     self.medal = positon
     self.update_data()
+
+  def update_position(self, position):
+    self.rect = self.image.get_rect(center=position)
+    self.medal_rect = self.final_medal.get_rect(midleft=(self.rect.midleft[0] + 10,self.rect.midleft[1]))
+    self.player_rect = self.player.get_rect(center=self.rect.center)
+    self.points_rect = self.points.get_rect(midright=(self.rect.midright[0] - 10 ,self.rect.midright[1] ))
