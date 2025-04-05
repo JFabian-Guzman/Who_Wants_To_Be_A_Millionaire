@@ -47,7 +47,7 @@ class ConfirmModal(pygame.sprite.Sprite):
     def update_text(self):
         self.message = f"Is option {OPTIONS[self.option_index]} your final answer?"
         self.text = TEXT.render(self.message, True, COLORS["WHITE"])
-        self.text_rect = self.text.get_rect(center=TEXT_POSITION)
+        self.text_rect = self.text.get_rect(center=self.rect.center)
 
     def set_option(self, *args):
         self.option_index = args[0]
@@ -78,3 +78,12 @@ class ConfirmModal(pygame.sprite.Sprite):
 
         if not hover_detected:
             self.event_manager.notify("change_cursor", 'default')
+
+    def update_position(self):
+        self.screen = pygame.display.get_surface()
+        self.width, self.height = self.screen.get_size()
+        self.rect = self.image.get_rect(center=(self.width // 2, self.height // 2))
+        self.text_rect = self.text.get_rect(center=self.rect.center)
+        self.create_overlay()
+        self.no_btn.update_position((self.rect.left + 125, self.rect.bottom - 55))
+        self.yes_btn.update_position((self.rect.right - 125, self.rect.bottom - 55))

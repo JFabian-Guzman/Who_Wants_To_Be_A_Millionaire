@@ -366,17 +366,23 @@ class Play(State):
         self.surrender.update_position((self.question_rect.left + 150, self.question_rect.top + 15))
         self.score.update_position((self.question_rect.centerx, self.question_rect.bottom - 20))
         self.surrender_modal.update_position()
+        self.modal.update_position()
         lifeline_pos = [
             (self.question_rect.centerx , self.question_rect.top + 15), 
             (self.question_rect.centerx - 75 , self.question_rect.top + 15), 
             (self.question_rect.centerx + 75 , self.question_rect.top + 15)
         ]
-        for i_pos_lifeline, lifeline in enumerate(self.lifelines):
-            lifeline.update_position(lifeline_pos[i_pos_lifeline])
+
+        # Lifelines are in pos 5 to 8 of interactive_elements
+        for i_pos_lifeline, lifeline in enumerate(self.interactive_elements[5:8], start=5):
+            lifeline.update_position(lifeline_pos[i_pos_lifeline - 5])
 
         for i_heart, heart in enumerate(self.hearts):
             heart_position = (self.question_rect.right - 90 - (50 * i_heart), self.question_rect.top + 15)
             heart.update_position(heart_position)
+
+        for item in self.interactive_elements:
+            print(item)
 
 
 
