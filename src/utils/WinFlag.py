@@ -2,7 +2,7 @@ from config.settings import *
 from os.path import join
 
 class WinFlag(pygame.sprite.Sprite):
-  def __init__(self, groups):
+  def __init__(self, position ,groups):
     super().__init__(groups)
     pygame.font.init()  
     self.screen = pygame.display.get_surface()
@@ -19,7 +19,7 @@ class WinFlag(pygame.sprite.Sprite):
 
 
     self.image = self.sprites[self.current_sprite]
-    self.rect = self.image.get_rect(center = FLAG_POSITION)
+    self.rect = self.image.get_rect(center = position)
 
     self.text = GIGA_TITLE.render("Congratulations!", True, COLORS["BLACK"])
     self.text_rect = self.text.get_rect(center = self.rect.center)
@@ -33,3 +33,7 @@ class WinFlag(pygame.sprite.Sprite):
     if self.current_sprite >= len(self.sprites):
         self.current_sprite = 0
     self.image = self.sprites[int(self.current_sprite)]
+
+  def update_position(self, position):
+    self.rect = self.image.get_rect(center = position)
+    self.text_rect = self.text.get_rect(center = self.rect.center)
