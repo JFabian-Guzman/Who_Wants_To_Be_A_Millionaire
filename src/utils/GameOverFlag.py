@@ -2,7 +2,7 @@ from config.settings import *
 from os.path import join
 
 class GameOverFlag(pygame.sprite.Sprite):
-  def __init__(self, groups):
+  def __init__(self, position, groups):
     super().__init__(groups)
     
     self.screen = pygame.display.get_surface()
@@ -16,3 +16,6 @@ class GameOverFlag(pygame.sprite.Sprite):
   def update(self):
     self.screen.blit(self.text, self.text_rect)
 
+  def update_position(self, position):
+    self.rect = self.image.get_rect(center = position)
+    self.text_rect = self.text.get_rect(center = self.rect.center)
