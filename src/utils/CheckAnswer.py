@@ -21,6 +21,8 @@ class Check(pygame.sprite.Sprite):
     else:
       self.image = self.disable_check
   
+  def update_position(self, position):
+    self.rect = self.image.get_rect(center = position)
 
   def get_state(self):
     return self.is_answer

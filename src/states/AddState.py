@@ -21,11 +21,13 @@ class Add(State):
         self.level = 0
         self.warning = ''
         self.error = ''
+        self.title = None
 
         self.setup_ui()
         self.setup_inputs(event_manager)
         self.setup_answer_selectors()
         self.setup_buttons(event_manager)
+        self.setup_text()
 
     def setup_ui(self):
         self.question_background = pygame.image.load(join("assets", "img", "question.png")).convert_alpha()
@@ -35,8 +37,15 @@ class Add(State):
         self.title_background_rect = self.title_background.get_rect(center=(self.width//2, 75))
 
     def setup_inputs(self, event_manager):
-        self.inputs.append(TextInput(self.question_rect.center, 875, 60, event_manager, 'question'))
-        for index, position in enumerate(OPTION_POSITIONS):
+        self.question_input = TextInput(self.question_rect.center, 875, 60, event_manager, 'question')
+        self.inputs.append(self.question_input)
+        self.positions = [
+            (self.width // 2 - 375, self.height // 2 + 100),
+            (self.width // 2 - 375, self.height // 2 + 200),
+            (self.width // 2 + 375, self.height // 2 + 100),
+            (self.width // 2 + 375, self.height // 2 + 200)
+        ]
+        for position in self.positions:
             self.option_rects.append(self.option_background.get_rect(center=position))
             self.inputs.append(TextInput(position, 350, 60, event_manager, 'option'))
         for input in self.inputs:
@@ -57,6 +66,11 @@ class Add(State):
         self.interactive_elements.append(self.back_btn)
         self.interactive_elements.append(self.add_btn)
 
+    def setup_text(self):
+        self.title = TITLE.render("Add Question\n  Level: " + str(self.level + 1), True, COLORS["BLACK"])
+        self.warning_text = TEXT.render(self.warning, True, COLORS['AMBER'])
+        self.error_text = TEXT.render(self.error, True, COLORS['RED'])
+
     def draw(self):
         self.elements.draw(self.screen)
         self.screen.blit(self.title_background, self.title_background_rect)
@@ -70,19 +84,16 @@ class Add(State):
             input.draw()
 
     def draw_title(self):
-        self.title = TITLE.render("Add Question\n  Level: " + str(self.level + 1), True, COLORS["BLACK"])
         self.title_rect = self.title.get_rect(center=self.title_background_rect.center)
         self.screen.blit(self.title, self.title_rect)
 
     def draw_warning(self):
-        warning_text = TEXT.render(self.warning, True, COLORS['AMBER'])
-        warning_rect = warning_text.get_rect(center=(WINDOW_WIDTH / 2, 175))
-        self.screen.blit(warning_text, warning_rect)
+        self.warning_rect = self.warning_text.get_rect(center=(self.question_rect.center[0], self.question_rect.top + 45))
+        self.screen.blit(self.warning_text, self.warning_rect)
 
     def draw_error(self):
-        error_text = TEXT.render(self.error, True, COLORS['RED'])
-        error_rect = error_text.get_rect(center=(WINDOW_WIDTH / 2, 200))
-        self.screen.blit(error_text, error_rect)
+        self.error_rect = self.error_text.get_rect(center=(self.question_rect.center[0], self.question_rect.top + 70))
+        self.screen.blit(self.error_text, self.error_rect)
 
     def update(self):
         self.elements.update()
@@ -178,6 +189,24 @@ class Add(State):
         self.back_btn.update_position((self.width // 2 - 350, 75))
         self.add_btn.update_position((self.width // 2 + 350, 75))
         self.title_rect = self.title.get_rect(center=self.title_background_rect.center)
+        self.question_input.update_position(self.question_rect.center)
+        self.warning_rect = self.warning_text.get_rect(center=(self.question_rect.center[0], self.question_rect.top + 45))
+        self.error_rect = self.error_text.get_rect(center=(self.question_rect.center[0], self.question_rect.top + 70))
+        self.positions = [
+            (self.width // 2 - 375, self.height // 2 + 100),
+            (self.width // 2 - 375, self.height // 2 + 200),
+            (self.width // 2 + 375, self.height // 2 + 100),
+            (self.width // 2 + 375, self.height // 2 + 200)
+        ]
+        for i, position in enumerate(self.positions):
+            self.option_rects[i].center = position
+        for i, input in enumerate(self.inputs[1::]):
+            input.update_position(self.positions[i - 1])
+
+        for index, rect in enumerate(self.option_rects):
+            offset = 230 if index < 2 else -230
+            check_position = (rect.center[0] + offset, rect.center[1])
+            self.answer_selector[index].update_position(check_position)
 
 
     def set_up_add_events(self):

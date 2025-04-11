@@ -25,6 +25,7 @@ class Questions(State):
         self.setup_ui(event_manager)
         self.setup_pagination()
         self.set_up_question_events()
+        self.setup_text()
 
     def setup_ui(self, event_manager):
         self.back_btn = Button(self.elements, (self.width//2 - 350, 75), event_manager, 'negative_btn', 'Go Back', 'WHITE')
@@ -39,6 +40,9 @@ class Questions(State):
         for i in range(9):
             self.pagination.append(PaginationBox(((self.width // 2 - 200) + (50 * i), (self.height // 2 + 260)), str(i + 1)))
 
+    def setup_text(self):
+        self.title = TITLE.render("Question Manager\n    Level: " + str(self.level + 1), True, COLORS["BLACK"])
+
     def draw(self):
         self.elements.draw(self.screen)
         self.screen.blit(self.title_background, self.title_background_rect)
@@ -49,7 +53,6 @@ class Questions(State):
             box.draw()
 
     def draw_title(self):
-        self.title = TITLE.render("Question Manager\n    Level: " + str(self.level + 1), True, COLORS["BLACK"])
         self.title_rect = self.title.get_rect(center=self.title_background_rect.center)
         self.screen.blit(self.title, self.title_rect)
 
