@@ -27,9 +27,9 @@ class Questions(State):
         self.set_up_question_events()
 
     def setup_ui(self, event_manager):
-        self.back_btn = Button(self.elements, BTN_POSITION, event_manager, 'negative_btn', 'Go Back', 'WHITE')
+        self.back_btn = Button(self.elements, (self.width//2 - 350, 75), event_manager, 'negative_btn', 'Go Back', 'WHITE')
         self.title_background = pygame.image.load(join("assets", "img", "score.png")).convert_alpha()
-        self.title_background_rect = self.title_background.get_rect(center=TITLE_POSITION)
+        self.title_background_rect = self.title_background.get_rect(center=(self.width//2 , 75))
         self.add_box = AddQuestion(self.elements)
         self.delete_modal = DeleteModal(event_manager)
         self.interactive_elements.append(self.back_btn)
@@ -37,7 +37,7 @@ class Questions(State):
 
     def setup_pagination(self):
         for i in range(9):
-            self.pagination.append(PaginationBox(((WINDOW_WIDTH / 2 - 200) + (50 * i), (WINDOW_HEIGHT / 2 + 260)), str(i + 1)))
+            self.pagination.append(PaginationBox(((self.width // 2 - 200) + (50 * i), (self.height // 2 + 260)), str(i + 1)))
 
     def draw(self):
         self.elements.draw(self.screen)
@@ -49,9 +49,9 @@ class Questions(State):
             box.draw()
 
     def draw_title(self):
-        title = TITLE.render("Question Manager\n    Level: " + str(self.level + 1), True, COLORS["BLACK"])
-        title_rect = title.get_rect(center=TITLE_POSITION)
-        self.screen.blit(title, title_rect)
+        self.title = TITLE.render("Question Manager\n    Level: " + str(self.level + 1), True, COLORS["BLACK"])
+        self.title_rect = self.title.get_rect(center=self.title_background_rect.center)
+        self.screen.blit(self.title, self.title_rect)
 
     def update(self):
         self.elements.update()
@@ -101,7 +101,7 @@ class Questions(State):
             options = ", ".join(self.data[i]["options"])
             answer = self.data[i]["answer"]
             id = self.data[i]["id"]
-            self.boxes.append(CrudBox(question, options, answer, id, (WINDOW_WIDTH / 2, (WINDOW_HEIGHT / 2 - 150) + (150 * (i - first_question_i))), self.event_manager))
+            self.boxes.append(CrudBox(question, options, answer, id, (self.width // 2, (self.height // 2 - 150) + (150 * (i - first_question_i))), self.event_manager))
 
     def check_click(self):
         if pygame.mouse.get_pressed()[0]:
@@ -144,9 +144,19 @@ class Questions(State):
     def set_level(self, level):
         self.level = level
 
-    def set_up_question_events(self):
-        self.event_manager.subscribe("fetch_questions", self.fetch_data)
-        self.event_manager.subscribe("level", self.set_level)
+    def update_size(self, *args):
+        self.screen = pygame.display.get_surface()
+        self.width, self.height = self.screen.get_size()
+        self.title_background_rect = self.title_background.get_rect(center=(self.width//2 , 75))
+        self.title_rect = self.title.get_rect(center=self.title_background_rect.center)
+        self.back_btn.update_position((self.width//2 - 350, 75))
+        self.add_box.update_position()
+        self.load_page()
+
+        for i, pag in enumerate(self.pagination):
+            pag.update_position(((self.width // 2 - 200) + (50 * i), (self.height // 2 + 260)))
+
+
 
     def check_hover_on_icons(self):
         for box in self.boxes:
@@ -163,3 +173,9 @@ class Questions(State):
                 break
             else:
                 box.get_interactive_elements()[1].reset_hover()
+
+
+    def set_up_question_events(self):
+        self.event_manager.subscribe("fetch_questions", self.fetch_data)
+        self.event_manager.subscribe("level", self.set_level)
+        self.event_manager.subscribe("update_size", self.update_size)

@@ -27,3 +27,7 @@ class PaginationBox(pygame.sprite.Sprite):
 
     def reset_hover(self):
         self.image = self.blue_box
+
+    def update_position(self, position):
+        self.rect = self.image.get_rect(center=position)
+        self.text_rect = self.text.get_rect(center = self.rect.center)

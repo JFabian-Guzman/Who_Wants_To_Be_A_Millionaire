@@ -22,17 +22,17 @@ class Add(State):
         self.warning = ''
         self.error = ''
 
-        self.setup_ui(event_manager)
+        self.setup_ui()
         self.setup_inputs(event_manager)
         self.setup_answer_selectors()
         self.setup_buttons(event_manager)
 
-    def setup_ui(self, event_manager):
+    def setup_ui(self):
         self.question_background = pygame.image.load(join("assets", "img", "question.png")).convert_alpha()
         self.option_background = pygame.image.load(join("assets", "img", "option.png")).convert_alpha()
         self.title_background = pygame.image.load(join("assets", "img", "score.png")).convert_alpha()
-        self.question_rect = self.question_background.get_rect(center=(WINDOW_WIDTH / 2, 250))
-        self.title_background_rect = self.title_background.get_rect(center=TITLE_POSITION)
+        self.question_rect = self.question_background.get_rect(center=(self.width//2, self.height//2 - 100))
+        self.title_background_rect = self.title_background.get_rect(center=(self.width//2, 75))
 
     def setup_inputs(self, event_manager):
         self.inputs.append(TextInput(self.question_rect.center, 875, 60, event_manager, 'question'))
@@ -51,8 +51,9 @@ class Add(State):
             self.interactive_elements.append(check_item)
 
     def setup_buttons(self, event_manager):
-        self.back_btn = Button(self.elements, BTN_POSITION, event_manager, 'negative_btn', 'Go Back', 'WHITE')
-        self.add_btn = Button(self.elements, ADD_BTN_POSITION, event_manager, 'btn', 'Save', 'BLACK')
+        self.back_btn = Button(self.elements, (self.width // 2 - 350, 75), event_manager, 'negative_btn', 'Go Back', 'WHITE')
+        self.add_btn = Button(self.elements, (self.width // 2 + 350, 75)
+, event_manager, 'btn', 'Save', 'BLACK')
         self.interactive_elements.append(self.back_btn)
         self.interactive_elements.append(self.add_btn)
 
@@ -69,9 +70,9 @@ class Add(State):
             input.draw()
 
     def draw_title(self):
-        title = TITLE.render("Add Question\n  Level: " + str(self.level + 1), True, COLORS["BLACK"])
-        title_rect = title.get_rect(center=TITLE_POSITION)
-        self.screen.blit(title, title_rect)
+        self.title = TITLE.render("Add Question\n  Level: " + str(self.level + 1), True, COLORS["BLACK"])
+        self.title_rect = self.title.get_rect(center=self.title_background_rect.center)
+        self.screen.blit(self.title, self.title_rect)
 
     def draw_warning(self):
         warning_text = TEXT.render(self.warning, True, COLORS['AMBER'])
@@ -169,6 +170,17 @@ class Add(State):
     def set_warning(self, *args):
         self.warning = args[0]
 
+    def update_size(self, *args):
+        self.screen = pygame.display.get_surface()
+        self.width, self.height = self.screen.get_size()
+        self.question_rect = self.question_background.get_rect(center=(self.width//2, self.height//2 - 100))
+        self.title_background_rect = self.title_background.get_rect(center=(self.width//2, 75))
+        self.back_btn.update_position((self.width // 2 - 350, 75))
+        self.add_btn.update_position((self.width // 2 + 350, 75))
+        self.title_rect = self.title.get_rect(center=self.title_background_rect.center)
+
+
     def set_up_add_events(self):
         self.event_manager.subscribe("level", self.set_level)
         self.event_manager.subscribe("warning", self.set_warning)
+        self.event_manager.subscribe("update_size", self.update_size)

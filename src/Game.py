@@ -96,6 +96,7 @@ class Game:
     self.leaderboard.set_up_leaderboard_events()
     self.difficulty.set_up_difficulty_events()
     self.credits.set_up_credits_events()
+    self.manage_questions.set_up_manage_events()
 
     #default state
     self.event_manager.notify("set_state", "menu")
