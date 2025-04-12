@@ -159,6 +159,8 @@ class Questions(State):
         for i, pag in enumerate(self.pagination):
             pag.update_position(((self.width // 2 - 200) + (50 * i), (self.height // 2 + 260)))
 
+        self.delete_modal.update_position()
+
 
 
     def check_hover_on_icons(self):

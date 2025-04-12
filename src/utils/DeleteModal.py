@@ -76,6 +76,16 @@ class DeleteModal(pygame.sprite.Sprite):
         else:
             self.click_handled = False
 
+    def update_position(self):
+        self.screen = pygame.display.get_surface()
+        self.width, self.height = self.screen.get_size()
+        self.rect = self.image.get_rect(center=(self.width // 2, self.height // 2))
+        self.text_rect = self.text.get_rect(center=self.rect.center)
+        self.create_overlay()
+        self.no_btn.update_position((self.rect.left + 125, self.rect.bottom - 55))
+        self.yes_btn.update_position((self.rect.right - 125, self.rect.bottom - 55))
+
+
     def update_cursor_state(self):
         for element in self.interactive_elements:
             if element.rect.collidepoint(pygame.mouse.get_pos()):

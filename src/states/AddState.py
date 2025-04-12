@@ -88,10 +88,12 @@ class Add(State):
         self.screen.blit(self.title, self.title_rect)
 
     def draw_warning(self):
+        self.warning_text = TEXT.render(self.warning, True, COLORS['AMBER'])
         self.warning_rect = self.warning_text.get_rect(center=(self.question_rect.center[0], self.question_rect.top + 45))
         self.screen.blit(self.warning_text, self.warning_rect)
 
     def draw_error(self):
+        self.error_text = TEXT.render(self.error, True, COLORS['RED'])
         self.error_rect = self.error_text.get_rect(center=(self.question_rect.center[0], self.question_rect.top + 70))
         self.screen.blit(self.error_text, self.error_rect)
 
