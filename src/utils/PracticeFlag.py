@@ -16,3 +16,7 @@ class PracticeFlag(pygame.sprite.Sprite):
   def update(self):
     self.screen.blit(self.text, self.text_rect)
 
+  def update_position(self, position):
+    self.rect = self.image.get_rect(center = position)
+    self.text_rect = self.text.get_rect(center = self.rect.center)
+

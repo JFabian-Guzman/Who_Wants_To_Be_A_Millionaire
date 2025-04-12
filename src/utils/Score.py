@@ -29,13 +29,13 @@ class Score(pygame.sprite.Sprite):
         self.coin = Coin(COIN_POSITION, self.elements)
 
     def add_icons(self):
-        CHECK_POSITION = (self.positive_score_rect.right + 20, self.positive_score_rect.centery + 25)
+        check_position = (self.positive_score_rect.right + 20, self.positive_score_rect.centery)
         self.correct_icon = pygame.image.load(join("assets", "img", "correct.png")).convert_alpha()
-        self.correct_rect = self.correct_icon.get_rect(midleft=CHECK_POSITION)
+        self.correct_rect = self.correct_icon.get_rect(midleft=check_position)
 
-        X_POSITION = (self.negative_score_rect.right + 20, self.negative_score_rect.centery + 25)
+        x_position = (self.negative_score_rect.right + 20, self.negative_score_rect.centery)
         self.wrong_icon = pygame.image.load(join("assets", "img", "wrong.png")).convert_alpha()
-        self.wrong_rect = self.wrong_icon.get_rect(midleft=X_POSITION)
+        self.wrong_rect = self.wrong_icon.get_rect(midleft=x_position)
 
     def update(self):
         if self.practice_mode:
@@ -55,8 +55,8 @@ class Score(pygame.sprite.Sprite):
         self.elements.draw(self.screen)
 
     def update_rewards(self):
-            self.text = TITLE.render(str(self.score), True, COLORS["BLACK"])
-            self.text_rect = self.text.get_rect(center=self.rect.center)
+        self.text = TITLE.render(str(self.score), True, COLORS["BLACK"])
+        self.text_rect = self.text.get_rect(center=self.rect.center)
 
     def update_score_board(self):
         self.positive_score = TITLE.render(str(self.correct_answers), True, COLORS["BLACK"])
@@ -97,3 +97,9 @@ class Score(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(center=position)
         self.text_rect = self.text.get_rect(center=self.rect.center)
         self.coin.update_position((self.text_rect.right + 40, self.text_rect.centery - 2))
+        self.positive_score_rect = self.positive_score.get_rect(center=(self.rect.centerx + 100, self.rect.centery))
+        self.negative_score_rect = self.negative_score.get_rect(center=(self.rect.centerx - 100, self.rect.centery))
+        check_position = (self.positive_score_rect.right + 20, self.positive_score_rect.centery)
+        self.correct_rect = self.correct_icon.get_rect(midleft=check_position)
+        x_position = (self.negative_score_rect.right + 20, self.negative_score_rect.centery)
+        self.wrong_rect = self.wrong_icon.get_rect(midleft=x_position)

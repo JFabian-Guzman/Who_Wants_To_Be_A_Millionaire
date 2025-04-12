@@ -14,12 +14,13 @@ class Practice(State):
         super().__init__(event_manager)
 
         self.box = Box(self.elements)
+        box_rect = self.box.get_rect()
         self.reward_message = ""
 
-        self.no_btn = Button(self.elements, LEFT_BTN_POSITION, event_manager, 'negative_btn', 'No', 'WHITE')
-        self.yes_btn = Button(self.elements, RIGHT_BTN_POSITION, event_manager, 'btn', 'Yes')
+        self.no_btn = Button(self.elements, (box_rect.left + 150, box_rect.bottom - 75), event_manager, 'negative_btn', 'No', 'WHITE')
+        self.yes_btn = Button(self.elements, (box_rect.right - 150, box_rect.bottom - 75), event_manager, 'btn', 'Yes')
 
-        PracticeFlag(self.elements)
+        self.flag = PracticeFlag(self.elements)
 
         self.interactive_elements.append(self.no_btn)
         self.interactive_elements.append(self.yes_btn)
@@ -42,8 +43,8 @@ class Practice(State):
 
     def update_text_elements(self):
         self.text_elements = [
-            (TITLE.render("Play again?", True, COLORS["WHITE"]), RESTART_POSITION),
-            (TEXT.render(self.reward_message, True, COLORS["WHITE"]), REWARD_POSITION)
+            (TITLE.render("Play again?", True, COLORS["WHITE"]), (self.width // 2, self.height // 2 + 75)),
+            (TEXT.render(self.reward_message, True, COLORS["WHITE"]), (self.width // 2, self.height // 2 + 15))
         ]
 
     def set_results(self, *args):
@@ -60,5 +61,16 @@ class Practice(State):
         else:
             self.click_handled = False
 
+    def update_size(self, *args):
+        self.screen = pygame.display.get_surface()
+        self.width, self.height = self.screen.get_size()
+        self.box.updates_position()
+        box_rect = self.box.get_rect()
+        self.update_text_elements()
+        self.no_btn.update_position((box_rect.left + 150, box_rect.bottom - 75))
+        self.yes_btn.update_position((box_rect.right - 150, box_rect.bottom - 75))
+        self.flag.update_position((box_rect.centerx, box_rect.top + 60))
+
     def set_up_practice_events(self):
         self.event_manager.subscribe("practice_results", self.set_results)
+        self.event_manager.subscribe("update_size", self.update_size)
