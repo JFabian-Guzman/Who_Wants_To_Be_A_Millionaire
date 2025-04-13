@@ -28,6 +28,7 @@ class Checkpoint(pygame.sprite.Sprite):
   def draw(self):
     if self.image:
       self.rect = self.image.get_rect(center=(self.width//2, self.height//2 + 50))
+      self.text_rect = self.text.get_rect(center=self.rect.center)
       self.screen.blit(self.image, self.rect)
 
   def update(self):
@@ -36,7 +37,6 @@ class Checkpoint(pygame.sprite.Sprite):
     self.animate()
 
   def write_text(self):
-    self.text_rect = self.text.get_rect(center=self.rect.center)
     self.screen.blit(self.text, self.text_rect)
 
   def animate(self):

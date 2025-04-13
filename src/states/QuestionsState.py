@@ -74,6 +74,7 @@ class Questions(State):
         self.clear_data()
         self.set_pagination()
         self.load_page()
+        self.setup_text()
 
     def clear_data(self):
         self.page_number = 0
@@ -160,8 +161,6 @@ class Questions(State):
             pag.update_position(((self.width // 2 - 200) + (50 * i), (self.height // 2 + 260)))
 
         self.delete_modal.update_position()
-
-
 
     def check_hover_on_icons(self):
         for box in self.boxes:
