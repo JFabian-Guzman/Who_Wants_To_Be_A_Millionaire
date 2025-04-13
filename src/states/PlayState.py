@@ -367,6 +367,7 @@ class Play(State):
         self.score.update_position((self.question_rect.centerx, self.question_rect.bottom - 20))
         self.surrender_modal.update_position()
         self.modal.update_position()
+        self.checkpoint.update_position()
         lifeline_pos = [
             (self.question_rect.centerx , self.question_rect.top + 15), 
             (self.question_rect.centerx - 75 , self.question_rect.top + 15), 

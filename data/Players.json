@@ -1,6 +1,10 @@
 [
     {
         "Name": "Fabian",
+        "Points": 828
+    },
+    {
+        "Name": "Fabian",
         "Points": 825
     },
     {
@@ -8,11 +12,11 @@
         "Points": 433
     },
     {
-        "Name": "dfsa",
-        "Points": 0
+        "Name": "camila",
+        "Points": 68
     },
     {
-        "Name": "das",
+        "Name": "dfsa",
         "Points": 0
     }
 ]

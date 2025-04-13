@@ -1,470 +1,212 @@
 [
     {
-        "id": 1,
+        "id": 101,
         "question": "What is the capital of France?",
         "answer": "Paris",
-        "options": [
-            "Paris",
-            "San Jose",
-            "Cartago",
-            "Lima"
-        ],
+        "options": ["Paris", "London", "Rome", "Madrid"],
         "level": 0
     },
     {
-        "id": 2,
+        "id": 102,
         "question": "What is 2 + 2?",
         "answer": "4",
-        "options": [
-            "1",
-            "89",
-            "3",
-            "4"
-        ],
+        "options": ["3", "4", "5", "22"],
         "level": 0
     },
     {
-        "id": 3,
-        "question": "What is the largest planet in our solar system?",
-        "answer": "Jupiter",
-        "options": [
-            "Earth",
-            "Mars",
-            "Jupiter",
-            "Saturn"
-        ],
-        "level": 0
-    },
-    {
-        "id": 5,
-        "question": "What is the chemical symbol for water?",
-        "answer": "H2O",
-        "options": [
-            "O2",
-            "H2O",
-            "CO2",
-            "NaCl"
-        ],
-        "level": 0
-    },
-    {
-        "id": 7,
-        "question": "Who painted the Mona Lisa?",
-        "answer": "Leonardo da Vinci",
-        "options": [
-            "Vincent van Gogh",
-            "Pablo Picasso",
-            "Leonardo da Vinci",
-            "Claude Monet"
-        ],
-        "level": 0
-    },
-    {
-        "id": 8,
+        "id": 103,
         "question": "What is the smallest prime number?",
         "answer": "2",
-        "options": [
-            "97",
-            "98",
-            "2",
-            "6"
-        ],
+        "options": ["1", "2", "3", "5"],
         "level": 1
     },
     {
-        "id": 9,
-        "question": "What is the hardest natural substance on Earth?",
-        "answer": "Diamond",
-        "options": [
-            "Gold",
-            "Iron",
-            "Diamond",
-            "Platinum"
-        ],
+        "id": 104,
+        "question": "What is the chemical symbol for water?",
+        "answer": "H2O",
+        "options": ["O2", "H2O", "CO2", "HO"],
         "level": 1
     },
     {
-        "id": 10,
-        "question": "Who is known as the father of computers?",
-        "answer": "Charles Babbage",
-        "options": [
-            "Alan Turing",
-            "Charles Babbage",
-            "Bill Gates",
-            "Steve Jobs"
-        ],
-        "level": 1
-    },
-    {
-        "id": 11,
-        "question": "What is the square root of 16?",
-        "answer": "4",
-        "options": [
-            "2",
-            "4",
-            "8",
-            "16"
-        ],
-        "level": 1
-    },
-    {
-        "id": 12,
-        "question": "What is the largest ocean on Earth?",
-        "answer": "Pacific Ocean",
-        "options": [
-            "Atlantic Ocean",
-            "Indian Ocean",
-            "Arctic Ocean",
-            "Pacific Ocean"
-        ],
-        "level": 1
-    },
-    {
-        "id": 13,
-        "question": "What is the powerhouse of the cell?",
-        "answer": "Mitochondria",
-        "options": [
-            "Nucleus",
-            "Ribosome",
-            "Mitochondria",
-            "Chloroplast"
-        ],
-        "level": 1
-    },
-    {
-        "id": 14,
-        "question": "Who discovered penicillin?",
-        "answer": "Alexander Fleming",
-        "options": [
-            "Marie Curie",
-            "Alexander Fleming",
-            "Louis Pasteur",
-            "Isaac Newton"
-        ],
-        "level": 1
-    },
-    {
-        "id": 15,
-        "question": "What is the capital of Japan?",
-        "answer": "Tokyo",
-        "options": [
-            "Kyoto",
-            "Osaka",
-            "Tokyo",
-            "Hiroshima"
-        ],
-        "level": 1
-    },
-    {
-        "id": 17,
+        "id": 105,
         "question": "Who developed the theory of relativity?",
         "answer": "Albert Einstein",
-        "options": [
-            "Isaac Newton",
-            "Albert Einstein",
-            "Fabian ",
-            "Nikola Tesla"
-        ],
+        "options": ["Isaac Newton", "Albert Einstein", "Galileo Galilei", "Nikola Tesla"],
         "level": 2
     },
     {
-        "id": 18,
-        "question": "What is the largest desert in the world?",
+        "id": 106,
+        "question": "Which desert is the largest in the world?",
         "answer": "Sahara Desert",
-        "options": [
-            "Gobi Desert",
-            "Kalahari Desert",
-            "Sahara Desert",
-            "Arctic Desert"
-        ],
+        "options": ["Gobi", "Sahara Desert", "Arctic", "Kalahari"],
         "level": 2
     },
     {
-        "id": 19,
-        "question": "What is the main ingredient in guacamole?",
-        "answer": "Avocado",
-        "options": [
-            "Tomato",
-            "Onion",
-            "Avocado",
-            "Lime"
-        ],
-        "level": 2
-    },
-    {
-        "id": 20,
-        "question": "What is the hardest rock?",
-        "answer": "Diamond",
-        "options": [
-            "Granite",
-            "Marble",
-            "Diamond",
-            "Quartz"
-        ],
-        "level": 2
-    },
-    {
-        "id": 21,
-        "question": "What is the capital of Australia?",
+        "id": 107,
+        "question": "What is the capital city of Australia?",
         "answer": "Canberra",
-        "options": [
-            "Sydney",
-            "Melbourne",
-            "Canberra",
-            "Brisbane"
-        ],
+        "options": ["Sydney", "Melbourne", "Brisbane", "Canberra"],
         "level": 3
     },
     {
-        "id": 22,
+        "id": 108,
         "question": "Who wrote '1984'?",
         "answer": "George Orwell",
-        "options": [
-            "George Orwell",
-            "Aldous Huxley",
-            "Ray Bradbury",
-            "J.K. Rowling"
-        ],
+        "options": ["George Orwell", "Aldous Huxley", "Ray Bradbury", "Ernest Hemingway"],
         "level": 3
     },
     {
-        "id": 23,
+        "id": 109,
         "question": "What is the chemical symbol for gold?",
         "answer": "Au",
-        "options": [
-            "Ag",
-            "Au",
-            "Pb",
-            "Fe"
-        ],
-        "level": 3
-    },
-    {
-        "id": 24,
-        "question": "What is the tallest mountain in the world?",
-        "answer": "Mount Everest",
-        "options": [
-            "K2",
-            "Kangchenjunga",
-            "Lhotse",
-            "Mount Everest"
-        ],
-        "level": 3
-    },
-    {
-        "id": 25,
-        "question": "Who painted the Sistine Chapel ceiling?",
-        "answer": "Michelangelo",
-        "options": [
-            "Leonardo da Vinci",
-            "Raphael",
-            "Michelangelo",
-            "Donatello"
-        ],
-        "level": 3
-    },
-    {
-        "id": 26,
-        "question": "What is the smallest country in the world?",
-        "answer": "Vatican City",
-        "options": [
-            "Monaco",
-            "San Marino",
-            "Liechtenstein",
-            "Vatican City"
-        ],
+        "options": ["Ag", "Au", "Gd", "Go"],
         "level": 4
     },
     {
-        "id": 27,
-        "question": "Who developed the polio vaccine?",
-        "answer": "Jonas Salk",
-        "options": [
-            "Albert Sabin",
-            "Alexander Fleming",
-            "Jonas Salk",
-            "Louis Pasteur"
-        ],
-        "level": 4
-    },
-    {
-        "id": 28,
-        "question": "What is the longest river in the world?",
-        "answer": "Nile River",
-        "options": [
-            "Amazon River",
-            "Yangtze River",
-            "Mississippi River",
-            "Nile River"
-        ],
-        "level": 4
-    },
-    {
-        "id": 29,
-        "question": "What is the most abundant gas in the Earth's atmosphere?",
-        "answer": "Nitrogen",
-        "options": [
-            "Oxygen",
-            "Carbon Dioxide",
-            "Nitrogen",
-            "Hydrogen"
-        ],
-        "level": 4
-    },
-    {
-        "id": 30,
+        "id": 110,
         "question": "Who was the first person to walk on the moon?",
         "answer": "Neil Armstrong",
-        "options": [
-            "Buzz Aldrin",
-            "Yuri Gagarin",
-            "Neil Armstrong",
-            "Michael Collins"
-        ],
+        "options": ["Neil Armstrong", "Buzz Aldrin", "Yuri Gagarin", "Michael Collins"],
         "level": 4
     },
     {
-        "id": 31,
+        "id": 111,
         "question": "What is the largest mammal in the world?",
-        "answer": "Blue Whale",
-        "options": [
-            "Elephant",
-            "Giraffe",
-            "Blue Whale",
-            "Great White Shark"
-        ],
+        "answer": "Blue whale",
+        "options": ["Elephant", "Blue whale", "Giraffe", "Hippopotamus"],
         "level": 5
     },
     {
-        "id": 32,
-        "question": "Who wrote 'Pride and Prejudice'?",
-        "answer": "Jane Austen",
-        "options": [
-            "Charlotte Bronte",
-            "Jane Austen",
-            "Emily Bronte",
-            "Mary Shelley"
-        ],
-        "level": 5
-    },
-    {
-        "id": 33,
+        "id": 112,
         "question": "What is the smallest bone in the human body?",
         "answer": "Stapes",
-        "options": [
-            "Femur",
-            "Stapes",
-            "Humerus",
-            "Tibia"
-        ],
+        "options": ["Femur", "Stapes", "Humerus", "Ulna"],
         "level": 5
     },
     {
-        "id": 34,
-        "question": "What is the capital of Canada?",
-        "answer": "Ottawa",
-        "options": [
-            "Toronto",
-            "Vancouver",
-            "Ottawa",
-            "Montreal"
-        ],
-        "level": 5
-    },
-    {
-        "id": 35,
-        "question": "Who discovered America?",
-        "answer": "Christopher Columbus",
-        "options": [
-            "Leif Erikson",
-            "Christopher Columbus",
-            "Amerigo Vespucci",
-            "Ferdinand Magellan"
-        ],
-        "level": 5
-    },
-    {
-        "id": 36,
-        "question": "What is the largest continent?",
-        "answer": "Asia",
-        "options": [
-            "Africa",
-            "Asia",
-            "Europe",
-            "North America"
-        ],
+        "id": 113,
+        "question": "What is the powerhouse of the cell?",
+        "answer": "Mitochondria",
+        "options": ["Nucleus", "Mitochondria", "Ribosome", "Chloroplast"],
         "level": 6
     },
     {
-        "id": 37,
-        "question": "Who is the author of 'The Catcher in the Rye'?",
-        "answer": "F. Scott Fitzgerald",
-        "options": [
-            "J.D. Salinger",
-            "F. Scott Fitzgerald",
-            "Ernest Hemingway",
-            "Mark Twain"
-        ],
+        "id": 114,
+        "question": "Who discovered penicillin?",
+        "answer": "Alexander Fleming",
+        "options": ["Marie Curie", "Louis Pasteur", "Alexander Fleming", "Isaac Newton"],
         "level": 6
     },
     {
-        "id": 38,
-        "question": "What is the chemical symbol for sodium?",
-        "answer": "Na",
-        "options": [
-            "S",
-            "Na",
-            "K",
-            "Cl"
-        ],
-        "level": 6
+    "id": 115,
+    "question": "Which planet has the most moons?",
+    "answer": "Saturn",
+    "options": ["Jupiter", "Mars", "Saturn", "Neptune"],
+    "level": 7
     },
     {
-        "id": 39,
-        "question": "What is the longest bone in the human body?",
-        "answer": "Femur",
-        "options": [
-            "Humerus",
-            "Tibia",
-            "Fibula",
-            "Femur"
-        ],
-        "level": 6
+    "id": 116,
+    "question": "In which year did the Titanic sink?",
+    "answer": "1912",
+    "options": ["1905", "1912", "1920", "1898"],
+    "level": 7
     },
     {
-        "id": 40,
-        "question": "Who was the first President of the United States?",
-        "answer": "George Washington",
-        "options": [
-            "Thomas Jefferson",
-            "John Adams",
-            "George Washington",
-            "James Madison"
-        ],
-        "level": 6
+    "id": 117,
+    "question": "What is the term for animals that eat both plants and meat?",
+    "answer": "Omnivores",
+    "options": ["Carnivores", "Herbivores", "Omnivores", "Detritivores"],
+    "level": 8
     },
     {
-        "id": 44,
-        "question": "TEST 10",
-        "answer": "23",
-        "options": [
-            "OKOK",
-            "123",
-            "23",
-            "1234"
-        ],
-        "level": 9
+    "id": 118,
+    "question": "Which element has the atomic number 6?",
+    "answer": "Carbon",
+    "options": ["Oxygen", "Carbon", "Nitrogen", "Helium"],
+    "level": 8
     },
     {
-        "id": 45,
-        "question": "TEST 11",
-        "answer": "432",
-        "options": [
-            "321",
-            "132",
-            "432",
-            "4323"
-        ],
-        "level": 9
+    "id": 119,
+    "question": "What is the capital of Iceland?",
+    "answer": "Reykjavik",
+    "options": ["Oslo", "Helsinki", "Reykjavik", "Copenhagen"],
+    "level": 9
+    },
+    {
+    "id": 120,
+    "question": "Who wrote the play 'Hamlet'?",
+    "answer": "William Shakespeare",
+    "options": ["Christopher Marlowe", "William Shakespeare", "Ben Jonson", "John Milton"],
+    "level": 9
+    },
+    {
+    "id": 121,
+    "question": "What is the powerhouse of a eukaryotic cell?",
+    "answer": "Mitochondria",
+    "options": ["Nucleus", "Mitochondria", "Golgi apparatus", "Ribosome"],
+    "level": 10
+    },
+    {
+    "id": 122,
+    "question": "Who proposed the laws of motion and universal gravitation?",
+    "answer": "Isaac Newton",
+    "options": ["Galileo Galilei", "Albert Einstein", "Isaac Newton", "Stephen Hawking"],
+    "level": 10
+    },
+    {
+    "id": 123,
+    "question": "What is the process by which plants make their food?",
+    "answer": "Photosynthesis",
+    "options": ["Respiration", "Fermentation", "Photosynthesis", "Digestion"],
+    "level": 11
+    },
+    {
+    "id": 124,
+    "question": "What is the longest bone in the human body?",
+    "answer": "Femur",
+    "options": ["Femur", "Humerus", "Tibia", "Fibula"],
+    "level": 11
+    },
+    {
+    "id": 125,
+    "question": "Which blood type is known as the universal donor?",
+    "answer": "O negative",
+    "options": ["A positive", "B negative", "O positive", "O negative"],
+    "level": 12
+    },
+    {
+    "id": 126,
+    "question": "What is the derivative of sin(x)?",
+    "answer": "cos(x)",
+    "options": ["cos(x)", "-cos(x)", "sin(x)", "-sin(x)"],
+    "level": 12
+    },
+    {
+        "id": 127,
+        "question": "What is the chemical formula for table salt?",
+        "answer": "NaCl",
+        "options": ["NaCl", "KCl", "CaCl2", "HCl"],
+        "level": 13
+      },
+      {
+        "id": 128,
+        "question": "Which scientist is known for the three laws of planetary motion?",
+        "answer": "Johannes Kepler",
+        "options": ["Isaac Newton", "Galileo Galilei", "Johannes Kepler", "Copernicus"],
+        "level": 13
+    },
+    {
+    "id": 129,
+    "question": "What is the main language spoken in Brazil?",
+    "answer": "Portuguese",
+    "options": ["Spanish", "Portuguese", "French", "English"],
+    "level": 14
+    },
+    {
+    "id": 130,
+    "question": "Which is the only even prime number?",
+    "answer": "2",
+    "options": ["1", "2", "4", "0"],
+    "level": 14
     }
 ]
