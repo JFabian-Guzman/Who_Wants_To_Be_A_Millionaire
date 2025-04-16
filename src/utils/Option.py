@@ -12,7 +12,14 @@ class Option(pygame.sprite.Sprite):
     self.run_animation = False
     self.animation_callback = None
     self.is_wrong = False
+    self.is_menu = False
     self.text = text
+    self.menu_sound = pygame.mixer.Sound(join("assets", "sounds" ,"option_selected.mp3"))
+    self.menu_sound.set_volume(.5)
+    self.error_sound = pygame.mixer.Sound(join("assets", "sounds" ,"error.mp3"))
+    self.error_sound.set_volume(.5)
+    self.correct_sound = pygame.mixer.Sound(join("assets", "sounds" ,"correct.mp3"))
+    self.correct_sound.set_volume(.5)
     
     self.option_blue = pygame.image.load(join("assets", "img" ,"option.png")).convert_alpha()
     self.option_organe = pygame.image.load(join("assets", "img" ,"option_animation1.png")).convert_alpha()
@@ -91,10 +98,20 @@ class Option(pygame.sprite.Sprite):
   def get_rect(self):
     return self.rect
   
-  def start_animation(self, callback=None, wrong=False):
+  def start_animation(self, callback=None, wrong=False, menu=False):
+    self.is_menu = menu
     self.is_wrong = wrong
+    self.play_sound()
     self.run_animation = True
     self.animation_callback = callback
+
+  def play_sound(self):
+    if self.is_menu:
+      self.menu_sound.play()
+    elif self.is_wrong:
+      self.error_sound.play()
+    else:
+      self.correct_sound.play()
 
   def stop_animation(self):
     self.run_animation = False

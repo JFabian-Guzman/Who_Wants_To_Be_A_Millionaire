@@ -1,212 +1,212 @@
 [
     {
         "id": 101,
-        "question": "What is the capital of France?",
+        "question": "Cual es la capital de Francia?",
         "answer": "Paris",
-        "options": ["Paris", "London", "Rome", "Madrid"],
+        "options": ["Paris", "Londres", "Roma", "Madrid"],
         "level": 0
     },
     {
         "id": 102,
-        "question": "What is 2 + 2?",
+        "question": "Cuanto es 2 + 2?",
         "answer": "4",
         "options": ["3", "4", "5", "22"],
         "level": 0
     },
     {
         "id": 103,
-        "question": "What is the smallest prime number?",
+        "question": "Cual es el numero primo mas pequeno?",
         "answer": "2",
         "options": ["1", "2", "3", "5"],
         "level": 1
     },
     {
         "id": 104,
-        "question": "What is the chemical symbol for water?",
+        "question": "Cual es el simbolo quimico del agua?",
         "answer": "H2O",
         "options": ["O2", "H2O", "CO2", "HO"],
         "level": 1
     },
     {
         "id": 105,
-        "question": "Who developed the theory of relativity?",
+        "question": "Quien desarrollo la teoria de la relatividad?",
         "answer": "Albert Einstein",
         "options": ["Isaac Newton", "Albert Einstein", "Galileo Galilei", "Nikola Tesla"],
         "level": 2
     },
     {
         "id": 106,
-        "question": "Which desert is the largest in the world?",
-        "answer": "Sahara Desert",
-        "options": ["Gobi", "Sahara Desert", "Arctic", "Kalahari"],
+        "question": "Cual es el desierto mas grande del mundo?",
+        "answer": "Desierto del Sahara",
+        "options": ["Gobi", "Desierto del Sahara", "Artico", "Kalahari"],
         "level": 2
     },
     {
         "id": 107,
-        "question": "What is the capital city of Australia?",
+        "question": "Cual es la capital de Australia?",
         "answer": "Canberra",
-        "options": ["Sydney", "Melbourne", "Brisbane", "Canberra"],
+        "options": ["Sidney", "Melbourne", "Brisbane", "Canberra"],
         "level": 3
     },
     {
         "id": 108,
-        "question": "Who wrote '1984'?",
+        "question": "Quien escribio '1984'?",
         "answer": "George Orwell",
         "options": ["George Orwell", "Aldous Huxley", "Ray Bradbury", "Ernest Hemingway"],
         "level": 3
     },
     {
         "id": 109,
-        "question": "What is the chemical symbol for gold?",
+        "question": "Cual es el simbolo quimico del oro?",
         "answer": "Au",
         "options": ["Ag", "Au", "Gd", "Go"],
         "level": 4
     },
     {
         "id": 110,
-        "question": "Who was the first person to walk on the moon?",
+        "question": "Quien fue la primera persona en caminar sobre la luna?",
         "answer": "Neil Armstrong",
         "options": ["Neil Armstrong", "Buzz Aldrin", "Yuri Gagarin", "Michael Collins"],
         "level": 4
     },
     {
         "id": 111,
-        "question": "What is the largest mammal in the world?",
-        "answer": "Blue whale",
-        "options": ["Elephant", "Blue whale", "Giraffe", "Hippopotamus"],
+        "question": "Cual es el mamifero mas grande del mundo?",
+        "answer": "Ballena azul",
+        "options": ["Elefante", "Ballena azul", "Jirafa", "Hipopotamo"],
         "level": 5
     },
     {
         "id": 112,
-        "question": "What is the smallest bone in the human body?",
-        "answer": "Stapes",
-        "options": ["Femur", "Stapes", "Humerus", "Ulna"],
+        "question": "Cual es el hueso mas pequeno del cuerpo humano?",
+        "answer": "Estribo",
+        "options": ["Femur", "Estribo", "Humero", "Cubito"],
         "level": 5
     },
     {
         "id": 113,
-        "question": "What is the powerhouse of the cell?",
-        "answer": "Mitochondria",
-        "options": ["Nucleus", "Mitochondria", "Ribosome", "Chloroplast"],
+        "question": "Cual es la central energetica de la celula?",
+        "answer": "Mitocondria",
+        "options": ["Nucleo", "Mitocondria", "Ribosoma", "Cloroplasto"],
         "level": 6
     },
     {
         "id": 114,
-        "question": "Who discovered penicillin?",
+        "question": "Quien descubrio la penicilina?",
         "answer": "Alexander Fleming",
         "options": ["Marie Curie", "Louis Pasteur", "Alexander Fleming", "Isaac Newton"],
         "level": 6
     },
     {
-    "id": 115,
-    "question": "Which planet has the most moons?",
-    "answer": "Saturn",
-    "options": ["Jupiter", "Mars", "Saturn", "Neptune"],
-    "level": 7
+        "id": 115,
+        "question": "Que planeta tiene mas lunas?",
+        "answer": "Saturno",
+        "options": ["Jupiter", "Marte", "Saturno", "Neptuno"],
+        "level": 7
     },
     {
-    "id": 116,
-    "question": "In which year did the Titanic sink?",
-    "answer": "1912",
-    "options": ["1905", "1912", "1920", "1898"],
-    "level": 7
+        "id": 116,
+        "question": "En que ano se hundio el Titanic?",
+        "answer": "1912",
+        "options": ["1905", "1912", "1920", "1898"],
+        "level": 7
     },
     {
-    "id": 117,
-    "question": "What is the term for animals that eat both plants and meat?",
-    "answer": "Omnivores",
-    "options": ["Carnivores", "Herbivores", "Omnivores", "Detritivores"],
-    "level": 8
+        "id": 117,
+        "question": "Como se llaman los animales que comen plantas y carne?",
+        "answer": "Omnivoros",
+        "options": ["Carnivoros", "Herbivoros", "Omnivoros", "Detritivoros"],
+        "level": 8
     },
     {
-    "id": 118,
-    "question": "Which element has the atomic number 6?",
-    "answer": "Carbon",
-    "options": ["Oxygen", "Carbon", "Nitrogen", "Helium"],
-    "level": 8
+        "id": 118,
+        "question": "Que elemento tiene el numero atomico 6?",
+        "answer": "Carbono",
+        "options": ["Oxigeno", "Carbono", "Nitrogeno", "Helio"],
+        "level": 8
     },
     {
-    "id": 119,
-    "question": "What is the capital of Iceland?",
-    "answer": "Reykjavik",
-    "options": ["Oslo", "Helsinki", "Reykjavik", "Copenhagen"],
-    "level": 9
+        "id": 119,
+        "question": "Cual es la capital de Islandia?",
+        "answer": "Reikiavik",
+        "options": ["Oslo", "Helsinki", "Reikiavik", "Copenhague"],
+        "level": 9
     },
     {
-    "id": 120,
-    "question": "Who wrote the play 'Hamlet'?",
-    "answer": "William Shakespeare",
-    "options": ["Christopher Marlowe", "William Shakespeare", "Ben Jonson", "John Milton"],
-    "level": 9
+        "id": 120,
+        "question": "Quien escribio la obra 'Hamlet'?",
+        "answer": "William Shakespeare",
+        "options": ["Christopher Marlowe", "William Shakespeare", "Ben Jonson", "John Milton"],
+        "level": 9
     },
     {
-    "id": 121,
-    "question": "What is the powerhouse of a eukaryotic cell?",
-    "answer": "Mitochondria",
-    "options": ["Nucleus", "Mitochondria", "Golgi apparatus", "Ribosome"],
-    "level": 10
+        "id": 121,
+        "question": "Cual es la central energetica de una celula eucariota?",
+        "answer": "Mitocondria",
+        "options": ["Nucleo", "Mitocondria", "Aparato de Golgi", "Ribosoma"],
+        "level": 10
     },
     {
-    "id": 122,
-    "question": "Who proposed the laws of motion and universal gravitation?",
-    "answer": "Isaac Newton",
-    "options": ["Galileo Galilei", "Albert Einstein", "Isaac Newton", "Stephen Hawking"],
-    "level": 10
+        "id": 122,
+        "question": "Quien propuso las leyes del movimiento y la gravitacion universal?",
+        "answer": "Isaac Newton",
+        "options": ["Galileo Galilei", "Albert Einstein", "Isaac Newton", "Stephen Hawking"],
+        "level": 10
     },
     {
-    "id": 123,
-    "question": "What is the process by which plants make their food?",
-    "answer": "Photosynthesis",
-    "options": ["Respiration", "Fermentation", "Photosynthesis", "Digestion"],
-    "level": 11
+        "id": 123,
+        "question": "Como se llama el proceso por el cual las plantas elaboran su alimento?",
+        "answer": "Fotosintesis",
+        "options": ["Respiracion", "Fermentacion", "Fotosintesis", "Digestion"],
+        "level": 11
     },
     {
-    "id": 124,
-    "question": "What is the longest bone in the human body?",
-    "answer": "Femur",
-    "options": ["Femur", "Humerus", "Tibia", "Fibula"],
-    "level": 11
+        "id": 124,
+        "question": "Cual es el hueso mas largo del cuerpo humano?",
+        "answer": "Femur",
+        "options": ["Femur", "Humero", "Tibia", "Fibula"],
+        "level": 11
     },
     {
-    "id": 125,
-    "question": "Which blood type is known as the universal donor?",
-    "answer": "O negative",
-    "options": ["A positive", "B negative", "O positive", "O negative"],
-    "level": 12
+        "id": 125,
+        "question": "Que tipo de sangre es conocido como el donante universal?",
+        "answer": "O negativo",
+        "options": ["A positivo", "B negativo", "O positivo", "O negativo"],
+        "level": 12
     },
     {
-    "id": 126,
-    "question": "What is the derivative of sin(x)?",
-    "answer": "cos(x)",
-    "options": ["cos(x)", "-cos(x)", "sin(x)", "-sin(x)"],
-    "level": 12
+        "id": 126,
+        "question": "Cual es la derivada de sin(x)?",
+        "answer": "cos(x)",
+        "options": ["cos(x)", "-cos(x)", "sin(x)", "-sin(x)"],
+        "level": 12
     },
     {
         "id": 127,
-        "question": "What is the chemical formula for table salt?",
+        "question": "Cual es la formula quimica de la sal de mesa?",
         "answer": "NaCl",
         "options": ["NaCl", "KCl", "CaCl2", "HCl"],
         "level": 13
-      },
-      {
+    },
+    {
         "id": 128,
-        "question": "Which scientist is known for the three laws of planetary motion?",
+        "question": "Que cientifico es conocido por las tres leyes del movimiento planetario?",
         "answer": "Johannes Kepler",
-        "options": ["Isaac Newton", "Galileo Galilei", "Johannes Kepler", "Copernicus"],
+        "options": ["Isaac Newton", "Galileo Galilei", "Johannes Kepler", "Copernico"],
         "level": 13
     },
     {
-    "id": 129,
-    "question": "What is the main language spoken in Brazil?",
-    "answer": "Portuguese",
-    "options": ["Spanish", "Portuguese", "French", "English"],
-    "level": 14
+        "id": 129,
+        "question": "Cual es el idioma principal que se habla en Brasil?",
+        "answer": "Portugues",
+        "options": ["Espanol", "Portugues", "Frances", "Ingles"],
+        "level": 14
     },
     {
-    "id": 130,
-    "question": "Which is the only even prime number?",
-    "answer": "2",
-    "options": ["1", "2", "4", "0"],
-    "level": 14
+        "id": 130,
+        "question": "Cual es el unico numero primo par?",
+        "answer": "2",
+        "options": ["1", "2", "4", "0"],
+        "level": 14
     }
 ]

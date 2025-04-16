@@ -51,7 +51,7 @@ class Menu(State):
                     self.event_manager.notify("stop_game")
                 else:
                     self.is_option_animating = True
-                    option.start_animation(callback=lambda: self.change_state(option))
+                    option.start_animation(callback=lambda: self.change_state(option), menu= True)
                 self.click_handled = True    
                 return
 
