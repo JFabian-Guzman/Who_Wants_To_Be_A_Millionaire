@@ -20,6 +20,9 @@ class Win(State):
         self.flag = WinFlag( (box_rect.centerx, box_rect.top + 60) , self.elements)
         self.coin = Coin((self.width // 2 + 100, self.height // 2 + 13), self.elements)
 
+        self.sound = pygame.mixer.Sound(join("assets", "sounds" ,"win.mp3"))
+        self.sound.set_volume(.5)
+
         self.interactive_elements.append(self.no_btn)
         self.interactive_elements.append(self.yes_btn)
 
@@ -44,6 +47,9 @@ class Win(State):
             (TITLE.render("Play again?", True, COLORS["WHITE"]), (self.width / 2, self.height / 2 + 75)),
             (TEXT.render(self.reward_message, True, COLORS["WHITE"]), (self.width // 2, self.height // 2 + 15))
         ]
+
+    def play_sound(self, *args):
+        self.sound.play()
 
     def set_reward(self, *args):
         self.reward_message = "You win " + str(args[0])
@@ -72,3 +78,4 @@ class Win(State):
     def set_up_win_events(self):
         self.event_manager.subscribe("update_size", self.update_size)
         self.event_manager.subscribe("final_reward", self.set_reward)
+        self.event_manager.subscribe("play_win_sound", self.play_sound)

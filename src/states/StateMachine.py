@@ -17,6 +17,8 @@ class StateMachine:
       state = "instructions"
       self.event_manager.notify("display_continue_btn")
     elif state == "game":
+      pygame.mixer.music.stop()
+      self.event_manager.notify("play_start_game_sound")
       self.load_game()
     elif state == "instructions":
       self.event_manager.notify("erase_continue_btn")
@@ -25,6 +27,13 @@ class StateMachine:
       self.event_manager.notify("fetch_questions")
     elif state == "leaderboard":
       self.event_manager.notify("get_podium")
+    elif state == "win":
+      self.event_manager.notify("play_win_sound")
+    elif state == "game over":
+      self.event_manager.notify("play_game_over_sound")
+    elif state == "menu":
+      if not pygame.mixer.music.get_busy():
+          pygame.mixer.music.play(-1, 0.0)
 
 
     self.current_state = self.states[state]

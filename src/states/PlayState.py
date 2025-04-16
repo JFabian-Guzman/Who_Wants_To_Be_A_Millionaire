@@ -44,6 +44,8 @@ class Play(State):
         self.lifelines = []
         self.file_manager = file_manager
         self.start_time = pygame.time.get_ticks()
+        self.sound = pygame.mixer.Sound(join("assets", "sounds" ,"game_start.mp3"))
+        self.sound.set_volume(.5)
         
 
         self.setup_interactive_elements()
@@ -160,6 +162,9 @@ class Play(State):
                         return
         else:
             self.click_handled = False
+
+    def play_sound(self, *args):
+        self.sound.play()
 
     def click_lifeline(self):
         if pygame.mouse.get_pressed()[0]:
@@ -399,3 +404,4 @@ class Play(State):
         self.event_manager.subscribe("set_difficulty", self.set_difficulty)
         self.event_manager.subscribe("set_player_name", self.set_name)
         self.event_manager.subscribe("update_size", self.update_size)
+        self.event_manager.subscribe("play_start_game_sound", self.play_sound)
