@@ -26,6 +26,9 @@ class Lifeline(pygame.sprite.Sprite):
     self.icon = pygame.image.load(join("assets", "img" , icon + ".png")).convert_alpha()
     self.icon_rect = self.icon.get_rect(center=self.rect.center)
 
+    self.sound = pygame.mixer.Sound(join("assets", "sounds" ,"lifeline.mp3"))
+    self.sound.set_volume(.5)
+
   def draw(self):
     self.screen.blit(self.image, self.rect)
     self.screen.blit(self.icon, self.icon_rect)
@@ -73,6 +76,7 @@ class Lifeline(pygame.sprite.Sprite):
     return self.type
 
   def start_animation(self, callback=None):
+    self.sound.play()
     self.run_animation = True
     self.animation_callback = callback
 
