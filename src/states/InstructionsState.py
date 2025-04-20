@@ -16,6 +16,7 @@ class Instructions(State):
 
         self.display_continue = True
         self.click_handled = False
+        self.display_lifeline = False
 
     def setup_positions(self, box_rect):
         self.title_position = (box_rect.centerx, box_rect.top + 50)
@@ -31,8 +32,10 @@ class Instructions(State):
     def setup_buttons(self, box_rect):
         self.continue_btn = Button(None, (box_rect.right - 150, box_rect.bottom - 75) , self.event_manager)
         self.back_btn = Button(self.elements, (box_rect.left + 150, box_rect.bottom - 75), self.event_manager, 'negative_btn', 'Go Back', 'WHITE')
+        self.lifeline_btn = Button(None, (box_rect.right - 150, box_rect.bottom - 75), self.event_manager, 'btn', 'Lifelines', 'BLACK')
         self.interactive_elements.append(self.continue_btn)
         self.interactive_elements.append(self.back_btn)
+        self.interactive_elements.append(self.lifeline_btn)
 
     def draw(self):
         self.elements.draw(self.screen)
@@ -41,6 +44,10 @@ class Instructions(State):
         if self.display_continue:
             self.continue_btn.draw()
             self.continue_btn.update()
+        
+        if self.display_lifeline:
+            self.lifeline_btn.draw()
+            self.lifeline_btn.update()
 
     def update(self):
         self.elements.update()
@@ -50,7 +57,10 @@ class Instructions(State):
     def check_click(self):
         if pygame.mouse.get_pressed()[0]:
             if not self.click_handled:
-                self.continue_btn.check_notify_state("player")
+                if self.display_continue:
+                    self.continue_btn.check_notify_state("player")
+                else:
+                    self.lifeline_btn.check_notify_state("lifeline_instructions")
                 self.event_manager.notify("clear_player_data")
                 self.back_btn.check_notify_state("menu")
                 self.click_handled = True
@@ -58,9 +68,11 @@ class Instructions(State):
             self.click_handled = False
 
     def display_continue_btn(self, *args):
+        self.display_lifeline = False
         self.display_continue = True
 
     def erase_continue_btn(self, *args):
+        self.display_lifeline = True
         self.display_continue = False
 
     def update_size(self, *args):
@@ -70,6 +82,7 @@ class Instructions(State):
         self.setup_text_elements()
         self.back_btn.update_position((box_rect.left + 150, box_rect.bottom - 75))
         self.continue_btn.update_position((box_rect.right - 150, box_rect.bottom - 75))
+        self.lifeline_btn.update_position((box_rect.right - 150, box_rect.bottom - 75))
         
 
     def set_up_instruction_events(self):

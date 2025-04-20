@@ -20,6 +20,7 @@ from states.QuestionsState import *
 from states.EditState import * 
 from states.AddState import *
 from states.PlayerState import *
+from states.LifelineInstructions import *
 
 
 class Game:
@@ -64,6 +65,7 @@ class Game:
     self.edit = Edit(self.event_manager)
     self.add = Add(self.event_manager)
     self.player = Player(self.event_manager)
+    self.lifeline_instructions = LifelineInstrucitions(self.event_manager)
 
     # Add states to the state_machine
     self.state_machine.add_state("menu", self.menu)
@@ -81,6 +83,7 @@ class Game:
     self.state_machine.add_state("edit", self.edit)
     self.state_machine.add_state("add", self.add)
     self.state_machine.add_state("player", self.player)
+    self.state_machine.add_state("lifeline_instructions", self.lifeline_instructions)
     
     #set up events
     self.set_up_game_events()
@@ -100,6 +103,7 @@ class Game:
     self.difficulty.set_up_difficulty_events()
     self.credits.set_up_credits_events()
     self.manage_questions.set_up_manage_events()
+    self.lifeline_instructions.set_up_lifeline_instructins_events()
 
     #default state
     self.event_manager.notify("set_state", "menu")

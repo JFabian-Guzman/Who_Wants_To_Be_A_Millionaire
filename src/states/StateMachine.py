@@ -15,12 +15,14 @@ class StateMachine:
   def set_state(self, state: str):
     if state == "play":
       state = "instructions"
+      print("DISPLAY")
       self.event_manager.notify("display_continue_btn")
     elif state == "game":
       pygame.mixer.music.stop()
       self.event_manager.notify("play_start_game_sound")
       self.load_game()
     elif state == "instructions":
+      print("ERASING")
       self.event_manager.notify("erase_continue_btn")
     elif state == "questions":
       self.event_manager.notify("load_data")

@@ -302,8 +302,9 @@ class Play(State):
             self.animating = False
             return
 
-        self.hearts[self.total_lives - self.lives].disable()
-        self.lives -= 1
+        if not self.practice_mode:
+            self.hearts[self.total_lives - self.lives].disable()
+            self.lives -= 1
 
         if self.lives == 0 and not self.practice_mode:
             self.event_manager.notify("game_over_message", (self.answer, self.save_score))
