@@ -11,7 +11,6 @@ from states.InstructionsState import *
 from states.CreditsState import *
 from states.LeaderboardState import *
 from states.ManageQuestionsState import *
-from states.RewardState import *
 from states.WinState import *
 from states.GameOverState import *
 from states.DifficultyState import *
@@ -56,7 +55,6 @@ class Game:
     self.manage_questions = ManageQuestions(self.event_manager)
     self.credits = Credits(self.event_manager)
     self.leaderboard = Leaderboard(self.event_manager)
-    self.rewards = Rewards(self.event_manager)
     self.win = Win(self.event_manager)
     self.game_over = GameOver(self.event_manager)
     self.difficulty = Difficulty(self.event_manager)
@@ -74,7 +72,6 @@ class Game:
     self.state_machine.add_state("manage questions", self.manage_questions)
     self.state_machine.add_state("credits", self.credits)
     self.state_machine.add_state("leaderboard", self.leaderboard)
-    self.state_machine.add_state("rewards", self.rewards)
     self.state_machine.add_state("win", self.win)
     self.state_machine.add_state("game over", self.game_over)
     self.state_machine.add_state("difficulty", self.difficulty)

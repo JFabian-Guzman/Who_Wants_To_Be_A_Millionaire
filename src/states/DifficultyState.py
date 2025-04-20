@@ -19,40 +19,41 @@ class Difficulty(State):
         self.active_difficulty = None
         self.display_warning_message = False
 
+        self.set_up_positions(box_rect)
+        self.set_up_text_elements()
+        self.set_up_difficulty_options()
+        self.set_up_buttons(box_rect)
+
+
+    def set_up_positions(self, box_rect):
         self.positions = [
             (self.width // 2 - 225, self.height // 2 - 35), # Practice
             (self.width // 2 - 225, self.height // 2 + 65), # Easy
             (self.width // 2 + 225, self.height // 2 - 35), # Normal
             (self.width // 2 + 225, self.height // 2 + 65)  # Hard
         ]
-
-        self.setup_positions(box_rect)
-        self.setup_text_elements()
-        self.setup_difficulty_options()
-        self.setup_buttons(box_rect)
-
-
-    def setup_positions(self, box_rect):
         self.TITLE_POSITION = (box_rect.centerx, box_rect.top + 50)
         self.WARNING_POSITION = (box_rect.centerx, box_rect.top + 100)
+        self.right_btn_pos = (box_rect.right - 150, box_rect.bottom - 75)
+        self.left_btn_pos = (box_rect.left + 150, box_rect.bottom - 75)
 
-    def setup_text_elements(self):
+    def set_up_text_elements(self):
         self.text_elements = [
             (TITLE.render("Select Difficulty", True, COLORS["AMBER"]), self.TITLE_POSITION),
         ]
         self.warning_message = TEXT.render("Please select a difficulty", True, COLORS["RED"])
         self.warning_rect = self.warning_message.get_rect(center=self.WARNING_POSITION)
 
-    def setup_difficulty_options(self):
+    def set_up_difficulty_options(self):
         self.difficulties = []
         for i, (difficulty, color) in enumerate(DIFFICULTIES):
             option = DifficultyOption(difficulty, self.positions[i], self.elements, color)
             self.difficulties.append(option)
             self.interactive_elements.append(option)
 
-    def setup_buttons(self, box_rect):
-        self.continue_btn = Button(self.elements, (box_rect.right - 150, box_rect.bottom - 75), self.event_manager, text="Start")
-        self.back_btn = Button(self.elements, (box_rect.left + 150, box_rect.bottom - 75), self.event_manager, 'negative_btn', 'Go Back', 'WHITE')
+    def set_up_buttons(self, box_rect):
+        self.continue_btn = Button(self.elements, self.right_btn_pos, self.event_manager, text="Start")
+        self.back_btn = Button(self.elements, self.left_btn_pos, self.event_manager, 'negative_btn', 'Go Back', 'WHITE')
         self.interactive_elements.append(self.continue_btn)
         self.interactive_elements.append(self.back_btn)
 
@@ -129,16 +130,10 @@ class Difficulty(State):
         self.width, self.height = self.screen.get_size()
         self.box.updates_position()
         box_rect = self.box.get_rect()
-        self.back_btn.update_position((box_rect.left + 150, box_rect.bottom - 75))
-        self.continue_btn.update_position((box_rect.right - 150, box_rect.bottom - 75))
-        self.setup_positions(box_rect)
-        self.setup_text_elements()
-        self.positions = [
-            (self.width // 2 - 225, self.height // 2 - 35), # Practice
-            (self.width // 2 - 225, self.height // 2 + 65), # Easy
-            (self.width // 2 + 225, self.height // 2 - 35), # Normal
-            (self.width // 2 + 225, self.height // 2 + 65)  # Hard
-        ]
+        self.set_up_positions(box_rect)
+        self.back_btn.update_position(self.left_btn_pos)
+        self.continue_btn.update_position(self.right_btn_pos)
+        self.set_up_text_elements()
         for i, difficulty in enumerate(self.difficulties):
             difficulty.update_position(self.positions[i])
 

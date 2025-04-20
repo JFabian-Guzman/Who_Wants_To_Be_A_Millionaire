@@ -6,12 +6,6 @@ from utils.Box import *
 from utils.GameOverFlag import *
 from utils.Coin import *
 
-RESTART_POSITION = (WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2 + 75)
-ANSWER_TEXT_POSITION = (WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 - 30)
-ANSWER_POSITION = (WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2)
-REWARD_POSITION = (WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 + 30)
-COIN_POSITION = (REWARD_POSITION[0] + 75, REWARD_POSITION[1] - 2)
-
 class GameOver(State):
     def __init__(self, event_manager):
         super().__init__(event_manager)
@@ -21,19 +15,8 @@ class GameOver(State):
 
         self.answer = ''
         self.reward = ''
-
-        self.no_btn = Button(self.elements, (box_rect.left + 150, box_rect.bottom - 75), event_manager, 'negative_btn', 'No', 'WHITE')
-        self.yes_btn = Button(self.elements, (box_rect.right - 150, box_rect.bottom - 75), event_manager, 'btn', 'Yes')
-
-        self.flag = GameOverFlag((box_rect.centerx, box_rect.top + 60), self.elements)
-        self.coin = Coin((self.width // 2 + 100, self.height // 2 + 28), self.elements)
-
-        self.sound = pygame.mixer.Sound(join("assets", "sounds" ,"game_over.mp3"))
-        self.sound.set_volume(.5)
-
-        self.interactive_elements.append(self.no_btn)
-        self.interactive_elements.append(self.yes_btn)
-
+        self.set_up_positions(box_rect)
+        self.set_up_elements()
         self.update_text_elements()
 
     def update_text_elements(self):
@@ -43,6 +26,25 @@ class GameOver(State):
             (TEXT.render(self.answer, True, COLORS["WHITE"]), (self.width // 2, self.height // 2 )),
             (TEXT.render("You win " + self.reward, True, COLORS["WHITE"]), (self.width // 2, self.height // 2 + 30))
         ]
+
+    def set_up_positions(self, box_rect):
+        self.left_btn_pos = (box_rect.left + 150, box_rect.bottom - 75)
+        self.right_btn_pos = (box_rect.right - 150, box_rect.bottom - 75)
+        self.flag_pos = (box_rect.centerx, box_rect.top + 60)
+        self.coin_pos = (self.width // 2 + 100, self.height // 2 + 28)
+
+    def set_up_elements(self):
+        self.no_btn = Button(self.elements, self.left_btn_pos, self.event_manager, 'negative_btn', 'No', 'WHITE')
+        self.yes_btn = Button(self.elements, self.right_btn_pos, self.event_manager, 'btn', 'Yes')
+
+        self.flag = GameOverFlag(self.flag_pos, self.elements)
+        self.coin = Coin(self.coin_pos, self.elements)
+
+        self.sound = pygame.mixer.Sound(join("assets", "sounds" ,"game_over.mp3"))
+        self.sound.set_volume(.5)
+
+        self.interactive_elements.append(self.no_btn)
+        self.interactive_elements.append(self.yes_btn)
 
     def draw(self):
         self.elements.draw(self.screen)
@@ -57,6 +59,8 @@ class GameOver(State):
     def update(self):
         self.elements.update()
         self.update_cursor_state()
+
+    
 
     def set_reward(self, *args):
         data = args[0]
@@ -82,10 +86,11 @@ class GameOver(State):
         self.box.updates_position()
         box_rect = self.box.get_rect()
         self.update_text_elements()
-        self.no_btn.update_position((box_rect.left + 150, box_rect.bottom - 75))
-        self.yes_btn.update_position((box_rect.right - 150, box_rect.bottom - 75))
-        self.coin.update_position((self.width // 2 + 100, self.height // 2 + 28))
-        self.flag.update_position((box_rect.centerx, box_rect.top + 60))
+        self.set_up_positions(box_rect)
+        self.no_btn.update_position(self.left_btn_pos)
+        self.yes_btn.update_position(self.right_btn_pos)
+        self.coin.update_position(self.coin_pos)
+        self.flag.update_position(self.flag_pos)
 
     def set_up_game_over_events(self):
         self.event_manager.subscribe("update_size", self.update_size)
