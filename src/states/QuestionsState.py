@@ -22,26 +22,37 @@ class Questions(State):
         self.page_number = 0
         self.pagination = []
         self.active_pagination = []
-        self.setup_ui(event_manager)
-        self.setup_pagination()
+        self.set_up_text()
+        self.set_up_positions()
+        self.set_up_elements()
+        self.set_up_pagination()
         self.set_up_question_events()
-        self.setup_text()
 
-    def setup_ui(self, event_manager):
-        self.back_btn = Button(self.elements, (self.width//2 - 350, 75), event_manager, 'negative_btn', 'Go Back', 'WHITE')
-        self.title_background = pygame.image.load(join("assets", "img", "score.png")).convert_alpha()
-        self.title_background_rect = self.title_background.get_rect(center=(self.width//2 , 75))
+    def set_up_elements(self):
+        self.back_btn = Button(self.elements, self.left_btn_pos, self.event_manager, 'negative_btn', 'Go Back', 'WHITE')
         self.add_box = AddQuestion(self.elements)
-        self.delete_modal = DeleteModal(event_manager)
+        self.delete_modal = DeleteModal(self.event_manager)
         self.interactive_elements.append(self.back_btn)
         self.interactive_elements.append(self.add_box)
 
-    def setup_pagination(self):
+    def set_up_pagination(self):
         for i in range(9):
-            self.pagination.append(PaginationBox(((self.width // 2 - 200) + (50 * i), (self.height // 2 + 260)), str(i + 1)))
+            self.pagination.append(PaginationBox((0,0), str(i + 1)))
+        self.update_pagination_pos()
 
-    def setup_text(self):
+    def update_pagination_pos(self):
+        for i, pag in enumerate(self.pagination):
+            pag.update_position(((self.width // 2 - 200) + (50 * i), (self.height // 2 + 260)))
+
+    def set_up_text(self):
+        self.title_background = pygame.image.load(join("assets", "img", "score.png")).convert_alpha()
         self.title = TITLE.render("Question Manager\n    Level: " + str(self.level + 1), True, COLORS["BLACK"])
+
+    def set_up_positions(self):
+        self.left_btn_pos = (self.width//2 - 350, 75)
+        self.title_background_rect = self.title_background.get_rect(center=(self.width//2 , 75))
+        self.title_rect = self.title.get_rect(center=self.title_background_rect.center)
+
 
     def draw(self):
         self.elements.draw(self.screen)
@@ -53,7 +64,6 @@ class Questions(State):
             box.draw()
 
     def draw_title(self):
-        self.title_rect = self.title.get_rect(center=self.title_background_rect.center)
         self.screen.blit(self.title, self.title_rect)
 
     def update(self):
@@ -74,7 +84,7 @@ class Questions(State):
         self.clear_data()
         self.set_pagination()
         self.load_page()
-        self.setup_text()
+        self.set_up_text()
 
     def clear_data(self):
         self.page_number = 0
@@ -151,15 +161,11 @@ class Questions(State):
     def update_size(self, *args):
         self.screen = pygame.display.get_surface()
         self.width, self.height = self.screen.get_size()
-        self.title_background_rect = self.title_background.get_rect(center=(self.width//2 , 75))
-        self.title_rect = self.title.get_rect(center=self.title_background_rect.center)
-        self.back_btn.update_position((self.width//2 - 350, 75))
+        self.set_up_positions()
+        self.back_btn.update_position((self.left_btn_pos))
         self.add_box.update_position()
         self.load_page()
-
-        for i, pag in enumerate(self.pagination):
-            pag.update_position(((self.width // 2 - 200) + (50 * i), (self.height // 2 + 260)))
-
+        self.update_pagination_pos()
         self.delete_modal.update_position()
 
     def check_hover_on_icons(self):
