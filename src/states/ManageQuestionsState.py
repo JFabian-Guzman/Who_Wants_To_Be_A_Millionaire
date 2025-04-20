@@ -9,36 +9,54 @@ BTN_POSITION = ( WINDOW_WIDTH//2 - 350, 75)
 class ManageQuestions(State):
   def __init__(self, event_manager):
     super().__init__(event_manager)
-    self.setup_ui(event_manager)
-    self.setup_levels()
+
+    self.set_up_text()
+    self.set_up_positions()
+    self.set_up_elements()
+    self.update_level_positions()
 
 
-  def setup_ui(self, event_manager):
-    self.back_btn = Button(self.elements, ( self.width//2 - 350, 75), event_manager, 'negative_btn', 'Go Back', 'WHITE')
+  def set_up_text(self):
     self.title_background = pygame.image.load(join("assets", "img", "score.png")).convert_alpha()
-    self.title_background_rect = self.title_background.get_rect(center=(self.width//2, 75))
     self.title = TITLE.render("Question Manager\n     Levels", True, COLORS["BLACK"])
-    self.title_rect = self.title.get_rect(center=self.title_background_rect.center)
+
+  def set_up_elements(self):
+    self.back_btn = Button(self.elements, self.left_btn_pos , self.event_manager, 'negative_btn', 'Go Back', 'WHITE')
     self.interactive_elements.append(self.back_btn)
 
-  def setup_levels(self):
     self.levels = []
+    # Create boxes 
     for row in range(3):
       for col in range(1, 6):
-        total_grid_width = (5 - 1) * 150  # gaps width
-        
-        # Calculate starting X to center the grid
-        start_x = (self.width - total_grid_width) // 2
-
-        # Calculate starting Y to center the grid vertically
-        total_grid_height = (3 - 1) * 150  # gaps height
-        start_y = (self.height - total_grid_height) // 2
-        
-        # Calculate position for each box
-        position = (start_x + (col - 1) * 150, start_y + row * 150)
-        level = LevelBox(self.elements, position, str(row * 5 + col))
+        level = LevelBox(self.elements, (0,0), str(row * 5 + col))
         self.levels.append(level)
         self.interactive_elements.append(level)
+
+  def set_up_positions(self):
+    self.left_btn_pos = (self.width//2 - 350, 75)
+    self.title_background_rect = self.title_background.get_rect(center=(self.width//2, 75))
+    self.title_rect = self.title.get_rect(center=self.title_background_rect.center)
+
+  def update_level_positions(self):
+    # Calculate grid dimensions
+    cols = 5
+    rows = 3
+    spacing = 150  # Space between boxes
+    # Total width/height occupied by the grid
+    total_grid_width = (cols - 1) * spacing
+    total_grid_height = (rows - 1) * spacing
+    # Starting position to center the grid
+    start_x = (self.width - total_grid_width) // 2
+    start_y = (self.height - total_grid_height) // 2
+    for row in range(rows):
+        for col in range(cols):
+            index = row * cols + col
+            if index < len(self.levels):  
+                position = (
+                    start_x + col * spacing,
+                    start_y + row * spacing
+                )
+                self.levels[index].update_position(position)
 
   def draw(self):
     self.elements.draw(self.screen)
@@ -65,29 +83,11 @@ class ManageQuestions(State):
   def update_size(self, *args):
     self.screen = pygame.display.get_surface()
     self.width, self.height = self.screen.get_size()
-    self.title_background_rect = self.title_background.get_rect(center=(self.width//2, 75))
-    self.title_rect = self.title.get_rect(center=self.title_background_rect.center)
-    self.back_btn.update_position(( self.width//2 - 350, 75))
+    self.set_up_positions()
+    self.back_btn.update_position(self.left_btn_pos)
+    self.update_level_positions()
 
-    # Calculate grid dimensions
-    cols = 5
-    rows = 3
-    spacing = 150  # Space between boxes
-    # Total width/height occupied by the grid
-    total_grid_width = (cols - 1) * spacing
-    total_grid_height = (rows - 1) * spacing
-    # Starting position to center the grid
-    start_x = (self.width - total_grid_width) // 2
-    start_y = (self.height - total_grid_height) // 2
-    for row in range(rows):
-        for col in range(cols):
-            index = row * cols + col
-            if index < len(self.levels):  
-                position = (
-                    start_x + col * spacing,
-                    start_y + row * spacing
-                )
-                self.levels[index].update_position(position)
+    
 
   def level_click(self):
     for level in self.levels:

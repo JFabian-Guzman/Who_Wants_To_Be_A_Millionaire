@@ -10,18 +10,16 @@ class Leaderboard(State):
   def __init__(self, event_manager):
     super().__init__(event_manager)
 
-    self.set_up_ui()
 
+    self.set_up_text()
+    self.set_up_positions()
+    self.set_up_elements()
+    self.update_podium_pos()
 
-  def set_up_ui(self):
-    self.title_background = pygame.image.load(join("assets", "img", "score.png")).convert_alpha()
-    self.title_background_rect = self.title_background.get_rect(center= (self.width // 2, 75))
-    self.text = TITLE.render("Leaderboard", True, COLORS["BLACK"])
-    self.text_rect = self.text.get_rect(center= (self.width // 2, 75))
-    self.back_btn = Button(self.elements, (self.width // 2 - 350, 75), self.event_manager, 'negative_btn', 'Go Back', 'WHITE')
+  def set_up_elements(self):
+    self.back_btn = Button(self.elements, self.left_btn_pos, self.event_manager, 'negative_btn', 'Go Back', 'WHITE')
     self.podiums = []
     self.podium_len = 0
-
     for i in range(5):
       position = (self.width//2 , self.height//2 - 175 + (100 * i))
       self.podiums.append(PodiumBox(self.elements,position))
@@ -34,7 +32,20 @@ class Leaderboard(State):
     self.screen.blit(self.text, self.text_rect)
     for i in range(self.podium_len):
       self.podiums[i].draw()
-    
+
+  def set_up_text(self):
+    self.title_background = pygame.image.load(join("assets", "img", "score.png")).convert_alpha()
+    self.text = TITLE.render("Leaderboard", True, COLORS["BLACK"])
+
+  def set_up_positions(self):
+    self.left_btn_pos = (self.width // 2 - 350, 75)
+    self.title_background_rect = self.title_background.get_rect(center= (self.width // 2, 75))
+    self.text_rect = self.text.get_rect(center= (self.width // 2, 75))
+
+  def update_podium_pos(self):
+    for i,podium in enumerate(self.podiums):
+      podium.update_position((self.width//2 , self.height//2 - 175 + (100 * i)))
+
   def set_podiums(self, players):
     sorted_players = sorted(players, key=lambda player: player["Points"], reverse=True)
     self.podium_len = len(sorted_players)
@@ -59,11 +70,9 @@ class Leaderboard(State):
   def update_size(self, *args):
     self.screen = pygame.display.get_surface()
     self.width, self.height = self.screen.get_size()
-    self.back_btn.update_position((self.width // 2 - 350, 75))
-    self.title_background_rect = self.title_background.get_rect(center= (self.width // 2, 75))
-    self.text_rect = self.text.get_rect(center= (self.width // 2, 75))
-    for i,podium in enumerate(self.podiums):
-      podium.update_position((self.width//2 , self.height//2 - 175 + (100 * i)))
+    self.back_btn.update_position(self.left_btn_pos)
+    self.set_up_positions()
+    self.update_podium_pos()
 
   def set_up_leaderboard_events(self):
     self.event_manager.subscribe("update_size", self.update_size)
