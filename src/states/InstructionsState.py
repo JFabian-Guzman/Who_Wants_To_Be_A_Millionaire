@@ -21,6 +21,8 @@ class Instructions(State):
     def setup_positions(self, box_rect):
         self.title_position = (box_rect.centerx, box_rect.top + 50)
         self.instruction_position = (box_rect.centerx, box_rect.centery - 20)
+        self.right_btn_pos = (box_rect.right - 150, box_rect.bottom - 75)
+        self.left_btn_pos = (box_rect.left + 150, box_rect.bottom - 75)
 
     def setup_text_elements(self):
         self.title = TITLE.render("Instructions", True, COLORS["AMBER"])
@@ -30,12 +32,17 @@ class Instructions(State):
         self.instructions_rect = self.instructions.get_rect(center=self.instruction_position)
 
     def setup_buttons(self, box_rect):
-        self.continue_btn = Button(None, (box_rect.right - 150, box_rect.bottom - 75) , self.event_manager)
-        self.back_btn = Button(self.elements, (box_rect.left + 150, box_rect.bottom - 75), self.event_manager, 'negative_btn', 'Go Back', 'WHITE')
-        self.lifeline_btn = Button(None, (box_rect.right - 150, box_rect.bottom - 75), self.event_manager, 'btn', 'Lifelines', 'BLACK')
+        self.continue_btn = Button(None, self.right_btn_pos , self.event_manager)
+        self.back_btn = Button(self.elements, self.left_btn_pos, self.event_manager, 'negative_btn', 'Go Back', 'WHITE')
+        self.lifeline_btn = Button(None, self.right_btn_pos, self.event_manager, 'btn', 'Lifelines', 'BLACK')
         self.interactive_elements.append(self.continue_btn)
         self.interactive_elements.append(self.back_btn)
         self.interactive_elements.append(self.lifeline_btn)
+
+    def update_btn_pos(self):
+        self.back_btn.update_position(self.left_btn_pos)
+        self.continue_btn.update_position(self.right_btn_pos)
+        self.lifeline_btn.update_position(self.right_btn_pos)
 
     def draw(self):
         self.elements.draw(self.screen)
@@ -80,9 +87,8 @@ class Instructions(State):
         box_rect = self.box.get_rect()
         self.setup_positions(box_rect)
         self.setup_text_elements()
-        self.back_btn.update_position((box_rect.left + 150, box_rect.bottom - 75))
-        self.continue_btn.update_position((box_rect.right - 150, box_rect.bottom - 75))
-        self.lifeline_btn.update_position((box_rect.right - 150, box_rect.bottom - 75))
+        self.update_btn_pos()
+        
         
 
     def set_up_instruction_events(self):

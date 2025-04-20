@@ -10,19 +10,24 @@ class Menu(State):
         self.options = []
         self.click_handled = True
         self.is_option_animating = False
-        self.setup_options()
+        self.create_options()
+        self.setup_options_position()
         self.setup_logo()
 
-    def setup_options(self):
-        cols = 2
+    def create_options(self):
         for i in range(len(MENU)):
+            option_instance = Option(MENU[i]["TITLE"], (0, 0), self.elements)
+            self.options.append(option_instance)
+            self.interactive_elements.append(option_instance)
+
+    def setup_options_position(self):
+        cols = 2
+        for i, option in enumerate(self.options):
             row = i // cols # calculates the row number for the current option
             col = i % cols # even -> left - odd -> righ
             x_position = ((self.width // 2) // 2) + (self.width // 2 * col)
             y_position = self.height // 2 + (self.height // 8 * row)
-            option_instance = Option(MENU[i]["TITLE"], (x_position, y_position), self.elements)
-            self.options.append(option_instance)
-            self.interactive_elements.append(option_instance)
+            option.update_position((x_position, y_position))
 
 
     def setup_logo(self):
@@ -62,13 +67,7 @@ class Menu(State):
     def update_size(self, *args):
         self.width, self.height  = self.screen.get_size()
         self.logo.draw_logo()
-        cols = 2
-        for i, option in enumerate(self.options):
-            row = i // cols # calculates the row number for the current option
-            col = i % cols # even -> left - odd -> righ
-            x_position = ((self.width // 2) // 2) + (self.width // 2 * col)
-            y_position = self.height // 2 + (self.height // 8 * row)
-            option.update_position((x_position, y_position))
+        self.setup_options_position()
 
 
     def set_up_menu_events(self):
