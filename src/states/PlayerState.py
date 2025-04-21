@@ -16,25 +16,31 @@ class Player(State):
         box_rect = self.box.get_rect()
         self.display_error = False
 
-        self.setup_text(box_rect)
-        self.setup_buttons(box_rect)
-        self.setup_inputs()
+        self.set_up_position(box_rect)
+        self.set_up_text()
+        self.set_up_buttons()
+        self.set_up_inputs()
 
-    def setup_text(self, box_rect):
-        self.title_position = (box_rect.centerx, box_rect.top + 50)
+    def set_up_text(self):
         self.title = TITLE.render("Player Name", True, COLORS["AMBER"])
         self.title_rect = self.title.get_rect(center=self.title_position)
 
         self.error = TEXT.render("Please enter a name before proceeding", True, COLORS["RED"])
-        self.error_rect = self.error.get_rect(center = (self.width//2, self.height//2 + 125))
+        self.error_rect = self.error.get_rect(center = self.error_pos)
 
-    def setup_buttons(self, box_rect):
-        self.continue_btn = Button(self.elements, (box_rect.right - 150, box_rect.bottom - 75), self.event_manager)
-        self.back_btn = Button(self.elements, (box_rect.left + 150, box_rect.bottom - 75), self.event_manager, 'negative_btn', 'Go Back', 'WHITE')
+    def set_up_position(self, box_rect):
+        self.title_position = (box_rect.centerx, box_rect.top + 50)
+        self.left_btn_pos = (box_rect.left + 150, box_rect.bottom - 75)
+        self.right_btn_pos = (box_rect.right - 150, box_rect.bottom - 75)
+        self.error_pos = (self.width//2, self.height//2 + 125)
+        
+    def set_up_buttons(self):
+        self.continue_btn = Button(self.elements, self.right_btn_pos, self.event_manager)
+        self.back_btn = Button(self.elements, self.left_btn_pos, self.event_manager, 'negative_btn', 'Go Back', 'WHITE')
         self.interactive_elements.append(self.continue_btn)
         self.interactive_elements.append(self.back_btn)
 
-    def setup_inputs(self):
+    def set_up_inputs(self):
         self.name_input = TextInput(INPUT_POS, 300,50, self.event_manager ,'name')
         self.name_input.set_up_input_events()
 
@@ -86,12 +92,11 @@ class Player(State):
         self.width, self.height = self.screen.get_size()
         self.box.updates_position()
         box_rect = self.box.get_rect()
-        self.title_position = (box_rect.centerx, box_rect.top + 50)
-        self.title_rect = self.title.get_rect(center=self.title_position)
+        self.set_up_position(box_rect)
+        self.set_up_text()
         self.name_input.update_position(box_rect.center)
-        self.back_btn.update_position((box_rect.left + 150, box_rect.bottom - 75))
-        self.continue_btn.update_position((box_rect.right - 150, box_rect.bottom - 75))
-        self.error_rect = self.error.get_rect(center = (self.width//2, self.height//2 + 125))
+        self.back_btn.update_position(self.left_btn_pos)
+        self.continue_btn.update_position(self.right_btn_pos)
 
     def set_up_player_events(self):
         self.event_manager.subscribe("clear_player_data", self.clear)
