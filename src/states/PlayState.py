@@ -308,7 +308,6 @@ class Play(State):
 
         if self.current_level == self.last_level:
             self.display_final_screen()
-            self.event_manager.notify("write_podium", (self.player_name, self.final_score))
         else:
             self.restart_timer()
             self.change_question()
@@ -367,6 +366,7 @@ class Play(State):
         elif self.practice_mode:
             self.display_practice_summary()
         else:
+            self.event_manager.notify("write_podium", (self.player_name, self.final_score))
             self.event_manager.notify("set_state", "win")
             self.event_manager.notify("final_reward", self.final_score)
 
