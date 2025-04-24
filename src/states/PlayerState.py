@@ -43,6 +43,7 @@ class Player(State):
     def set_up_inputs(self):
         self.name_input = TextInput(INPUT_POS, 300,50, self.event_manager ,'name')
         self.name_input.set_up_input_events()
+        self.interactive_elements.append(self.name_input)
 
     def draw(self):
         self.elements.draw(self.screen)

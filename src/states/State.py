@@ -34,6 +34,7 @@ class State(ABC):
     hover_detected = False
     for element in self.interactive_elements:
         if element.rect.collidepoint(pygame.mouse.get_pos()):
+            print(element)
             if isinstance(element, TextInput):
                 element.on_hover()
                 self.event_manager.notify("change_cursor", 'text')

@@ -32,9 +32,12 @@ class Edit(State):
     def set_up_inputs(self):
         self.question_input = TextInput(self.question_rect.center, 875, 60, self.event_manager, 'question')
         self.inputs.append(self.question_input)
+        self.interactive_elements.append(self.question_input)
         for position in self.positions:
             self.option_rects.append(self.option_background.get_rect(center=position))
-            self.inputs.append(TextInput(position, 350, 60, self.event_manager, 'option'))
+            input = TextInput(position, 350, 60, self.event_manager, 'option')
+            self.inputs.append(input)
+            self.interactive_elements.append(input)
         for input in self.inputs:
             input.set_up_input_events()
 
