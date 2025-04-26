@@ -20,6 +20,7 @@ from states.EditState import *
 from states.AddState import *
 from states.PlayerState import *
 from states.LifelineInstructions import *
+from utils.SoundController import *
 
 
 class Game:
@@ -42,6 +43,7 @@ class Game:
     # Initialize objects
     self.event_manager = EventManager()
     self.background = Background()
+    self.sound_controller = SoundController(self.global_sprites, self.event_manager)
     self.cursor = Cursor(self.global_sprites, self.event_manager)
     # Load data before initializing the states
     self.file_manager = FileManager(self.event_manager)
@@ -137,6 +139,7 @@ class Game:
 
         # Event_handler
         self.state_machine.handle_events("update_state")
+        self.sound_controller.update()
 
         # Draw global sprites last to ensure they are rendered on top of all other elements
         self.global_sprites.draw(self.screen)

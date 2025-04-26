@@ -1,6 +1,7 @@
 from config.settings import *
 from os.path import join
 
+
 BANNER_HEIGHT = 65
 class Background:
     def __init__(self):
@@ -43,6 +44,7 @@ class Background:
         self.screen.blit(self.background, (0, 0))
         self.screen.blit(self.overlay, (0, 0))
         self.draw_banner()
+
 
     def update_elements_size(self):
         self.screen = pygame.display.get_surface()
