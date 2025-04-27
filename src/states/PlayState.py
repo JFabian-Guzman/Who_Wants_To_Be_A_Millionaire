@@ -257,9 +257,16 @@ class Play(State):
         self.clock.restart_time()
 
     def calc_score(self):
+        print("DIFFICULTY: " + self.difficulty)
+        multiplier = 1
+        if self.difficulty.upper() == 'NORMAL':
+            multiplier = 1.5
+        elif self.difficulty.upper() == 'HARD':
+            multiplier = 2
+        
         max_score = 100 * self.current_level
         elapsed_time = round((pygame.time.get_ticks() - self.start_time) / 1000)
-        self.final_score += round(max_score / max(elapsed_time, 1))
+        self.final_score += round((max_score / max(elapsed_time, 1)) * multiplier)
 
     def reset_hearts(self):
         for i in range(self.lives):

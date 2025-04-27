@@ -22,7 +22,7 @@ class Difficulty(State):
         self.set_up_positions(box_rect)
         self.set_up_text_elements()
         self.set_up_difficulty_options()
-        self.set_up_buttons(box_rect)
+        self.set_up_buttons()
 
 
     def set_up_positions(self, box_rect):
@@ -51,7 +51,7 @@ class Difficulty(State):
             self.difficulties.append(option)
             self.interactive_elements.append(option)
 
-    def set_up_buttons(self, box_rect):
+    def set_up_buttons(self):
         self.continue_btn = Button(self.elements, self.right_btn_pos, self.event_manager, text="Start")
         self.back_btn = Button(self.elements, self.left_btn_pos, self.event_manager, 'negative_btn', 'Go Back', 'WHITE')
         self.interactive_elements.append(self.continue_btn)

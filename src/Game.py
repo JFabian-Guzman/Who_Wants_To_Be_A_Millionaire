@@ -21,6 +21,7 @@ from states.AddState import *
 from states.PlayerState import *
 from states.LifelineInstructions import *
 from utils.SoundController import *
+from states.GamemodeInstructions import *
 
 
 class Game:
@@ -66,6 +67,7 @@ class Game:
     self.add = Add(self.event_manager)
     self.player = Player(self.event_manager)
     self.lifeline_instructions = LifelineInstrucitions(self.event_manager)
+    self.gamemode_instructions = GamemodeInstrucitions(self.event_manager)
 
     # Add states to the state_machine
     self.state_machine.add_state("menu", self.menu)
@@ -83,6 +85,7 @@ class Game:
     self.state_machine.add_state("add", self.add)
     self.state_machine.add_state("player", self.player)
     self.state_machine.add_state("lifeline_instructions", self.lifeline_instructions)
+    self.state_machine.add_state("gamemode_instructions", self.gamemode_instructions)
     
     #set up events
     self.set_up_game_events()
@@ -103,6 +106,7 @@ class Game:
     self.credits.set_up_credits_events()
     self.manage_questions.set_up_manage_events()
     self.lifeline_instructions.set_up_lifeline_instructins_events()
+    self.gamemode_instructions.set_up_gamemode_instructins_events()
 
     #default state
     self.event_manager.notify("set_state", "menu")
@@ -124,6 +128,7 @@ class Game:
               new_height = max(event.dict['size'][1], min_height)
               self.screen = pygame.display.set_mode((new_width, new_height), RESIZABLE)
               self.background.update_elements_size()
+              self.sound_controller.update_position()
               self.event_manager.notify("update_size")
 
             # Handle keyboard
