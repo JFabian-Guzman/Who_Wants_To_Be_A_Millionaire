@@ -40,24 +40,26 @@ class SoundController(pygame.sprite.Sprite):
 
   def switch(self):
     self.on = not self.on
-    print(str(self.on))
     if self.on == True:
       self.turn_on()
     else:
       self.turn_off()
 
   def turn_on(self):
-    pygame.mixer.music.play(-1, 0.0)
+    pygame.mixer.music.set_volume(0.3)  # Restore volume
+    for i in range(pygame.mixer.get_num_channels()):
+        pygame.mixer.Channel(i).set_volume(1)  # Restore sound effects volume
     self.image = self.sound_on
 
   def turn_off(self):
-    pygame.mixer.music.stop()
+    pygame.mixer.music.set_volume(0)  # Mute music
+    for i in range(pygame.mixer.get_num_channels()):
+        pygame.mixer.Channel(i).set_volume(0)  # Mute all sound effects
     self.image = self.sound_off
+  
 
   def update_position(self):
     self.screen = pygame.display.get_surface()
     self.width, self.height = self.screen.get_size()
     position = (self.width - 50, 50)
     self.rect = self.image.get_rect(center=(position))
-
-  

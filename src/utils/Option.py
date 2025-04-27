@@ -106,12 +106,14 @@ class Option(pygame.sprite.Sprite):
     self.animation_callback = callback
 
   def play_sound(self):
-    if self.is_menu:
-      self.menu_sound.play()
-    elif self.is_wrong:
-      self.error_sound.play()
-    else:
-      self.correct_sound.play()
+    if pygame.mixer.music.get_volume() != 0:
+      if self.is_menu:
+        self.menu_sound.play()
+      elif self.is_wrong:
+        self.error_sound.play()
+      else:
+        self.correct_sound.play()
+        
 
   def stop_animation(self):
     self.run_animation = False

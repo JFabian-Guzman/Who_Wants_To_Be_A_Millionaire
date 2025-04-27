@@ -76,9 +76,12 @@ class Lifeline(pygame.sprite.Sprite):
     return self.type
 
   def start_animation(self, callback=None):
-    self.sound.play()
     self.run_animation = True
     self.animation_callback = callback
+
+  def play_sound(self):
+    if pygame.mixer.music.get_volume() != 0:
+      self.sound.play()
 
   def stop_animation(self):
     self.run_animation = False

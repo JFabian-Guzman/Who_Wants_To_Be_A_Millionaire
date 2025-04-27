@@ -69,7 +69,8 @@ class GameOver(State):
         self.update_text_elements()
 
     def play_sound(self, *args):
-        self.sound.play()
+        if pygame.mixer.music.get_volume() != 0:
+            self.sound.play()
 
     def check_click(self):
         if pygame.mouse.get_pressed()[0]:

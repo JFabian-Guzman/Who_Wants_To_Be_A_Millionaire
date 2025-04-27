@@ -188,7 +188,8 @@ class Play(State):
             self.click_handled = False
 
     def play_sound(self, *args):
-        self.sound.play()
+        if pygame.mixer.music.get_volume() != 0:
+            self.sound.play()
 
     def click_lifeline(self):
         if pygame.mouse.get_pressed()[0]:

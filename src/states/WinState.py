@@ -61,7 +61,8 @@ class Win(State):
         ]
 
     def play_sound(self, *args):
-        self.sound.play()
+        if pygame.mixer.music.get_volume() != 0:
+            self.sound.play()
 
     def set_reward(self, *args):
         self.reward_message = "You win " + str(args[0])
