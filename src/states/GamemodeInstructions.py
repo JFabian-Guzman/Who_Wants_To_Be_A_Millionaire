@@ -46,16 +46,16 @@ class GamemodeInstrucitions(State):
         self.title = TITLE.render("Gamemode", True, COLORS["AMBER"])
         self.title_rect = self.title.get_rect(center=self.title_position)
 
-        self.practice_text = TEXT.render("No points here, just helpful feedback", True, COLORS["WHITE"])
+        self.practice_text = TEXT.render(GAMEMODES_INSTRUCTIONS["PRACTICE"], True, COLORS["WHITE"])
         self.practice_rect = self.practice_text.get_rect(midleft=self.practice_text_position)
 
-        self.easy_text = TEXT.render("5 lives, 1x points! Have fun!", True, COLORS["WHITE"])
+        self.easy_text = TEXT.render(GAMEMODES_INSTRUCTIONS["EASY"], True, COLORS["WHITE"])
         self.easy_rect = self.easy_text.get_rect(midleft=self.easy_text_position)
 
-        self.normal_text = TEXT.render("3 lives, 1.5x points! Let’s go!", True, COLORS["WHITE"])
+        self.normal_text = TEXT.render(GAMEMODES_INSTRUCTIONS["NORMAL"], True, COLORS["WHITE"])
         self.normal_rect = self.normal_text.get_rect(midleft=self.normal_text_position)
 
-        self.hard_text = TEXT.render("1 life, 2x points! Only for the brave", True, COLORS["WHITE"])
+        self.hard_text = TEXT.render(GAMEMODES_INSTRUCTIONS["HARD"], True, COLORS["WHITE"])
         self.hard_rect = self.hard_text.get_rect(midleft=self.hard_text_position)
 
 

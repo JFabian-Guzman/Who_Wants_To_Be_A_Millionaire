@@ -32,13 +32,13 @@ class LifelineInstrucitions(State):
         self.title = TITLE.render("Lifelines", True, COLORS["AMBER"])
         self.title_rect = self.title.get_rect(center=self.title_position)
 
-        self.shield_text = TEXT.render("Failing this question won't cost you a life", True, COLORS["WHITE"])
+        self.shield_text = TEXT.render(LIFELINE_INSTRUCTIONS["SHIELD"], True, COLORS["WHITE"])
         self.shield_text_rect = self.shield_text.get_rect(midleft=self.shield_text_position)
 
-        self.fifty_text = TEXT.render("Two incorrect answers will be removed", True, COLORS["WHITE"])
+        self.fifty_text = TEXT.render(LIFELINE_INSTRUCTIONS["50/50"], True, COLORS["WHITE"])
         self.fifty_text_rect = self.fifty_text.get_rect(midleft=self.fifty_text_position)
 
-        self.switch_text = TEXT.render("Swap this question for a new one", True, COLORS["WHITE"])
+        self.switch_text = TEXT.render(LIFELINE_INSTRUCTIONS["CHANGE_QUESTION"], True, COLORS["WHITE"])
         self.switch_text_rect = self.switch_text.get_rect(midleft=self.switch_text_position)
 
 

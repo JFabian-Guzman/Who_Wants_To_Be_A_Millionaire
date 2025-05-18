@@ -69,27 +69,37 @@ OPTION_MAX_LENGTH_WARNING = "You've reached the maximum option length of 24 char
 QUESTION_MAX_LENGTH_WARNING = "You've reached the maximum option length of 128 characters"
 
 INSTRUCTIONS = """
-Students should read the questions and choose 
-
-one of the options displayed on the screen.
-
+      Read the questions about cultural aspects and 
+      choose one of the options displayed on the screen.
 
 
-If the answer is correct, they remain in the game 
-
-and earn more points. The next question is displayed.
-
-
-
-If the answer is incorrect, a "Game Over" message 
-
-will appear, and the user will lose their points.
+      If you answer correctly, you remain in the game and 
+      earn points. The number of points awarded depends on 
+      the question's difficulty and your response time.
 
 
+      If you answer incorrectly, you lose a life. If you 
+      lose your last life, the game will end 
+      and a “Game Over” screen will be displayed.
 
-The winner of the game will be the individual 
+      
+      The goal is to answer 15 questions correctly
+      to win the game. You can click on 'Surrender' at 
+      any time to claim your points."""
 
-who answers all 15 questions correctly."""
+GAMEMODES_INSTRUCTIONS = {
+  "PRACTICE" : "No points. Designed to help \n\nyou learn.",
+  "EASY": "5 lives/hearts. No score multiplier.",
+  "NORMAL":  "3 lives/ hearts. Score multiplied \n\nby 1.5x.",
+  "HARD": "1 life/ heart. Score multiplied \n\nby 2x."
+}
+
+LIFELINE_INSTRUCTIONS = {
+  "SHIELD" : "Incorrect answers won't cost you a life.",
+  "50/50": "Removes two incorrect answers.",
+  "CHANGE_QUESTION":  "Swap this question for a new one.",
+}
+
 
 DEVELOPER = "José Fabián Guzmán González"
 

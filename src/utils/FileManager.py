@@ -1,4 +1,5 @@
 from os.path import isfile, join
+import os
 import json
 
 class FileManager():
@@ -7,8 +8,19 @@ class FileManager():
     self.data = [[]]
     self.event_manager = event_manager
 
+  def create_question_file(self):
+    self.check_data_folder()
+    file_path = join("data", "Questions.json")
+    if not isfile(file_path):
+      with open(file_path, "w") as file:
+        json.dump([], file)
+      print("Questions.json file created.")
+    else:
+      print("Questions.json file already exists.")
+
   def load_data(self, *args):
     print("loaded")
+    self.create_question_file()
     if isfile(join("data", "Questions.json")):
       with open(join("data", "Questions.json"), "r") as file:
         data_file = json.load(file)
@@ -120,10 +132,30 @@ class FileManager():
         json.dump(data_file, file, indent=4)
     print(f"Successfully deleted object with ID {id}.")
     
+  def check_data_folder(self):
+    path = "data"
+    if not os.path.exists(path):
+      os.makedirs(path)
+      print(f"Folder '{path}' created.")
+    else:
+      print(f"Folder '{path}' already exists.")
+
+  def create_player_file(self):
+    self.check_data_folder()
+    file_path = join("data", "Players.json")
+    if not isfile(file_path):
+        with open(file_path, "w") as file:
+            json.dump([], file)
+        print("Players.json file created.")
+    else:
+        print("Players.json file already exists.")
+
+  
 
   def get_podium(self, *args):
     file_path = join("data", "Players.json")
     if not isfile(file_path):
+        self.create_player_file()
         print("Error: File not found.")
         return
     with open(file_path, "r") as file:

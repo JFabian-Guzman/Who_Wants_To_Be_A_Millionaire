@@ -22,7 +22,7 @@ class Player(State):
         self.set_up_inputs()
 
     def set_up_text(self):
-        self.title = TITLE.render("Player Name", True, COLORS["AMBER"])
+        self.title = TITLE.render("Player's Name", True, COLORS["AMBER"])
         self.title_rect = self.title.get_rect(center=self.title_position)
 
         self.error = TEXT.render("Please enter a name before proceeding", True, COLORS["RED"])
