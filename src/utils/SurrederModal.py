@@ -2,8 +2,6 @@ from config.settings import *
 from os.path import join
 from utils.Button import *
 
-TEXT_POSITION = (WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 - 30)
-
 class SurrenderModal(pygame.sprite.Sprite):
     def __init__(self, event_manager):
         super().__init__()

@@ -1,8 +1,6 @@
 from config.settings import *
 from os.path import join
 
-ADD_POSITION = (WINDOW_WIDTH/2 + 300  ,75)
-
 class AddQuestion(pygame.sprite.Sprite):
   def __init__(self, groups):
     super().__init__(groups)

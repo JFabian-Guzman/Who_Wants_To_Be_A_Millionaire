@@ -4,8 +4,6 @@ from .State import *
 from utils.Button import *
 from utils.PodiumBox import *
 
-TITLE_POSITION = (WINDOW_WIDTH // 2, 75)
-BTN_POSITION = (WINDOW_WIDTH // 2 - 350, 75)
 class Leaderboard(State):
   def __init__(self, event_manager):
     super().__init__(event_manager)
@@ -70,9 +68,9 @@ class Leaderboard(State):
   def update_size(self, *args):
     self.screen = pygame.display.get_surface()
     self.width, self.height = self.screen.get_size()
-    self.back_btn.update_position(self.left_btn_pos)
     self.set_up_positions()
     self.update_podium_pos()
+    self.back_btn.update_position(self.left_btn_pos)
 
   def set_up_leaderboard_events(self):
     self.event_manager.subscribe("update_size", self.update_size)

@@ -5,10 +5,6 @@ from utils.Button import *
 from utils.Box import *
 from utils.PracticeFlag import *
 
-RESTART_POSITION = (WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2 + 75)
-REWARD_POSITION = (WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 + 15)
-COIN_POSITION = (REWARD_POSITION[0] + 75, REWARD_POSITION[1] - 2)
-
 class Practice(State):
     def __init__(self, event_manager):
         super().__init__(event_manager)

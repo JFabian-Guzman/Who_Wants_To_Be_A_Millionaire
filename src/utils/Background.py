@@ -1,7 +1,6 @@
 from config.settings import *
 from os.path import join
 
-
 BANNER_HEIGHT = 65
 class Background:
     def __init__(self):

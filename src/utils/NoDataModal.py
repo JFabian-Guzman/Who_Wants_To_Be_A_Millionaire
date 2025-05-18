@@ -7,9 +7,10 @@ class NoData(pygame.sprite.Sprite):
         super().__init__()
         self.elements = pygame.sprite.Group()
         self.screen = pygame.display.get_surface()
+        self.width, self.height = self.screen.get_size()
 
         self.image = pygame.image.load(join("assets", "img", "question.png")).convert_alpha()
-        self.rect = self.image.get_rect(center=MODAL_POSITION)
+        self.rect = self.image.get_rect(center=(self.width//2, self.height//2))
 
         self.click_handled = True
         self.event_manager = event_manager
@@ -38,12 +39,12 @@ class NoData(pygame.sprite.Sprite):
 
 
     def check_click(self):
-          if pygame.mouse.get_pressed()[0]:
-              if not self.click_handled:
-                  self.back_btn.check_notify_state("menu")
-                  self.click_handled = True
-          else:
-              self.click_handled = False
+        if pygame.mouse.get_pressed()[0]:
+            if not self.click_handled:
+                self.back_btn.check_notify_state("menu")
+                self.click_handled = True
+        else:
+            self.click_handled = False
 
     def update_cursor_state(self):
         hover_detected = False

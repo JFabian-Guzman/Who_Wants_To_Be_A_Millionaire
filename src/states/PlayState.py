@@ -14,10 +14,6 @@ from utils.Checkpoint import *
 from utils.NoDataModal import *
 import random
 
-LIFELINE_1_POSITION = (WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2 - 275)
-LIFELINE_2_POSITION = (WINDOW_WIDTH / 2 + 75, WINDOW_HEIGHT / 2 - 275)
-LIFELINE_3_POSITION = (WINDOW_WIDTH / 2 - 75, WINDOW_HEIGHT / 2 - 275)
-
 class Play(State):
     def __init__(self, event_manager, file_manager):
         super().__init__(event_manager)
@@ -126,7 +122,6 @@ class Play(State):
             self.hearts[i].draw()
 
     def update(self):
-        self.update_cursor_state()
         if self.number_questions > 0:
             self.elements.update() 
             self.clock.update_time()    
@@ -137,16 +132,18 @@ class Play(State):
                 self.surrender_modal.draw()
                 self.surrender_modal.update()
             else:
-                    self.display_options()
-                    self.click_option()
-                    self.click_lifeline()
-                    for heart in self.hearts:
-                        heart.update()
-                    for lifeline in self.lifelines:
-                        lifeline.update()
-                    if self.current_level % 5 == 0 and self.current_level > 0:
-                        self.checkpoint.update()
+                self.update_cursor_state()
+                self.display_options()
+                self.click_option()
+                self.click_lifeline()
+                for heart in self.hearts:
+                    heart.update()
+                for lifeline in self.lifelines:
+                    lifeline.update()
+                if self.current_level % 5 == 0 and self.current_level > 0:
+                    self.checkpoint.update()
         else:
+            self.update_cursor_state()
             self.no_data_warning.update()
             
 

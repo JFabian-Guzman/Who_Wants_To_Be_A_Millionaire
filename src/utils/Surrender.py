@@ -1,8 +1,6 @@
 from config.settings import *
 from os.path import join
 
-
-SURRENDER_POSITION = (300,90)
 class Surrender(pygame.sprite.Sprite):
   def __init__(self, groups, event_manager, position):
     super().__init__(groups)

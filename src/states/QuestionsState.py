@@ -7,9 +7,6 @@ from utils.PaginationBox import *
 from utils.AddQuestions import *
 from utils.DeleteModal import *
 
-TITLE_POSITION = (WINDOW_WIDTH / 2, 75)
-BTN_POSITION = (WINDOW_WIDTH // 2 - 350, 75)
-
 class Questions(State):
     def __init__(self, event_manager, file_manager):
         super().__init__(event_manager)

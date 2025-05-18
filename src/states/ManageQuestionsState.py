@@ -4,8 +4,6 @@ from .State import *
 from utils.Button import *
 from utils.LevelBox import *
 
-BTN_POSITION = ( WINDOW_WIDTH//2 - 350, 75)
-
 class ManageQuestions(State):
   def __init__(self, event_manager):
     super().__init__(event_manager)

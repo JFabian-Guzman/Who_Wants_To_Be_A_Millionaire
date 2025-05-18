@@ -6,11 +6,6 @@ from utils.Box import *
 from utils.TextInput import *
 from utils.CheckAnswer import *
 
-BTN_POSITION = (WINDOW_WIDTH // 2 - 350, 75)
-TITLE_POSITION = (WINDOW_WIDTH / 2, 75)
-INPUT_POSITION = (WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2 + 100)
-ADD_BTN_POSITION = (WINDOW_WIDTH // 2 + 350, 75)
-
 class Add(State):
     def __init__(self, event_manager):
         super().__init__(event_manager)

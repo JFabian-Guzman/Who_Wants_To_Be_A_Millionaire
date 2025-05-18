@@ -39,11 +39,9 @@ class FileManager():
         id = data[6]
         
         print(f"Editing object with ID {id}...")
-        
+        self.create_question_file()
         file_path = join("data", "Questions.json")
-        if not isfile(file_path):
-            print("Error: File not found.")
-            return
+
         # Load data
         with open(file_path, "r") as file:
             try:
@@ -78,11 +76,8 @@ class FileManager():
           "options": [data[1], data[2], data[3], data[4]],
           "level": data[6]
         }
-
+        self.create_question_file()
         file_path = join("data", "Questions.json")
-        if not isfile(file_path):
-            print("Error: File not found.")
-            return
         # Load data
         with open(file_path, "r") as file:
             try:
@@ -107,10 +102,8 @@ class FileManager():
 
   def delete(self, *args):
     id = args[0]
+    self.create_question_file()
     file_path = join("data", "Questions.json")
-    if not isfile(file_path):
-        print("Error: File not found.")
-        return
     # Load data
     with open(file_path, "r") as file:
         try:
@@ -153,14 +146,10 @@ class FileManager():
   
 
   def get_podium(self, *args):
+    self.create_player_file()
     file_path = join("data", "Players.json")
-    if not isfile(file_path):
-        self.create_player_file()
-        print("Error: File not found.")
-        return
     with open(file_path, "r") as file:
       data_file = json.load(file)
-
     self.event_manager.notify("set_podiums", data_file)
 
   def write_podium(self, *args):
@@ -169,11 +158,8 @@ class FileManager():
       "Name": data[0],
       "Points": data[1]
     }
-
+    self.create_player_file()
     file_path = join("data", "Players.json")
-    if not isfile(file_path):
-        print("Error: File not found.")
-        return
     with open(file_path, "r") as file:
       players = json.load(file)
 

@@ -10,7 +10,6 @@ DIFFICULTIES = [
     ("Normal", "_light_blue"),
     ("Hard", "_red")
 ]
-
 class Difficulty(State):
     def __init__(self, event_manager):
         super().__init__(event_manager)
@@ -32,17 +31,17 @@ class Difficulty(State):
             (self.width // 2 + 225, self.height // 2 - 35), # Normal
             (self.width // 2 + 225, self.height // 2 + 65)  # Hard
         ]
-        self.TITLE_POSITION = (box_rect.centerx, box_rect.top + 50)
-        self.WARNING_POSITION = (box_rect.centerx, box_rect.top + 100)
+        self.title_position = (box_rect.centerx, box_rect.top + 50)
+        self.warning_position = (box_rect.centerx, box_rect.top + 100)
         self.right_btn_pos = (box_rect.right - 150, box_rect.bottom - 75)
         self.left_btn_pos = (box_rect.left + 150, box_rect.bottom - 75)
 
     def set_up_text_elements(self):
         self.text_elements = [
-            (TITLE.render("Select Difficulty", True, COLORS["AMBER"]), self.TITLE_POSITION),
+            (TITLE.render("Select Difficulty", True, COLORS["AMBER"]), self.title_position),
         ]
-        self.warning_message = TEXT.render("Please select a difficulty", True, COLORS["RED"])
-        self.warning_rect = self.warning_message.get_rect(center=self.WARNING_POSITION)
+        self.warning_message = TEXT.render("Please select a difficulty", True, COLORS["AMBER"])
+        self.warning_rect = self.warning_message.get_rect(center=self.warning_position)
 
     def set_up_difficulty_options(self):
         self.difficulties = []

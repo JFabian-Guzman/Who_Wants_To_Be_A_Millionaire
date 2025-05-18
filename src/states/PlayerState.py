@@ -6,8 +6,6 @@ from utils.Button import *
 from utils.Box import *
 from utils.TextInput import *
 
-INPUT_POS = (WINDOW_WIDTH//2, WINDOW_HEIGHT//2)
-
 class Player(State):
     def __init__(self, event_manager):
         super().__init__(event_manager)
@@ -25,14 +23,14 @@ class Player(State):
         self.title = TITLE.render("Player's Name", True, COLORS["AMBER"])
         self.title_rect = self.title.get_rect(center=self.title_position)
 
-        self.error = TEXT.render("Please enter a name before proceeding", True, COLORS["RED"])
+        self.error = TEXT.render("Please enter a name before proceeding", True, COLORS["AMBER"])
         self.error_rect = self.error.get_rect(center = self.error_pos)
 
     def set_up_position(self, box_rect):
         self.title_position = (box_rect.centerx, box_rect.top + 50)
         self.left_btn_pos = (box_rect.left + 150, box_rect.bottom - 75)
         self.right_btn_pos = (box_rect.right - 150, box_rect.bottom - 75)
-        self.error_pos = (self.width//2, self.height//2 + 125)
+        self.error_pos = (box_rect.centerx, box_rect.top + 100)
         
     def set_up_buttons(self):
         self.continue_btn = Button(self.elements, self.right_btn_pos, self.event_manager)
@@ -41,7 +39,7 @@ class Player(State):
         self.interactive_elements.append(self.back_btn)
 
     def set_up_inputs(self):
-        self.name_input = TextInput(INPUT_POS, 300,50, self.event_manager ,'name')
+        self.name_input = TextInput((self.width//2, self.height//2), 300,50, self.event_manager ,'name')
         self.name_input.set_up_input_events()
         self.interactive_elements.append(self.name_input)
 

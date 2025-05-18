@@ -2,8 +2,6 @@ from config.settings import *
 from os.path import join
 from utils.Coin import *
 
-SCORE_POSITION = (WINDOW_WIDTH / 2, 310)
-
 class Score(pygame.sprite.Sprite):
     def __init__(self, groups, position):
         super().__init__(groups)
@@ -25,8 +23,8 @@ class Score(pygame.sprite.Sprite):
         self.add_icons()
 
     def add_coin(self):
-        COIN_POSITION = (self.text_rect.right + 40, self.text_rect.centery - 2)
-        self.coin = Coin(COIN_POSITION, self.elements)
+        coin_position = (self.text_rect.right + 40, self.text_rect.centery - 2)
+        self.coin = Coin(coin_position, self.elements)
 
     def add_icons(self):
         check_position = (self.positive_score_rect.right + 20, self.positive_score_rect.centery)

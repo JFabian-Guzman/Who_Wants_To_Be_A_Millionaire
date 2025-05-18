@@ -2,13 +2,12 @@ from config.settings import *
 from os.path import join
 from utils.Button import *
 
-TEXT_POSITION = (WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2)
-
 class ConfirmModal(pygame.sprite.Sprite):
     def __init__(self, event_manager):
         super().__init__()
         self.elements = pygame.sprite.Group()
         self.screen = pygame.display.get_surface()
+        self.width, self.height = self.screen.get_size()
 
         self.image = pygame.image.load(join("assets", "img", "question.png")).convert_alpha()
         self.rect = self.image.get_rect(center=(self.width // 2, self.height // 2 ))
