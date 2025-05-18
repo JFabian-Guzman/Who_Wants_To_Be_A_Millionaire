@@ -11,7 +11,7 @@ class ConfirmModal(pygame.sprite.Sprite):
         self.screen = pygame.display.get_surface()
 
         self.image = pygame.image.load(join("assets", "img", "question.png")).convert_alpha()
-        self.rect = self.image.get_rect(center=MODAL_POSITION)
+        self.rect = self.image.get_rect(center=(self.width // 2, self.height // 2 ))
 
         self.event_manager = event_manager
         self.interactive_elements = []
@@ -20,8 +20,8 @@ class ConfirmModal(pygame.sprite.Sprite):
         self.create_overlay()
         self.option_index = 0
 
-        self.no_btn = Button(self.elements, MODAL_BTN_LEFT_POSITION, event_manager, 'negative_btn', 'No', 'WHITE')
-        self.yes_btn = Button(self.elements, MODAL_BTN_RIGHT_POSITION, event_manager, 'btn', 'Yes')
+        self.no_btn = Button(self.elements, (self.rect.left + 125, self.rect.bottom - 55), event_manager, 'negative_btn', 'No', 'WHITE')
+        self.yes_btn = Button(self.elements, (self.rect.right - 125, self.rect.bottom - 55), event_manager, 'btn', 'Yes')
 
         self.interactive_elements.append(self.no_btn)
         self.interactive_elements.append(self.yes_btn)

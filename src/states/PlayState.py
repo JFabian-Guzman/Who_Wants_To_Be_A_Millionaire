@@ -11,6 +11,7 @@ from utils.LifeLine import *
 from utils.Heart import *
 from utils.Clock import *
 from utils.Checkpoint import *
+from utils.NoDataModal import *
 import random
 
 LIFELINE_1_POSITION = (WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2 - 275)
@@ -70,6 +71,7 @@ class Play(State):
         self.modal = ConfirmModal(self.event_manager)
         self.surrender_modal = SurrenderModal(self.event_manager)
         self.interactive_elements.append(self.surrender)
+        self.no_data_warning = NoData(self.event_manager)
 
     def set_up_lifelines(self):
         self.shield_lifeline = Lifeline(self.lifeline_pos[0], "shield_lifeline")
@@ -105,11 +107,14 @@ class Play(State):
         self.last_level = self.file_manager.get_last_level()
 
     def draw(self):
-        self.elements.draw(self.screen)
-        self.draw_lifelines()
-        self.draw_hearts()
-        if self.current_level % 5 == 0 and self.current_level > 0:
-            self.checkpoint.draw()
+        if self.number_questions > 0:
+            self.elements.draw(self.screen)
+            self.draw_lifelines()
+            self.draw_hearts()
+            if self.current_level % 5 == 0 and self.current_level > 0:
+                self.checkpoint.draw()
+        else:
+            self.no_data_warning.draw()
 
     def draw_lifelines(self):
         self.shield_lifeline.draw()
@@ -121,44 +126,51 @@ class Play(State):
             self.hearts[i].draw()
 
     def update(self):
-        self.elements.update()
-        self.clock.update_time()    
-        if self.display_modal:
-            self.modal.draw()
-            self.modal.update()
-        elif self.display_surrender_modal:
-            self.surrender_modal.draw()
-            self.surrender_modal.update()
+        self.update_cursor_state()
+        if self.number_questions > 0:
+            self.elements.update() 
+            self.clock.update_time()    
+            if self.display_modal:
+                self.modal.draw()
+                self.modal.update()
+            elif self.display_surrender_modal:
+                self.surrender_modal.draw()
+                self.surrender_modal.update()
+            else:
+                    self.display_options()
+                    self.click_option()
+                    self.click_lifeline()
+                    for heart in self.hearts:
+                        heart.update()
+                    for lifeline in self.lifelines:
+                        lifeline.update()
+                    if self.current_level % 5 == 0 and self.current_level > 0:
+                        self.checkpoint.update()
         else:
-            self.update_cursor_state()
-            self.display_options()
-            self.click_option()
-            self.click_lifeline()
-            for heart in self.hearts:
-                heart.update()
-            for lifeline in self.lifelines:
-                lifeline.update()
-            if self.current_level % 5 == 0 and self.current_level > 0:
-                self.checkpoint.update()
+            self.no_data_warning.update()
             
 
     def display_options(self):
-        for i in range(4):
-            self.interactive_elements[i].set_title(self.options[i])
+        if self.number_questions > 0:
+            for i in range(4):
+                self.interactive_elements[i].set_title(self.options[i])
 
     def generate_random_index(self, *args):
-        self.number_questions = len(self.file_manager.get_data()[self.current_level])
-        self.question_index = random.randrange(self.number_questions)
-        if self.number_questions > 1:
-            # Avoid generating the same question if a switch is made
-            while self.question == self.file_manager.get_data()[self.current_level][self.question_index]["question"]:
-                self.question_index = random.randrange(self.number_questions)
 
-    def update_display_data(self, *args): 
-        self.options = self.file_manager.get_data()[self.current_level][self.question_index]["options"]
-        self.answer = self.file_manager.get_data()[self.current_level][self.question_index]["answer"]
-        self.question = self.file_manager.get_data()[self.current_level][self.question_index]["question"]
-        self.event_manager.notify("change_question", self.question)
+        self.number_questions = len(self.file_manager.get_data()[self.current_level])
+        if self.number_questions > 0:
+            self.question_index = random.randrange(self.number_questions)
+            if self.number_questions > 1:
+                # Avoid generating the same question if a switch is made
+                while self.question == self.file_manager.get_data()[self.current_level][self.question_index]["question"]:
+                    self.question_index = random.randrange(self.number_questions)
+
+    def update_display_data(self, *args):
+        if self.number_questions > 0:
+            self.options = self.file_manager.get_data()[self.current_level][self.question_index]["options"]
+            self.answer = self.file_manager.get_data()[self.current_level][self.question_index]["answer"]
+            self.question = self.file_manager.get_data()[self.current_level][self.question_index]["question"]
+            self.event_manager.notify("change_question_text", self.question)
 
     def update_element_positions(self):
         for i, option in enumerate(self.interactive_elements[:4]):
@@ -400,6 +412,7 @@ class Play(State):
         self.surrender_modal.update_position()
         self.modal.update_position()
         self.checkpoint.update_position()
+        self.no_data_warning.update_position()
 
     
 

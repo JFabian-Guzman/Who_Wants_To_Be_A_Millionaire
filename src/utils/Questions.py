@@ -48,7 +48,7 @@ class Question(pygame.sprite.Sprite):
     self.rect = self.image.get_rect(center = (self.width//2, self.height//2 - 160))
 
   def set_up_question_events(self):
-    self.event_manager.subscribe("change_question", self.change_question)
+    self.event_manager.subscribe("change_question_text", self.change_question)
 
  
 
