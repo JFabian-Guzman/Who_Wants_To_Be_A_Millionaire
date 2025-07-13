@@ -75,6 +75,8 @@ class Score(pygame.sprite.Sprite):
 
     def restart(self):
         self.current_level = 0
+        self.correct_answers = 0
+        self.wrong_answers = 0
 
     def get_rect(self):
         return self.rect

@@ -62,7 +62,6 @@ class Add(State):
         self.warning_text = TEXT.render(self.warning, True, COLORS['AMBER'])
         self.error_text = TEXT.render(self.error, True, COLORS['RED'])
 
-
     def set_up_positions(self):
         self.positions = [
             (self.width // 2 - 375, self.height // 2 + 100),
@@ -190,6 +189,8 @@ class Add(State):
 
     def set_level(self, level):
         self.level = level
+        # Update the title
+        self.set_up_text()
 
     def clear(self):
         self.warning = ''
