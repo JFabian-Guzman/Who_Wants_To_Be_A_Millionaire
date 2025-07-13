@@ -1,5 +1,6 @@
 from config.settings import *
 from os.path import join
+from utils.PathHandler import *
 
 class SoundController(pygame.sprite.Sprite):
   def __init__(self, group, event_manager):
@@ -11,8 +12,8 @@ class SoundController(pygame.sprite.Sprite):
 
     self.event_manager = event_manager
 
-    self.sound_on = pygame.image.load(join("assets", "img", "sound_on.png")).convert_alpha()
-    self.sound_off = pygame.image.load(join("assets", "img", "sound_off.png")).convert_alpha()
+    self.sound_on = pygame.image.load(resource_path(join("assets", "img", "sound_on.png"))).convert_alpha()
+    self.sound_off = pygame.image.load(resource_path(join("assets", "img", "sound_off.png"))).convert_alpha()
 
     position = (self.width - 50, 50)
     self.image = self.sound_on

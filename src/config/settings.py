@@ -1,6 +1,7 @@
 import pygame
 from pygame.locals import *
 from os.path import join
+from utils.PathHandler import *
 
 # SIZE
 WINDOW_WIDTH, WINDOW_HEIGHT = 1280, 720
@@ -24,7 +25,7 @@ MAX_NAME_LENGTH = 20
 
 
 # FONT
-PRESS_START_2P = join("assets", "fonts", "PressStart2P-Regular.ttf")
+PRESS_START_2P = resource_path(join("assets", "fonts", "PressStart2P-Regular.ttf"));
 pygame.font.init()  
 GIGA_TITLE = pygame.font.Font(PRESS_START_2P, 48)
 TITLE = pygame.font.Font(PRESS_START_2P, 20)

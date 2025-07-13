@@ -1,10 +1,11 @@
 from config.settings import *
 from os.path import join
+from utils.PathHandler import *
 
 class Cursor(pygame.sprite.Sprite):
   def __init__(self,groups, event_manager):
     super().__init__(groups)
-    self.image = pygame.image.load(join("assets", "img", "cursor.png")).convert_alpha()
+    self.image = pygame.image.load(resource_path(join("assets", "img", "cursor.png"))).convert_alpha()
     self.rect = self.image.get_rect()
     self.screen = pygame.display.get_surface()
     self.collision = False
@@ -13,11 +14,11 @@ class Cursor(pygame.sprite.Sprite):
   def change_mouse_image(self, *args):
     mouse_type = args[0]
     if mouse_type == 'hover':
-      self.image = pygame.image.load(join("assets", "img", "hover_cursor.png")).convert_alpha()
+      self.image = pygame.image.load(resource_path(join("assets", "img", "hover_cursor.png"))).convert_alpha()
     elif mouse_type == 'default':
-      self.image = pygame.image.load(join("assets", "img", "cursor.png")).convert_alpha()
+      self.image = pygame.image.load(resource_path(join("assets", "img", "cursor.png"))).convert_alpha()
     elif mouse_type == 'text':
-      self.image = pygame.image.load(join("assets", "img", "text_cursor.png")).convert_alpha()
+      self.image = pygame.image.load(resource_path(join("assets", "img", "text_cursor.png"))).convert_alpha()
 
 
   def update(self):

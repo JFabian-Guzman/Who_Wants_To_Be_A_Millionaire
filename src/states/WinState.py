@@ -5,6 +5,7 @@ from utils.Button import *
 from utils.Box import *
 from utils.WinFlag import *
 from utils.Coin import *
+from utils.PathHandler import *
 
 class Win(State):
     def __init__(self, event_manager):
@@ -33,7 +34,7 @@ class Win(State):
         self.flag = WinFlag( self.flag_pos , self.elements)
         self.coin = Coin(self.coin_pos, self.elements)
 
-        self.sound = pygame.mixer.Sound(join("assets", "sounds" ,"win.mp3"))
+        self.sound = pygame.mixer.Sound(resource_path(join("assets", "sounds" ,"win.mp3")))
         self.sound.set_volume(.5)
 
         self.interactive_elements.append(self.no_btn)

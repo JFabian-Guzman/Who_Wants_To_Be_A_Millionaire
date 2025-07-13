@@ -1,5 +1,6 @@
 from config.settings import *
 from os.path import join
+from utils.PathHandler import *
 
 BANNER_HEIGHT = 65
 class Background:
@@ -7,7 +8,7 @@ class Background:
         self.update_elements_size()
 
     def load_background_image(self):
-        background_img = pygame.image.load(join("assets", "img", "background.jpeg")).convert()
+        background_img = pygame.image.load(resource_path(join("assets", "img", "background.jpeg"))).convert()
         self.background = pygame.transform.scale(background_img, self.screen.get_size())
 
     def create_overlay(self):
@@ -34,7 +35,7 @@ class Background:
         self.banner.blit(tcu_logo, tcu_rect)
 
     def load_logo(self, filename, size, **kwargs):
-        logo = pygame.image.load(join("assets", "img", filename)).convert_alpha()
+        logo = pygame.image.load(resource_path(join("assets", "img", filename))).convert_alpha()
         logo = pygame.transform.scale(logo, size)
         rect = logo.get_rect(**kwargs)
         return logo, rect

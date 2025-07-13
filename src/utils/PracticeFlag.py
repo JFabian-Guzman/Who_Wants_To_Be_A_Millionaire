@@ -1,5 +1,6 @@
 from config.settings import *
 from os.path import join
+from utils.PathHandler import *
 
 class PracticeFlag(pygame.sprite.Sprite):
   def __init__(self, groups):
@@ -8,7 +9,7 @@ class PracticeFlag(pygame.sprite.Sprite):
     self.screen = pygame.display.get_surface()
     self.width, self.height = self.screen.get_size()
 
-    self.image = pygame.image.load(join("assets", "img" ,"practice_flag.png")).convert_alpha()
+    self.image = pygame.image.load(resource_path(join("assets", "img" ,"practice_flag.png"))).convert_alpha()
     self.rect = self.image.get_rect(center = (self.width//2, 150))
 
     self.text = GIGA_TITLE.render("Practice Complete!", True, COLORS["BLACK"])

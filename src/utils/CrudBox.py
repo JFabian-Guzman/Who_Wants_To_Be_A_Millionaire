@@ -1,6 +1,7 @@
 from config.settings import *
 from os.path import join
 from utils.Icon import *
+from utils.PathHandler import *
 
 class CrudBox(pygame.sprite.Sprite):
     def __init__(self, question, options, answer, id, position, event_manager):
@@ -10,7 +11,7 @@ class CrudBox(pygame.sprite.Sprite):
         self.interactive_elements = []
         self.event_manager = event_manager
 
-        self.image = pygame.image.load(join("assets", "img", "crud_box.png")).convert_alpha()
+        self.image = pygame.image.load(resource_path(join("assets", "img", "crud_box.png"))).convert_alpha()
         self.rect = self.image.get_rect(center=position)
 
         self.pencil_icon = Icon((self.rect.midright[0] - 80, self.rect.midright[1] + 40), "pencil")

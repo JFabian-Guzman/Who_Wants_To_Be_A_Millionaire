@@ -1,5 +1,6 @@
 from config.settings import *
 from os.path import join
+from utils.PathHandler import *
 
 class Option(pygame.sprite.Sprite):
   def __init__(self, text , position, groups):
@@ -14,17 +15,17 @@ class Option(pygame.sprite.Sprite):
     self.is_wrong = False
     self.is_menu = False
     self.text = text
-    self.menu_sound = pygame.mixer.Sound(join("assets", "sounds" ,"option_selected.mp3"))
+    self.menu_sound = pygame.mixer.Sound(resource_path(join("assets", "sounds" ,"option_selected.mp3")))
     self.menu_sound.set_volume(.5)
-    self.error_sound = pygame.mixer.Sound(join("assets", "sounds" ,"error.mp3"))
+    self.error_sound = pygame.mixer.Sound(resource_path(join("assets", "sounds" ,"error.mp3")))
     self.error_sound.set_volume(.5)
-    self.correct_sound = pygame.mixer.Sound(join("assets", "sounds" ,"correct.mp3"))
+    self.correct_sound = pygame.mixer.Sound(resource_path(join("assets", "sounds" ,"correct.mp3")))
     self.correct_sound.set_volume(.5)
     
-    self.option_blue = pygame.image.load(join("assets", "img" ,"option.png")).convert_alpha()
-    self.option_organe = pygame.image.load(join("assets", "img" ,"option_animation1.png")).convert_alpha()
-    option_green = pygame.image.load(join("assets", "img" ,"option_animation2.png")).convert_alpha()
-    option_red = pygame.image.load(join("assets", "img" ,"option_wrong.png")).convert_alpha()
+    self.option_blue = pygame.image.load(resource_path(join("assets", "img" ,"option.png"))).convert_alpha()
+    self.option_organe = pygame.image.load(resource_path(join("assets", "img" ,"option_animation1.png"))).convert_alpha()
+    option_green = pygame.image.load(resource_path(join("assets", "img" ,"option_animation2.png"))).convert_alpha()
+    option_red = pygame.image.load(resource_path(join("assets", "img" ,"option_wrong.png"))).convert_alpha()
     # Animation for correct answer
     self.sprites.append(self.option_blue)
     self.sprites.append(option_green)

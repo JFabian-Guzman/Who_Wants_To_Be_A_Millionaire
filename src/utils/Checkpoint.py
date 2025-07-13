@@ -1,5 +1,6 @@
 from config.settings import *
 from os.path import join
+from utils.PathHandler import *
 
 class Checkpoint(pygame.sprite.Sprite):
   def __init__(self):
@@ -10,13 +11,13 @@ class Checkpoint(pygame.sprite.Sprite):
     self.current_sprite = 0
     self.run_animation = False
 
-    self.sprites.append(pygame.image.load(join("assets", "img", 'btn.png')).convert_alpha())
+    self.sprites.append(pygame.image.load(resource_path(join("assets", "img", 'btn.png'))).convert_alpha())
     self.sprites.append(None)
-    self.sprites.append(pygame.image.load(join("assets", "img", 'btn.png')).convert_alpha())
+    self.sprites.append(pygame.image.load(resource_path(join("assets", "img", 'btn.png'))).convert_alpha())
     self.sprites.append(None)
-    self.sprites.append(pygame.image.load(join("assets", "img", 'btn.png')).convert_alpha())
+    self.sprites.append(pygame.image.load(resource_path(join("assets", "img", 'btn.png'))).convert_alpha())
     self.sprites.append(None)
-    self.sprites.append(pygame.image.load(join("assets", "img", 'btn.png')).convert_alpha())
+    self.sprites.append(pygame.image.load(resource_path(join("assets", "img", 'btn.png'))).convert_alpha())
     self.sprites.append(None)
 
     self.image = self.sprites[self.current_sprite]

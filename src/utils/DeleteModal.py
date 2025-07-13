@@ -1,6 +1,7 @@
 from config.settings import *
 from os.path import join
 from utils.Button import *
+from utils.PathHandler import *
 class DeleteModal(pygame.sprite.Sprite):
     def __init__(self, event_manager):
         super().__init__()
@@ -10,7 +11,7 @@ class DeleteModal(pygame.sprite.Sprite):
 
         self.id = ''
 
-        self.image = pygame.image.load(join("assets", "img", "question.png")).convert_alpha()
+        self.image = pygame.image.load(resource_path(join("assets", "img", "question.png"))).convert_alpha()
         self.rect = self.image.get_rect(center=(self.width//2, self.height//2))
 
         self.message = "Are you sure you want to delete the question?"

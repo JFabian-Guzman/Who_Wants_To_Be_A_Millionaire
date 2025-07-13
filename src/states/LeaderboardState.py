@@ -3,6 +3,7 @@ from os.path import join
 from .State import *
 from utils.Button import *
 from utils.PodiumBox import *
+from utils.PathHandler import *
 
 class Leaderboard(State):
   def __init__(self, event_manager):
@@ -32,7 +33,7 @@ class Leaderboard(State):
       self.podiums[i].draw()
 
   def set_up_text(self):
-    self.title_background = pygame.image.load(join("assets", "img", "score.png")).convert_alpha()
+    self.title_background = pygame.image.load(resource_path(join("assets", "img", "score.png"))).convert_alpha()
     self.text = TITLE.render("Leaderboard", True, COLORS["BLACK"])
 
   def set_up_positions(self):

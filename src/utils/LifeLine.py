@@ -1,5 +1,6 @@
 from config.settings import *
 from os.path import join
+from utils.PathHandler import *
 import random
 
 class Lifeline(pygame.sprite.Sprite):
@@ -12,21 +13,21 @@ class Lifeline(pygame.sprite.Sprite):
     self.run_animation = False
     self.current_sprite = 0
     self.animation_callback = None
-    self.hover_img = pygame.image.load(join("assets", "img" ,"lifeline_hover.png")).convert_alpha()
+    self.hover_img = pygame.image.load(resource_path(join("assets", "img" ,"lifeline_hover.png"))).convert_alpha()
 
-    self.sprites.append(pygame.image.load(join("assets", "img" ,"lifeline.png")).convert_alpha())
-    self.sprites.append(pygame.image.load(join("assets", "img" ,"lifeline_disable.png")).convert_alpha())
-    self.sprites.append(pygame.image.load(join("assets", "img" ,"lifeline.png")).convert_alpha())
-    self.sprites.append(pygame.image.load(join("assets", "img" ,"lifeline_disable.png")).convert_alpha())
-    self.sprites.append(pygame.image.load(join("assets", "img" ,"lifeline.png")).convert_alpha())
-    self.sprites.append(pygame.image.load(join("assets", "img" ,"lifeline_disable.png")).convert_alpha())
+    self.sprites.append(pygame.image.load(resource_path(join("assets", "img" ,"lifeline.png"))).convert_alpha())
+    self.sprites.append(pygame.image.load(resource_path(join("assets", "img" ,"lifeline_disable.png"))).convert_alpha())
+    self.sprites.append(pygame.image.load(resource_path(join("assets", "img" ,"lifeline.png"))).convert_alpha())
+    self.sprites.append(pygame.image.load(resource_path(join("assets", "img" ,"lifeline_disable.png"))).convert_alpha())
+    self.sprites.append(pygame.image.load(resource_path(join("assets", "img" ,"lifeline.png"))).convert_alpha())
+    self.sprites.append(pygame.image.load(resource_path(join("assets", "img" ,"lifeline_disable.png"))).convert_alpha())
 
     self.image = self.sprites[self.current_sprite]
     self.rect = self.image.get_rect(center=position)
-    self.icon = pygame.image.load(join("assets", "img" , icon + ".png")).convert_alpha()
+    self.icon = pygame.image.load(resource_path(join("assets", "img" , icon + ".png"))).convert_alpha()
     self.icon_rect = self.icon.get_rect(center=self.rect.center)
 
-    self.sound = pygame.mixer.Sound(join("assets", "sounds" ,"lifeline.mp3"))
+    self.sound = pygame.mixer.Sound(resource_path(join("assets", "sounds" ,"lifeline.mp3")))
     self.sound.set_volume(.5)
 
   def draw(self):

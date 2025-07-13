@@ -1,6 +1,6 @@
 from config.settings import *
-from os.path import isfile, join
-import json
+from os.path import join
+from utils.PathHandler import *
 
 class Question(pygame.sprite.Sprite):
   def __init__(self , groups, event_manager):
@@ -8,7 +8,7 @@ class Question(pygame.sprite.Sprite):
     self.screen = pygame.display.get_surface()
     self.width, self.height = self.screen.get_size()
 
-    self.image = pygame.image.load(join("assets", "img" ,"question.png")).convert_alpha()
+    self.image = pygame.image.load(resource_path(join("assets", "img" ,"question.png"))).convert_alpha()
     self.rect = self.image.get_rect(center = (self.width//2, self.height//2 - 160))
     self.screen = pygame.display.get_surface()
     self.event_manager = event_manager

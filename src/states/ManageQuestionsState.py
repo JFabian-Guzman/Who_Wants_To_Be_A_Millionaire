@@ -3,6 +3,7 @@ from os.path import join
 from .State import *
 from utils.Button import *
 from utils.LevelBox import *
+from utils.PathHandler import *
 
 class ManageQuestions(State):
   def __init__(self, event_manager):
@@ -15,7 +16,7 @@ class ManageQuestions(State):
 
 
   def set_up_text(self):
-    self.title_background = pygame.image.load(join("assets", "img", "score.png")).convert_alpha()
+    self.title_background = pygame.image.load(resource_path(join("assets", "img", "score.png"))).convert_alpha()
     self.title = TITLE.render("Question Manager\n     Levels", True, COLORS["BLACK"])
 
   def set_up_elements(self):

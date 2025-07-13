@@ -5,6 +5,7 @@ from utils.Button import *
 from utils.Box import *
 from utils.TextInput import *
 from utils.CheckAnswer import *
+from utils.PathHandler import *
 
 class Add(State):
     def __init__(self, event_manager):
@@ -26,9 +27,9 @@ class Add(State):
         self.set_up_buttons()
 
     def set_up_background(self):
-        self.question_background = pygame.image.load(join("assets", "img", "question.png")).convert_alpha()
-        self.option_background = pygame.image.load(join("assets", "img", "option.png")).convert_alpha()
-        self.title_background = pygame.image.load(join("assets", "img", "score.png")).convert_alpha()
+        self.question_background = pygame.image.load(resource_path(join("assets", "img", "question.png"))).convert_alpha()
+        self.option_background = pygame.image.load(resource_path(join("assets", "img", "option.png"))).convert_alpha()
+        self.title_background = pygame.image.load(resource_path(join("assets", "img", "score.png"))).convert_alpha()
 
     def set_up_inputs(self):
         self.question_input = TextInput(self.question_rect.center, 875, 60, self.event_manager, 'question')

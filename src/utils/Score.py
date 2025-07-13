@@ -1,6 +1,7 @@
 from config.settings import *
 from os.path import join
 from utils.Coin import *
+from utils.PathHandler import *
 
 class Score(pygame.sprite.Sprite):
     def __init__(self, groups, position):
@@ -8,7 +9,7 @@ class Score(pygame.sprite.Sprite):
         self.screen = pygame.display.get_surface()
         self.elements = pygame.sprite.Group()
 
-        self.image = pygame.image.load(join("assets", "img", "score.png")).convert_alpha()
+        self.image = pygame.image.load(resource_path(join("assets", "img", "score.png"))).convert_alpha()
         self.rect = self.image.get_rect(center=position)
 
         self.current_level = 1
@@ -28,11 +29,11 @@ class Score(pygame.sprite.Sprite):
 
     def add_icons(self):
         check_position = (self.positive_score_rect.right + 20, self.positive_score_rect.centery)
-        self.correct_icon = pygame.image.load(join("assets", "img", "correct.png")).convert_alpha()
+        self.correct_icon = pygame.image.load(resource_path(join("assets", "img", "correct.png"))).convert_alpha()
         self.correct_rect = self.correct_icon.get_rect(midleft=check_position)
 
         x_position = (self.negative_score_rect.right + 20, self.negative_score_rect.centery)
-        self.wrong_icon = pygame.image.load(join("assets", "img", "wrong.png")).convert_alpha()
+        self.wrong_icon = pygame.image.load(resource_path(join("assets", "img", "wrong.png"))).convert_alpha()
         self.wrong_rect = self.wrong_icon.get_rect(midleft=x_position)
 
     def update(self):

@@ -1,6 +1,7 @@
 from config.settings import *
 from os.path import join
 from utils.Button import *
+from utils.PathHandler import *
 
 class SurrenderModal(pygame.sprite.Sprite):
     def __init__(self, event_manager):
@@ -13,7 +14,7 @@ class SurrenderModal(pygame.sprite.Sprite):
         self.click_handled = True
         self.practice_mode = False
 
-        self.image = pygame.image.load(join("assets", "img", "question.png")).convert_alpha()
+        self.image = pygame.image.load(resource_path(join("assets", "img", "question.png"))).convert_alpha()
         self.rect = self.image.get_rect(center=(self.width // 2, self.height // 2 ))
 
         self.surrender_message = "You will keep your money.\n\nAre you sure you want to surrender?"

@@ -6,6 +6,8 @@ from utils.CrudBox import *
 from utils.PaginationBox import *
 from utils.AddQuestions import *
 from utils.DeleteModal import *
+from utils.PathHandler import *
+from utils.PathHandler import *
 
 class Questions(State):
     def __init__(self, event_manager, file_manager):
@@ -42,7 +44,7 @@ class Questions(State):
             pag.update_position(((self.width // 2 - 200) + (50 * i), (self.height // 2 + 260)))
 
     def set_up_text(self):
-        self.title_background = pygame.image.load(join("assets", "img", "score.png")).convert_alpha()
+        self.title_background = pygame.image.load(resource_path(join("assets", "img", "score.png"))).convert_alpha()
         self.title = TITLE.render("Question Manager\n    Level: " + str(self.level + 1), True, COLORS["BLACK"])
 
     def set_up_positions(self):

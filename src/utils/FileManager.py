@@ -1,6 +1,7 @@
 from os.path import isfile, join
 import os
 import json
+from utils.PathHandler import *
 
 class FileManager():
   def __init__(self, event_manager):
@@ -10,7 +11,7 @@ class FileManager():
 
   def create_question_file(self):
     self.check_data_folder()
-    file_path = join("data", "Questions.json")
+    file_path = resource_path(join("data", "Questions.json"))
     if not isfile(file_path):
       with open(file_path, "w") as file:
         json.dump([], file)
@@ -18,8 +19,8 @@ class FileManager():
 
   def load_data(self, *args):
     self.create_question_file()
-    if isfile(join("data", "Questions.json")):
-      with open(join("data", "Questions.json"), "r") as file:
+    if isfile(resource_path(join("data", "Questions.json"))):
+      with open(resource_path(join("data", "Questions.json")), "r") as file:
         data_file = json.load(file)
         # 15 = Difficulty levels
         self.data = [[] for row in range(15)]
@@ -36,7 +37,7 @@ class FileManager():
         id = data[6]
         
         self.create_question_file()
-        file_path = join("data", "Questions.json")
+        file_path = resource_path(join("data", "Questions.json"))
 
         # Load data
         with open(file_path, "r") as file:
@@ -72,7 +73,7 @@ class FileManager():
           "level": data[6]
         }
         self.create_question_file()
-        file_path = join("data", "Questions.json")
+        file_path = resource_path(join("data", "Questions.json"))
         # Load data
         with open(file_path, "r") as file:
             try:
@@ -95,7 +96,7 @@ class FileManager():
   def delete(self, *args):
     id = args[0]
     self.create_question_file()
-    file_path = join("data", "Questions.json")
+    file_path = resource_path(join("data", "Questions.json"))
     # Load data
     with open(file_path, "r") as file:
         try:
@@ -123,7 +124,7 @@ class FileManager():
 
   def create_player_file(self):
     self.check_data_folder()
-    file_path = join("data", "Players.json")
+    file_path = resource_path(join("data", "Players.json"))
     if not isfile(file_path):
         with open(file_path, "w") as file:
             json.dump([], file)
@@ -133,7 +134,7 @@ class FileManager():
 
   def get_podium(self, *args):
     self.create_player_file()
-    file_path = join("data", "Players.json")
+    file_path = resource_path(join("data", "Players.json"))
     with open(file_path, "r") as file:
       data_file = json.load(file)
     self.event_manager.notify("set_podiums", data_file)
@@ -145,7 +146,7 @@ class FileManager():
       "Points": data[1]
     }
     self.create_player_file()
-    file_path = join("data", "Players.json")
+    file_path = resource_path(join("data", "Players.json"))
     with open(file_path, "r") as file:
       players = json.load(file)
 

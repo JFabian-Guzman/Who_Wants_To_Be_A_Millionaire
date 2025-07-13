@@ -1,13 +1,14 @@
 from config.settings import *
 from os.path import join
+from utils.PathHandler import *
 
 class Check(pygame.sprite.Sprite):
   def __init__(self , position, groups):
     super().__init__(groups)
 
     self.screen = pygame.display.get_surface()
-    self.active_check = pygame.image.load(join("assets", "img" ,"check.png")).convert_alpha()
-    self.disable_check = pygame.image.load(join("assets", "img" ,"check_disable.png")).convert_alpha()
+    self.active_check = pygame.image.load(resource_path(join("assets", "img" ,"check.png"))).convert_alpha()
+    self.disable_check = pygame.image.load(resource_path(join("assets", "img" ,"check_disable.png"))).convert_alpha()
 
 
     self.image = self.disable_check

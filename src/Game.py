@@ -6,6 +6,7 @@ from utils.EventManager import *
 from states.StateMachine import *
 from utils.Background import *
 from utils.FileManager import *
+from utils.PathHandler import *
 from states.PlayState import *
 from states.InstructionsState import *
 from states.CreditsState import *
@@ -33,7 +34,7 @@ class Game:
     self.clock = pygame.time.Clock()
     self.fps = 60
     self.running = True
-    pygame.mixer.music.load(join("assets", "sounds", "bg_music.mp3"))
+    pygame.mixer.music.load(resource_path(join("assets", "sounds", "bg_music.mp3")))
     pygame.mixer.music.set_volume(0.3)  # Set volume (0.0 to 1.0, where 1.0 is the max volume)
     pygame.mixer.music.play(-1, 0.0)
     pygame.mouse.set_visible(False)

@@ -4,6 +4,7 @@ from .State import *
 from utils.Button import *
 from utils.Box import *
 from utils.PracticeFlag import *
+from utils.PathHandler import *
 
 class Practice(State):
     def __init__(self, event_manager):
@@ -29,7 +30,7 @@ class Practice(State):
 
         self.flag = PracticeFlag(self.elements)
 
-        self.sound = pygame.mixer.Sound(join("assets", "sounds" ,"win.mp3"))
+        self.sound = pygame.mixer.Sound(resource_path(join("assets", "sounds" ,"win.mp3")))
         self.sound.set_volume(.5)
 
         self.interactive_elements.append(self.no_btn)

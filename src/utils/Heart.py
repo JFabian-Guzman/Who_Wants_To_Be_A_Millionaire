@@ -11,23 +11,23 @@ class Heart(pygame.sprite.Sprite):
     self.reverse_animation = False
     self.active = True
 
-    self.sprites.append(pygame.image.load(join("assets", "img" ,"heart.png")).convert_alpha())
-    self.sprites.append(pygame.image.load(join("assets", "img" ,"heart_animation1.png")).convert_alpha())
-    self.sprites.append(pygame.image.load(join("assets", "img" ,"heart_animation2.png")).convert_alpha())
-    self.sprites.append(pygame.image.load(join("assets", "img" ,"heart_animation3.png")).convert_alpha())
-    self.sprites.append(pygame.image.load(join("assets", "img" ,"heart_animation4.png")).convert_alpha())
-    self.sprites.append(pygame.image.load(join("assets", "img" ,"heart_animation5.png")).convert_alpha())
-    self.sprites.append(pygame.image.load(join("assets", "img" ,"heart_animation6.png")).convert_alpha())
-    self.sprites.append(pygame.image.load(join("assets", "img" ,"disable_heart.png")).convert_alpha())
+    self.sprites.append(pygame.image.load(resource_path(join("assets", "img" ,"heart.png"))).convert_alpha())
+    self.sprites.append(pygame.image.load(resource_path(join("assets", "img" ,"heart_animation1.png"))).convert_alpha())
+    self.sprites.append(pygame.image.load(resource_path(join("assets", "img" ,"heart_animation2.png"))).convert_alpha())
+    self.sprites.append(pygame.image.load(resource_path(join("assets", "img" ,"heart_animation3.png"))).convert_alpha())
+    self.sprites.append(pygame.image.load(resource_path(join("assets", "img" ,"heart_animation4.png"))).convert_alpha())
+    self.sprites.append(pygame.image.load(resource_path(join("assets", "img" ,"heart_animation5.png"))).convert_alpha())
+    self.sprites.append(pygame.image.load(resource_path(join("assets", "img" ,"heart_animation6.png"))).convert_alpha())
+    self.sprites.append(pygame.image.load(resource_path(join("assets", "img" ,"disable_heart.png"))).convert_alpha())
 
     self.shield_sprites = []
-    self.shield_sprites.append(pygame.image.load(join("assets", "img" ,"heart.png")).convert_alpha())
-    self.shield_sprites.append(pygame.image.load(join("assets", "img" ,"shield_heart_animation1.png")).convert_alpha())
-    self.shield_sprites.append(pygame.image.load(join("assets", "img" ,"shield_heart_animation2.png")).convert_alpha())
-    self.shield_sprites.append(pygame.image.load(join("assets", "img" ,"shield_heart_animation3.png")).convert_alpha())
-    self.shield_sprites.append(pygame.image.load(join("assets", "img" ,"shield_heart_animation4.png")).convert_alpha())
-    self.shield_sprites.append(pygame.image.load(join("assets", "img" ,"shield_heart_animation5.png")).convert_alpha())
-    self.shield_sprites.append(pygame.image.load(join("assets", "img" ,"shield_heart_animation6.png")).convert_alpha())
+    self.shield_sprites.append(pygame.image.load(resource_path(join("assets", "img" ,"heart.png"))).convert_alpha())
+    self.shield_sprites.append(pygame.image.load(resource_path(join("assets", "img" ,"shield_heart_animation1.png"))).convert_alpha())
+    self.shield_sprites.append(pygame.image.load(resource_path(join("assets", "img" ,"shield_heart_animation2.png"))).convert_alpha())
+    self.shield_sprites.append(pygame.image.load(resource_path(join("assets", "img" ,"shield_heart_animation3.png"))).convert_alpha())
+    self.shield_sprites.append(pygame.image.load(resource_path(join("assets", "img" ,"shield_heart_animation4.png"))).convert_alpha())
+    self.shield_sprites.append(pygame.image.load(resource_path(join("assets", "img" ,"shield_heart_animation5.png"))).convert_alpha())
+    self.shield_sprites.append(pygame.image.load(resource_path(join("assets", "img" ,"shield_heart_animation6.png"))).convert_alpha())
 
     self.image = self.sprites[self.current_sprite]
     self.rect = self.image.get_rect(center=position)

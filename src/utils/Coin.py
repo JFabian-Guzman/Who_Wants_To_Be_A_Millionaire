@@ -1,11 +1,11 @@
 from config.settings import *
 from os.path import join
-
+from utils.PathHandler import *
 
 class Coin(pygame.sprite.Sprite):
   def __init__(self, position, group):
     super().__init__(group)
-    self.image = pygame.image.load(join("assets", "img", "coin.png")).convert_alpha()
+    self.image = pygame.image.load(resource_path(join("assets", "img", "coin.png"))).convert_alpha()
     self.rect = self.image.get_rect(midleft = position)
 
   def draw(self):

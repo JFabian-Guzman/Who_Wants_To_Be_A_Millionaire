@@ -12,6 +12,7 @@ from utils.Heart import *
 from utils.Clock import *
 from utils.Checkpoint import *
 from utils.NoDataModal import *
+from utils.PathHandler import *
 import random
 
 class Play(State):
@@ -41,7 +42,7 @@ class Play(State):
         self.lifelines = []
         self.file_manager = file_manager
         self.start_time = pygame.time.get_ticks()
-        self.sound = pygame.mixer.Sound(join("assets", "sounds" ,"game_start.mp3"))
+        self.sound = pygame.mixer.Sound(resource_path(join("assets", "sounds" ,"game_start.mp3")))
         self.sound.set_volume(.5)
 
         self.question_obj = Question(self.elements, self.event_manager)

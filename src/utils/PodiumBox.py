@@ -1,12 +1,13 @@
 from config.settings import *
 from os.path import join
 from utils.Button import *
+from utils.PathHandler import *
 
 class PodiumBox(pygame.sprite.Sprite):
   def __init__(self, groups, position):
     super().__init__(groups)
     self.screen = pygame.display.get_surface()
-    self.image = pygame.image.load(join("assets", "img" ,"leaderboard_box.png")).convert_alpha()
+    self.image = pygame.image.load(resource_path(join("assets", "img" ,"leaderboard_box.png"))).convert_alpha()
     self.rect = self.image.get_rect(center=position)
     self.podium = ["gold", "silver", "bronze", "fourth_place", "fifth_place"]
     self.player_name = ''
@@ -20,7 +21,7 @@ class PodiumBox(pygame.sprite.Sprite):
     self.screen.blit(self.points, self.points_rect)
 
   def update_data(self):
-    self.final_medal = pygame.image.load(join("assets", "img" , self.podium[self.medal] + ".png")).convert_alpha()
+    self.final_medal = pygame.image.load(resource_path(join("assets", "img" , self.podium[self.medal] + ".png"))).convert_alpha()
     self.medal_rect = self.final_medal.get_rect(midleft=(self.rect.midleft[0] + 10,self.rect.midleft[1]))
     self.player = TEXT.render(self.player_name, True, COLORS["WHITE"])
     self.player_rect = self.player.get_rect(center=self.rect.center)

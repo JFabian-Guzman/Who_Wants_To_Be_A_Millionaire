@@ -14,17 +14,17 @@ class Surrender(pygame.sprite.Sprite):
     self.sprites = []
     self.current_sprite = 0
 
-    self.sprites.append(pygame.image.load(join("assets", "img", 'btn.png')).convert_alpha())
-    self.sprites.append(pygame.image.load(join("assets", "img", "hover_btn_animation1.png")).convert_alpha())
-    self.sprites.append(pygame.image.load(join("assets", "img", "hover_btn_animation2.png")).convert_alpha())
-    self.sprites.append(pygame.image.load(join("assets", "img", "hover_btn_animation3.png")).convert_alpha())
-    self.sprites.append(pygame.image.load(join("assets", "img", "hover_btn_animation4.png")).convert_alpha())
-    self.sprites.append(pygame.image.load(join("assets", "img", "hover_btn_animation5.png")).convert_alpha())
-    self.sprites.append(pygame.image.load(join("assets", "img", "hover_btn_animation6.png")).convert_alpha())
-    self.sprites.append(pygame.image.load(join("assets", "img", "hover_btn_animation7.png")).convert_alpha())
-    self.sprites.append(pygame.image.load(join("assets", "img", "hover_btn_animation8.png")).convert_alpha())  
+    self.sprites.append(pygame.image.load(resource_path(join("assets", "img", 'btn.png'))).convert_alpha())
+    self.sprites.append(pygame.image.load(resource_path(join("assets", "img", "hover_btn_animation1.png"))).convert_alpha())
+    self.sprites.append(pygame.image.load(resource_path(join("assets", "img", "hover_btn_animation2.png"))).convert_alpha())
+    self.sprites.append(pygame.image.load(resource_path(join("assets", "img", "hover_btn_animation3.png"))).convert_alpha())
+    self.sprites.append(pygame.image.load(resource_path(join("assets", "img", "hover_btn_animation4.png"))).convert_alpha())
+    self.sprites.append(pygame.image.load(resource_path(join("assets", "img", "hover_btn_animation5.png"))).convert_alpha())
+    self.sprites.append(pygame.image.load(resource_path(join("assets", "img", "hover_btn_animation6.png"))).convert_alpha())
+    self.sprites.append(pygame.image.load(resource_path(join("assets", "img", "hover_btn_animation7.png"))).convert_alpha())
+    self.sprites.append(pygame.image.load(resource_path(join("assets", "img", "hover_btn_animation8.png"))).convert_alpha())  
 
-    self.image = pygame.image.load(join("assets", "img" ,"btn.png")).convert_alpha()
+    self.image = pygame.image.load(resource_path(join("assets", "img" ,"btn.png"))).convert_alpha()
     self.rect = self.image.get_rect(center = position)
     
     self.text = TEXT.render("Surrender", True, COLORS["BLACK"])

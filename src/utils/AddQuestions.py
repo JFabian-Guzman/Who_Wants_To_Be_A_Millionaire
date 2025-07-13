@@ -1,13 +1,14 @@
 from config.settings import *
 from os.path import join
+from utils.PathHandler import *
 
 class AddQuestion(pygame.sprite.Sprite):
   def __init__(self, groups):
     super().__init__(groups)
     self.screen = pygame.display.get_surface()
     self.width, self.height = self.screen.get_size()
-    self.blue_square = pygame.image.load(join("assets", "img" ,"blue_square.png")).convert_alpha()
-    self.blue_square_hover = pygame.image.load(join("assets", "img" ,"blue_square_hover.png")).convert_alpha()
+    self.blue_square = pygame.image.load(resource_path(join("assets", "img" ,"blue_square.png"))).convert_alpha()
+    self.blue_square_hover = pygame.image.load(resource_path(join("assets", "img" ,"blue_square_hover.png"))).convert_alpha()
 
     self.image =  self.blue_square
     self.rect = self.image.get_rect(center = (self.width//2 + 300, 75))

@@ -1,13 +1,13 @@
 from config.settings import *
 from os.path import join
-
+from utils.PathHandler import *
 class DifficultyOption(pygame.sprite.Sprite):
   def __init__(self, text , position, groups, color=''):
     super().__init__(groups)
 
     self.screen = pygame.display.get_surface()
 
-    self.image = pygame.image.load(join("assets", "img" ,"option" + color +".png")).convert_alpha()
+    self.image = pygame.image.load(resource_path(join("assets", "img" ,"option" + color +".png"))).convert_alpha()
     self.rect = self.image.get_rect(center = position)
 
     self.overlay = pygame.Surface(self.image.get_size())

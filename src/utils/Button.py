@@ -1,5 +1,6 @@
 from config.settings import *
 from os.path import join
+from utils.PathHandler import *
 
 class Button(pygame.sprite.Sprite):
     def __init__(self, group, position, event_manager, type='btn', text='Continue', color='BLACK'):
@@ -13,15 +14,15 @@ class Button(pygame.sprite.Sprite):
         self.run_animation = False
         self.type = type
 
-        self.sprites.append(pygame.image.load(join("assets", "img", type + '.png')).convert_alpha())
-        self.sprites.append(pygame.image.load(join("assets", "img", "hover_"+ type + '_animation1.png')).convert_alpha())
-        self.sprites.append(pygame.image.load(join("assets", "img", "hover_"+ type + '_animation2.png')).convert_alpha())
-        self.sprites.append(pygame.image.load(join("assets", "img", "hover_"+ type + '_animation3.png')).convert_alpha())
-        self.sprites.append(pygame.image.load(join("assets", "img", "hover_"+ type + '_animation4.png')).convert_alpha())
-        self.sprites.append(pygame.image.load(join("assets", "img", "hover_"+ type + '_animation5.png')).convert_alpha())
-        self.sprites.append(pygame.image.load(join("assets", "img", "hover_"+ type + '_animation6.png')).convert_alpha())
-        self.sprites.append(pygame.image.load(join("assets", "img", "hover_"+ type + '_animation7.png')).convert_alpha())
-        self.sprites.append(pygame.image.load(join("assets", "img", "hover_"+ type + '_animation8.png')).convert_alpha())
+        self.sprites.append(pygame.image.load(resource_path(join("assets", "img", type + '.png'))).convert_alpha())
+        self.sprites.append(pygame.image.load(resource_path(join("assets", "img", "hover_"+ type + '_animation1.png'))).convert_alpha())
+        self.sprites.append(pygame.image.load(resource_path(join("assets", "img", "hover_"+ type + '_animation2.png'))).convert_alpha())
+        self.sprites.append(pygame.image.load(resource_path(join("assets", "img", "hover_"+ type + '_animation3.png'))).convert_alpha())
+        self.sprites.append(pygame.image.load(resource_path(join("assets", "img", "hover_"+ type + '_animation4.png'))).convert_alpha())
+        self.sprites.append(pygame.image.load(resource_path(join("assets", "img", "hover_"+ type + '_animation5.png'))).convert_alpha())
+        self.sprites.append(pygame.image.load(resource_path(join("assets", "img", "hover_"+ type + '_animation6.png'))).convert_alpha())
+        self.sprites.append(pygame.image.load(resource_path(join("assets", "img", "hover_"+ type + '_animation7.png'))).convert_alpha())
+        self.sprites.append(pygame.image.load(resource_path(join("assets", "img", "hover_"+ type + '_animation8.png'))).convert_alpha())
 
         self.image = self.sprites[self.current_sprite]
         self.rect = self.image.get_rect(center=position)

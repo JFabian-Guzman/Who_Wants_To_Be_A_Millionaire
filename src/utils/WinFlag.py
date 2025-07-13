@@ -8,14 +8,14 @@ class WinFlag(pygame.sprite.Sprite):
     self.screen = pygame.display.get_surface()
     self.current_sprite = 0
     self.sprites = []
-    self.sprites.append(pygame.image.load(join("assets", "img" ,"win_flag.png")).convert_alpha())
-    self.sprites.append(pygame.image.load(join("assets", "img" ,"Winflag_animation1.png")).convert_alpha())
-    self.sprites.append(pygame.image.load(join("assets", "img" ,"Winflag_animation2.png")).convert_alpha())
-    self.sprites.append(pygame.image.load(join("assets", "img" ,"Winflag_animation3.png")).convert_alpha())
-    self.sprites.append(pygame.image.load(join("assets", "img" ,"Winflag_animation4.png")).convert_alpha())
-    self.sprites.append(pygame.image.load(join("assets", "img" ,"Winflag_animation5.png")).convert_alpha())
-    self.sprites.append(pygame.image.load(join("assets", "img" ,"Winflag_animation6.png")).convert_alpha())
-    self.sprites.append(pygame.image.load(join("assets", "img" ,"Winflag_animation7.png")).convert_alpha())
+    self.sprites.append(pygame.image.load(resource_path(join("assets", "img" ,"win_flag.png"))).convert_alpha())
+    self.sprites.append(pygame.image.load(resource_path(join("assets", "img" ,"Winflag_animation1.png"))).convert_alpha())
+    self.sprites.append(pygame.image.load(resource_path(join("assets", "img" ,"Winflag_animation2.png"))).convert_alpha())
+    self.sprites.append(pygame.image.load(resource_path(join("assets", "img" ,"Winflag_animation3.png"))).convert_alpha())
+    self.sprites.append(pygame.image.load(resource_path(join("assets", "img" ,"Winflag_animation4.png"))).convert_alpha())
+    self.sprites.append(pygame.image.load(resource_path(join("assets", "img" ,"Winflag_animation5.png"))).convert_alpha())
+    self.sprites.append(pygame.image.load(resource_path(join("assets", "img" ,"Winflag_animation6.png"))).convert_alpha())
+    self.sprites.append(pygame.image.load(resource_path(join("assets", "img" ,"Winflag_animation7.png"))).convert_alpha())
 
 
     self.image = self.sprites[self.current_sprite]
