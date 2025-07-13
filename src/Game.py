@@ -30,7 +30,10 @@ class Game:
     # Initialize the game
     pygame.init()
     self.screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT), RESIZABLE )
+    self.icon_path = resource_path(join("assets", "img", "icon.ico"))
+    self.icon_surface = pygame.image.load(self.icon_path)
     pygame.display.set_caption("Who wants to be a millionaire?")
+    pygame.display.set_icon(self.icon_surface)
     self.clock = pygame.time.Clock()
     self.fps = 60
     self.running = True
