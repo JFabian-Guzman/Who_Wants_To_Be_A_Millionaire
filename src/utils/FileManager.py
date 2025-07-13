@@ -14,12 +14,9 @@ class FileManager():
     if not isfile(file_path):
       with open(file_path, "w") as file:
         json.dump([], file)
-      print("Questions.json file created.")
-    else:
-      print("Questions.json file already exists.")
+
 
   def load_data(self, *args):
-    print("loaded")
     self.create_question_file()
     if isfile(join("data", "Questions.json")):
       with open(join("data", "Questions.json"), "r") as file:
@@ -38,7 +35,6 @@ class FileManager():
         }
         id = data[6]
         
-        print(f"Editing object with ID {id}...")
         self.create_question_file()
         file_path = join("data", "Questions.json")
 
@@ -63,7 +59,6 @@ class FileManager():
             # Save the modified data back to the file
             with open(file_path, "w") as file:
                 json.dump(data_file, file, indent=4)
-            print(f"Successfully updated object with ID {id}.")
         else:
             print(f"Error: Object with ID {id} not found.")
 
@@ -94,11 +89,8 @@ class FileManager():
 
         data_file.append(new_data)
 
-        print(new_data)
-                
         with open(file_path, "w") as file:
             json.dump(data_file, file, indent=4)
-        print(f"Successfully saved object with ID {id}.")
 
   def delete(self, *args):
     id = args[0]
@@ -123,15 +115,11 @@ class FileManager():
     # Save the modified data back to the file
     with open(file_path, "w") as file:
         json.dump(data_file, file, indent=4)
-    print(f"Successfully deleted object with ID {id}.")
     
   def check_data_folder(self):
     path = "data"
     if not os.path.exists(path):
       os.makedirs(path)
-      print(f"Folder '{path}' created.")
-    else:
-      print(f"Folder '{path}' already exists.")
 
   def create_player_file(self):
     self.check_data_folder()
@@ -139,9 +127,7 @@ class FileManager():
     if not isfile(file_path):
         with open(file_path, "w") as file:
             json.dump([], file)
-        print("Players.json file created.")
-    else:
-        print("Players.json file already exists.")
+
 
   
 
@@ -171,7 +157,6 @@ class FileManager():
     
     with open(file_path, "w") as file:
         json.dump(sorted_players, file, indent=4)
-    print(f"Successfully updated leaderboard with player {data[0]}")
 
   def get_data(self):
     return self.data

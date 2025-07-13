@@ -266,7 +266,6 @@ class Play(State):
         self.clock.restart_time()
 
     def calc_score(self):
-        print("DIFFICULTY: " + self.difficulty)
         multiplier = 1
         if self.difficulty.upper() == 'NORMAL':
             multiplier = 1.5
