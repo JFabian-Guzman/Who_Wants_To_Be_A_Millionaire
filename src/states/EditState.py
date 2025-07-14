@@ -78,7 +78,7 @@ class Edit(State):
         for i, position in enumerate(self.positions):
             self.option_rects[i].center = position
         for i, input in enumerate(self.inputs[1::]):
-            input.update_position(self.positions[i - 1])
+            input.update_position(self.positions[i])
 
     def update_check_position(self):
         for index, rect in enumerate(self.option_rects):
