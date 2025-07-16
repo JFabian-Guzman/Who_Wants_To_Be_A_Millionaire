@@ -14,8 +14,8 @@ class CrudBox(pygame.sprite.Sprite):
         self.image = pygame.image.load(resource_path(join("assets", "img", "crud_box.png"))).convert_alpha()
         self.rect = self.image.get_rect(center=position)
 
-        self.pencil_icon = Icon((self.rect.midright[0] - 80, self.rect.midright[1] + 40), "pencil")
-        self.trash_icon = Icon((self.rect.midright[0] - 25, self.rect.midright[1] + 40), "trash")
+        self.pencil_icon = Icon((self.rect.midright[0] - 80, self.rect.midright[1] + 45), "pencil")
+        self.trash_icon = Icon((self.rect.midright[0] - 25, self.rect.midright[1] + 45), "trash")
         self.id = id
         self.data = [question, options, answer, id]
 
@@ -25,20 +25,23 @@ class CrudBox(pygame.sprite.Sprite):
         self.setup_text_elements(question, options, answer)
 
     def setup_text_elements(self, question, options, answer):
-        wrap_question =  self.wrap_text(question, 70)
-        wrap_options = self.wrap_text(options, 10)
-        wrap_answer = self.wrap_text(answer, 10)
+        wrap_question =  self.wrap_text(question)
+        wrap_options = options.split(",")
+        wrap_answer = answer
 
-        self.question = TEXT.render("Question: " + wrap_question, True, COLORS["WHITE"])
+        self.question = SMALL_TEXT.render("Question: " + wrap_question, True, COLORS["WHITE"])
         self.question_rect = self.question.get_rect(midleft=(self.rect.midleft[0] + 20, self.rect.midleft[1] - 45))
-        self.options = TEXT.render("Options: " + wrap_options, True, COLORS["WHITE"])
-        self.options_rect = self.options.get_rect(midleft=(self.rect.midleft[0] + 20, self.rect.midleft[1]))
-        self.answer = TEXT.render("Answer: " + wrap_answer, True, COLORS["WHITE"])
+        self.options_title = SMALL_TEXT.render("Options:", True, COLORS["WHITE"])
+        self.options_title_rect = self.options_title.get_rect(midleft=(self.rect.midleft[0] + 20, self.rect.midleft[1] - 25)  )
+        self.options = TINY_TEXT.render("[" + wrap_options[0] + "," + wrap_options[1] + "\n\n" + wrap_options[2] + "," + wrap_options[3] + "]", True, COLORS["WHITE"])
+        self.options_rect = self.options.get_rect(midleft=(self.rect.midleft[0] + 20, self.rect.midleft[1] + 5)  )
+        self.answer = SMALL_TEXT.render("Answer: " + wrap_answer, True, COLORS["WHITE"])
         self.answer_rect = self.answer.get_rect(midleft=(self.rect.midleft[0] + 20, self.rect.midleft[1] + 45))
 
     def draw(self):
         self.screen.blit(self.image, self.rect)
         self.screen.blit(self.question, self.question_rect)
+        self.screen.blit(self.options_title, self.options_title_rect)
         self.screen.blit(self.options, self.options_rect)
         self.screen.blit(self.answer, self.answer_rect)
         self.pencil_icon.draw()
@@ -50,14 +53,17 @@ class CrudBox(pygame.sprite.Sprite):
     def get_id(self):
         return self.id
     
-    def wrap_text(self, text, left_switch):
+    def wrap_text(self, text):
         wrap_text = text
-        if len(text) > 60:
-            split = len(text) - left_switch
+        if len(text) > 90:
+            split = len(text) - 10
+            if len(text) > 105:
+                split = len(text) - 40
             if text[split].isalpha():
                 wrap_text = text[:split] + "-\n" + text[split:]
             else:
                 wrap_text = text[:split] + "\n" + text[split:]
+            
         return wrap_text
 
     def change_to_edit(self):

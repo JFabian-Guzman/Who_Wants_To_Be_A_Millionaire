@@ -299,13 +299,25 @@ class Play(State):
     def validate_answer(self, *args):
         option_position = args[0]
         option = self.interactive_elements[option_position]
-        selected_option = option.get_title().lower()
-        correct_answer = self.answer.lower()
+        selected_option = self.normalize_text(option.get_title())
+        correct_answer = self.normalize_text(self.answer)
         self.animating = True
+        print(selected_option)
+        print(correct_answer)
         if selected_option == correct_answer:
             option.start_animation(callback=lambda: self.handle_correct_answer())
         else:
             option.start_animation(callback=lambda: self.handle_wrong_answer(option_position),wrong=True)
+
+    def normalize_text(self, option):
+        return (
+            option
+            .lower()
+            .replace("-", "")
+            .replace("\n", "")
+            .replace("\r", "")
+            .strip()
+        )
 
     def handle_correct_answer(self):
         self.current_level += 1

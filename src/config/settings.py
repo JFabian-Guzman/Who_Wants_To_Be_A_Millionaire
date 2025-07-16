@@ -19,7 +19,7 @@ COLORS = {
 }
 
 # TEXT LENGTH
-MAX_LENGTH_OPTIONS = 48
+MAX_LENGTH_OPTIONS = 58
 MAX_LENGTH_QUESTION = 128
 MAX_NAME_LENGTH = 20
 
@@ -30,7 +30,9 @@ pygame.font.init()
 GIGA_TITLE = pygame.font.Font(PRESS_START_2P, 48)
 TITLE = pygame.font.Font(PRESS_START_2P, 20)
 SUB_TITLE = pygame.font.Font(PRESS_START_2P, 16)
-TEXT = pygame.font.Font(PRESS_START_2P, 13)
+TEXT = pygame.font.Font(PRESS_START_2P, 12)
+SMALL_TEXT = pygame.font.Font(PRESS_START_2P, 9)
+TINY_TEXT = pygame.font.Font(PRESS_START_2P, 8)
 
 # MENU OPTIONS
 MENU = [
@@ -49,7 +51,7 @@ OPTIONS = ["A","B","C","D"]
 
 # TEXTS
 
-OPTION_MAX_LENGTH_WARNING = "You've reached the maximum option length of 24 characters"
+OPTION_MAX_LENGTH_WARNING = f"You've reached the maximum option length of {MAX_LENGTH_OPTIONS} characters"
 QUESTION_MAX_LENGTH_WARNING = "You've reached the maximum option length of 128 characters"
 
 INSTRUCTIONS = """
