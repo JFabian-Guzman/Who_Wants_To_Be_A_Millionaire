@@ -302,8 +302,6 @@ class Play(State):
         selected_option = self.normalize_text(option.get_title())
         correct_answer = self.normalize_text(self.answer)
         self.animating = True
-        print(selected_option)
-        print(correct_answer)
         if selected_option == correct_answer:
             option.start_animation(callback=lambda: self.handle_correct_answer())
         else:
@@ -368,6 +366,7 @@ class Play(State):
             if self.current_level == self.last_level:
                 self.display_practice_summary()
             else:
+                self.restart_timer()
                 self.change_question()
                 self.score.increment_wrong_answers()
         self.animating = False

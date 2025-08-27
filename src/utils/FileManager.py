@@ -1,4 +1,5 @@
 from os.path import isfile, join
+import shutil
 import os
 import json
 from utils.PathHandler import *
@@ -6,26 +7,28 @@ from utils.PathHandler import *
 class FileManager():
   def __init__(self, event_manager):
     super().__init__()
+    self.podium_file = os.path.join(os.getenv("LOCALAPPDATA"), "Millionaire", "podium.json")
+    self.questions_file = os.path.join(os.getenv("LOCALAPPDATA"), "Millionaire", "questions.json")
+    os.makedirs(os.path.dirname(self.podium_file),exist_ok=True)
+    os.makedirs(os.path.dirname(self.questions_file),exist_ok=True)
+    self.load_questions_to_local_storage()
     self.data = [[]]
     self.event_manager = event_manager
 
-  def create_question_file(self):
-    self.check_data_folder()
-    file_path = join("data", "Questions.json")
-    if not isfile(file_path):
-      with open(file_path, "w", encoding="utf-8") as file:
-        json.dump([], file)
+  def load_questions_to_local_storage(self): 
+    quesitons_data = join("data", "Questions.json")
+    if not os.path.exists(self.questions_file): 
+      shutil.copy(quesitons_data, self.questions_file)
 
 
   def load_data(self, *args):
-    self.create_question_file()
-    if isfile(join("data", "Questions.json")):
-      with open(join("data", "Questions.json"), "r", encoding="utf-8") as file:
+    if isfile(self.questions_file):
+      with open(self.questions_file, "r", encoding="utf-8") as file:
         data_file = json.load(file)
         # 15 = Difficulty levels
         self.data = [[] for row in range(15)]
         for data in data_file:
-          self.data[data["level"]].append(data)
+          self.data[data["level"]].append(data)   
 
   def edit_file(self, *args):
         data = args[0]
@@ -35,12 +38,9 @@ class FileManager():
           "answer": data[5],
         }
         id = data[6]
-        
-        self.create_question_file()
-        file_path = join("data", "Questions.json")
 
         # Load data
-        with open(file_path, "r", encoding="utf-8") as file:
+        with open(self.questions_file, "r", encoding="utf-8") as file:
             try:
                 data_file = json.load(file)
             except json.JSONDecodeError:
@@ -58,7 +58,7 @@ class FileManager():
         # Save it in the file
         if updated:
             # Save the modified data back to the file
-            with open(file_path, "w", encoding="utf-8") as file:
+            with open(self.questions_file, "w", encoding="utf-8") as file:
                 json.dump(data_file, file, indent=4)
         else:
             print(f"Error: Object with ID {id} not found.")
@@ -72,33 +72,29 @@ class FileManager():
           "options": [data[1], data[2], data[3], data[4]],
           "level": data[6]
         }
-        self.create_question_file()
-        file_path = join("data", "Questions.json")
+  
         # Load data
-        with open(file_path, "r", encoding="utf-8") as file:
+        with open(self.questions_file, "r", encoding="utf-8") as file:
             try:
                 data_file = json.load(file)
             except json.JSONDecodeError:
                 print("Error: JSON file is corrupted.")
                 return
-        
+
         # Find the next ID
         last_id = max((obj.get("id", -1) for obj in data_file), default=-1)
         new_id = last_id + 1
         new_data["id"] = new_id
 
-
         data_file.append(new_data)
 
-        with open(file_path, "w", encoding="utf-8") as file:
+        with open(self.questions_file, "w", encoding="utf-8") as file:
             json.dump(data_file, file, indent=4)
 
   def delete(self, *args):
     id = args[0]
-    self.create_question_file()
-    file_path = join("data", "Questions.json")
     # Load data
-    with open(file_path, "r", encoding="utf-8") as file:
+    with open(self.questions_file, "r", encoding="utf-8") as file:
         try:
             data_file = json.load(file)
         except json.JSONDecodeError:
@@ -114,28 +110,20 @@ class FileManager():
         return
     
     # Save the modified data back to the file
-    with open(file_path, "w", encoding="utf-8") as file:
+    with open(self.questions_file, "w", encoding="utf-8") as file:
         json.dump(data_file, file, indent=4)
-    
-  def check_data_folder(self):
-    path = "data"
-    if not os.path.exists(path):
-      os.makedirs(path)
 
   def create_player_file(self):
-    self.check_data_folder()
-    file_path = join("data", "Players.json")
-    if not isfile(file_path):
-        with open(file_path, "w", encoding="utf-8") as file:
-            json.dump([], file)
-
-
-  
+    if not os.path.exists(self.podium_file):
+        with open(self.podium_file, "w", encoding="utf-8") as f:
+            json.dump([], f)
 
   def get_podium(self, *args):
     self.create_player_file()
-    file_path = join("data", "Players.json")
-    with open(file_path, "r", encoding="utf-8") as file:
+    if not os.path.exists(self.podium_file):  
+      return []
+
+    with open(self.podium_file, "r", encoding="utf-8") as file:
       data_file = json.load(file)
     self.event_manager.notify("set_podiums", data_file)
 
@@ -146,8 +134,11 @@ class FileManager():
       "Points": data[1]
     }
     self.create_player_file()
-    file_path = join("data", "Players.json")
-    with open(file_path, "r", encoding="utf-8") as file:
+    print("VERIFICO SI EXISTE");
+    if not os.path.exists(self.podium_file):  
+      return []
+    print("LEO EL ARCHIVO")
+    with open(self.podium_file, "r", encoding="utf-8") as file:
       players = json.load(file)
 
     players.append(new_player)
@@ -155,9 +146,10 @@ class FileManager():
     # Top 5
     if len(sorted_players) > 5:
       sorted_players.pop()
-    
-    with open(file_path, "w", encoding="utf-8") as file:
+    print("JUGADORES ORDENADOS: " , sorted_players)
+    with open(self.podium_file, "w", encoding="utf-8") as file:
         json.dump(sorted_players, file, indent=4)
+    print("FINALIZO")
 
   def get_data(self):
     return self.data
