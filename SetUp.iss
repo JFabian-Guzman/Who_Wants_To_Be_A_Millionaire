@@ -1,3 +1,4 @@
+
 [Setup]
 AppId={{9EC7B49D-2A06-4DA7-86B4-2B7133F2C285}} 
 AppName=Millionaire
