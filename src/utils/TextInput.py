@@ -1,4 +1,5 @@
 from config.settings import *
+import textwrap
 
 class TextInput:
     def __init__(self, position, width, height, event_manager, type):
@@ -35,17 +36,19 @@ class TextInput:
     
     def wrap_text(self, text):
         lines = []
-        if (len(text) > 24 and self.type == 'option') or (len(text) > 48 and self.type == 'question'):
-            mid = len(text) // 2
-            first_half =  text[:mid]
-            second_half =  text[mid:]
-            if (ord(first_half[-1]) >= 65 and ord(first_half[-1]) <= 90 or ord(first_half[-1]) >= 97 and ord(first_half[-1]) <= 122) and (ord(second_half[0]) >= 65 and ord(second_half[0]) <= 90 or ord(second_half[0]) >= 97 and ord(second_half[0]) <= 122):
-                first_half += "-"
-                
-            lines.append(first_half)
-            lines.append(second_half)
+        
+        # Define maximum width depending on the type
+        max_width = 24 if self.type == 'option' else 64
+
+        # Only wrap if the text exceeds the width
+        if len(text) > max_width:
+            wrapped = textwrap.wrap(text, width=max_width)
+            
+
+            lines.extend(wrapped)
         else:
             lines.append(text)
+
         return lines
 
     def toggle_active(self, state):

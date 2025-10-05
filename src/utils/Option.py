@@ -1,6 +1,7 @@
 from config.settings import *
 from os.path import join
 from utils.PathHandler import *
+import textwrap
 
 class Option(pygame.sprite.Sprite):
   def __init__(self, text , position, groups):
@@ -46,14 +47,9 @@ class Option(pygame.sprite.Sprite):
     
 
   def wrap_text(self):
-        wrap_text = self.text
-        if len(self.text) > 24:
-            mid = len(self.text) // 2
-            if ord(self.text[mid]) >= 65 and ord(self.text[mid]) <= 90 or ord(self.text[mid]) >= 97 and ord(self.text[mid]) <= 122:
-              wrap_text =  self.text[:mid] + "-\n" + self.text[mid:]
-            else:
-              wrap_text = self.text[:mid] + "\n" + self.text[mid:]
-        return wrap_text
+    max_width = 24  # maximum characters per line
+    wrapped_lines = textwrap.wrap(self.text, width=max_width)
+    return "\n".join(wrapped_lines)
 
   def update(self):
     self.screen.blit(self.text_obj, self.text_rect)

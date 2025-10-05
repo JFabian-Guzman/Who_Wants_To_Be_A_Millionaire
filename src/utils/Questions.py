@@ -1,6 +1,7 @@
 from config.settings import *
 from os.path import join
 from utils.PathHandler import *
+import textwrap
 
 class Question(pygame.sprite.Sprite):
   def __init__(self , groups, event_manager):
@@ -24,13 +25,12 @@ class Question(pygame.sprite.Sprite):
     self.text = TEXT.render(self.title, True, COLORS["WHITE"])
     self.text_rect = self.text.get_rect(center = self.rect.center)
 
+  
   def wrap_text(self, text):
-    if len(text) > 54:
-        mid = len(text) // 2
-        if ord(text[mid]) >= 65 and ord(text[mid]) <= 90 or ord(text[mid]) >= 97 and ord(text[mid]) <= 122:
-          return text[:mid] + "-\n" + text[mid:]
-        else:
-          return text[:mid] + "\n" + text[mid:]
+    max_width = 68  # for 'option' text
+    if len(text) > max_width:
+        wrapped_lines = textwrap.wrap(text, width=max_width)
+        return "\n".join(wrapped_lines)
     return text
 
   def get_rect(self):
