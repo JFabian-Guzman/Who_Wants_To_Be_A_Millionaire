@@ -69,6 +69,5 @@ class Menu(State):
         self.logo.draw_logo()
         self.setup_options_position()
 
-
     def set_up_menu_events(self):
         self.event_manager.subscribe("update_size", self.update_size)

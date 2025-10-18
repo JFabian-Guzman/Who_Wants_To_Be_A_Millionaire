@@ -25,6 +25,8 @@ class StateMachine:
     elif state == "questions":
       self.event_manager.notify("load_data")
       self.event_manager.notify("fetch_questions")
+    elif state == "manage questions":
+      state = "categories"
     elif state == "leaderboard":
       self.event_manager.notify("get_podium")
     elif state == "win":

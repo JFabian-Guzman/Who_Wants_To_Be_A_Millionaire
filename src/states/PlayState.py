@@ -314,6 +314,7 @@ class Play(State):
             .replace("-", "")
             .replace("\n", "")
             .replace("\r", "")
+            .replace(" ","")
             .strip()
         )
 
@@ -421,8 +422,6 @@ class Play(State):
         self.modal.update_position()
         self.checkpoint.update_position()
         self.no_data_warning.update_position()
-
-    
 
     def set_up_play_events(self):
         self.event_manager.subscribe("display_question", self.update_display_data)

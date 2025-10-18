@@ -10,6 +10,7 @@ from utils.PathHandler import *
 from states.PlayState import *
 from states.InstructionsState import *
 from states.CreditsState import *
+from states.CategoryState import *
 from states.LeaderboardState import *
 from states.ManageQuestionsState import *
 from states.WinState import *
@@ -72,12 +73,13 @@ class Game:
     self.player = Player(self.event_manager)
     self.lifeline_instructions = LifelineInstrucitions(self.event_manager)
     self.gamemode_instructions = GamemodeInstrucitions(self.event_manager)
+    self.categories = Categories(self.event_manager, self.file_manager)
 
     # Add states to the state_machine
     self.state_machine.add_state("menu", self.menu)
     self.state_machine.add_state("game", self.play)
     self.state_machine.add_state("instructions", self.instructions)
-    self.state_machine.add_state("manage questions", self.manage_questions)
+    self.state_machine.add_state("levels", self.manage_questions)
     self.state_machine.add_state("credits", self.credits)
     self.state_machine.add_state("leaderboard", self.leaderboard)
     self.state_machine.add_state("win", self.win)
@@ -90,6 +92,7 @@ class Game:
     self.state_machine.add_state("player", self.player)
     self.state_machine.add_state("lifeline_instructions", self.lifeline_instructions)
     self.state_machine.add_state("gamemode_instructions", self.gamemode_instructions)
+    self.state_machine.add_state("categories", self.categories)
     
     #set up events
     self.set_up_game_events()
@@ -111,6 +114,7 @@ class Game:
     self.manage_questions.set_up_manage_events()
     self.lifeline_instructions.set_up_lifeline_instructins_events()
     self.gamemode_instructions.set_up_gamemode_instructins_events()
+    self.categories.set_up_category_events();
 
     #default state
     self.event_manager.notify("set_state", "menu")
