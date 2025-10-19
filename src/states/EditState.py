@@ -164,6 +164,7 @@ class Edit(State):
     def check_answer_selected(self):
         for index, check in enumerate(self.answer_selector):
             if check.get_state():
+                print("HOLA")
                 self.edit_data.append(self.inputs[index + 1].get_input_text())
                 return True
         return False
@@ -213,7 +214,6 @@ class Edit(State):
         self.edit_btn.update_position((self.right_btn_pos))
         self.update_input_position()
         self.update_check_position()
-
 
     def set_up_edit_events(self):
         self.event_manager.subscribe("set_edit_data", self.set_data)

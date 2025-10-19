@@ -60,7 +60,7 @@ class Game:
     self.menu = Menu(self.event_manager)
     self.play = Play(self.event_manager, self.file_manager)
     self.instructions = Instructions(self.event_manager)
-    self.manage_questions = ManageQuestions(self.event_manager)
+    self.manage_questions = ManageQuestions(self.event_manager, self.file_manager)
     self.credits = Credits(self.event_manager)
     self.leaderboard = Leaderboard(self.event_manager)
     self.win = Win(self.event_manager)

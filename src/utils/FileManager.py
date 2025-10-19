@@ -164,11 +164,28 @@ class FileManager():
   def get_categories(self):
     return self.categories
   
+  def get_selected_category(self):
+    for category in self.categories:
+      if category["selected"]:
+        return category["category"]
+
   def get_last_level(self):
     for level in range(len(self.data)):
         if not self.data[level]:  
             return level if level > 0 else 0
-    return len(self.data) 
+    return len(self.data)
+  
+  def set_category(self, new_category):
+    for category in self.categories:
+      if category["category"] == new_category:
+        category["selected"] = True
+      else:
+        category["selected"] = False
+    try:
+      with open(self.categories_file, "w", encoding="utf-8") as f:
+        json.dump(self.categories, f, indent=2, ensure_ascii=False)
+    except Exception as e:
+      print("Error saving categories file:", e)
 
   def set_up_file_events(self):
     self.event_manager.subscribe("load_data", self.load_data)
@@ -177,3 +194,4 @@ class FileManager():
     self.event_manager.subscribe("delete", self.delete)
     self.event_manager.subscribe("get_podium", self.get_podium)
     self.event_manager.subscribe("write_podium", self.write_podium)
+    self.event_manager.subscribe("set_category", self.set_category)
