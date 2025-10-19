@@ -6,10 +6,8 @@ from utils.LevelBox import *
 from utils.PathHandler import *
 
 class ManageQuestions(State):
-  def __init__(self, event_manager, file_manager):
+  def __init__(self, event_manager):
     super().__init__(event_manager)
-    self.file_manager = file_manager
-    self.category = self.file_manager.get_selected_category()
     self.set_up_text()
     self.set_up_positions()
     self.set_up_elements()
@@ -18,7 +16,7 @@ class ManageQuestions(State):
 
   def set_up_text(self):
     self.title_background = pygame.image.load(resource_path(join("assets", "img", "score.png"))).convert_alpha()
-    self.title = TITLE.render(" Question Manager\n Levels - " + self.category , True, COLORS["BLACK"])
+    self.title = TITLE.render(" Question Manager\n Levels - ", True, COLORS["BLACK"])
 
   def set_up_elements(self):
     self.back_btn = Button(self.elements, self.left_btn_pos , self.event_manager, 'negative_btn', 'Go Back', 'WHITE')
@@ -64,7 +62,7 @@ class ManageQuestions(State):
     self.screen.blit(self.title, self.title_rect)
 
   def update(self):
-    self.category = self.file_manager.get_selected_category()
+    self.set_up_text()
     self.update_cursor_state()
     self.check_click()
     self.elements.update()

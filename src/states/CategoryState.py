@@ -19,7 +19,6 @@ class Categories(State):
         self.set_up_text()
         self.create_categories()
         self.setup_category_position()
-        self.set_up_answer_selectors()
         self.set_up_elements()
 
     def create_categories(self):
@@ -34,18 +33,23 @@ class Categories(State):
         self.text = TITLE.render("Categories", True, COLORS["BLACK"])
 
     def set_up_elements(self):
+        actual_category = self.file_manager.get_selected_category()
         self.back_btn = Button(self.elements, self.left_btn_pos , self.event_manager, 'negative_btn', 'Go Back', 'WHITE')
-        self.interactive_elements.append(self.back_btn)
-
-    def set_up_answer_selectors(self):
         for index, rect in enumerate(self.category_rects):
             offset = 230 if index % 2 == 0 else -230
             check_position = (rect.center[0] + offset, rect.center[1])
             check_item = Check(check_position, self.elements)
             self.answer_selector.append(check_item)
             self.interactive_elements.append(check_item)
+        self.interactive_elements.append(self.back_btn)
+        # Turn on the check with the selected category when the game is started
+        for index, check in enumerate(self.answer_selector):
+            if self.categories[index].get_title() == actual_category:
+                check.change_state(True)
+
 
     def setup_category_position(self):
+        self.category_rects = []
         self.left_btn_pos = (self.width//2 - 350, 75)
         cols = 2
         for i, category in enumerate(self.categories):
@@ -67,6 +71,12 @@ class Categories(State):
         self.elements.update()
         self.update_cursor_state()
         self.update_user_click()
+
+    def update_check_position(self):
+        for index, rect in enumerate(self.category_rects):
+            offset = 230 if index % 2 == 0 else -230
+            check_position = (rect.center[0] + offset, rect.center[1])
+            self.answer_selector[index].update_position(check_position)
 
     def update_user_click(self):
         if pygame.mouse.get_pressed()[0] :
@@ -93,6 +103,7 @@ class Categories(State):
     def update_size(self, *args):
         self.width, self.height  = self.screen.get_size()
         self.setup_category_position()
+        self.update_check_position()
 
     def btn_click(self):
         self.back_btn.check_notify_state("menu")
