@@ -8,15 +8,15 @@ from utils.PathHandler import *
 class ManageQuestions(State):
   def __init__(self, event_manager):
     super().__init__(event_manager)
+    self.category = ""
     self.set_up_text()
     self.set_up_positions()
     self.set_up_elements()
     self.update_level_positions()
 
-
   def set_up_text(self):
     self.title_background = pygame.image.load(resource_path(join("assets", "img", "score.png"))).convert_alpha()
-    self.title = TITLE.render(" Question Manager\n Levels - ", True, COLORS["BLACK"])
+    self.title = TITLE.render(" Question Manager\n Levels - " + self.category, True, COLORS["BLACK"])
 
   def set_up_elements(self):
     self.back_btn = Button(self.elements, self.left_btn_pos , self.event_manager, 'negative_btn', 'Go Back', 'WHITE')
@@ -75,7 +75,7 @@ class ManageQuestions(State):
         self.click_handled = True
     else:
         self.click_handled = False
-    
+
   def btn_click(self):
     self.back_btn.check_notify_state("manage questions")
 
@@ -86,6 +86,9 @@ class ManageQuestions(State):
     self.back_btn.update_position(self.left_btn_pos)
     self.update_level_positions()
 
+  def set_category_title(self, category):
+    self.category = category
+
   def level_click(self):
     for level in self.levels:
       if level.rect.collidepoint(pygame.mouse.get_pos()):
@@ -94,3 +97,4 @@ class ManageQuestions(State):
 
   def set_up_manage_events(self):
     self.event_manager.subscribe("update_size", self.update_size)
+    self.event_manager.subscribe("set_category_title", self.set_category_title)

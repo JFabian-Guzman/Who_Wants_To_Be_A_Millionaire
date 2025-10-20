@@ -1,254 +1,277 @@
 [
-    {
-        "id": 201,
-        "question": "What is culture?",
-        "answer": "The way of life and beliefs of a group of people",
-        "options": [
-            "The way of life and beliefs of a group of people",
-            "A set of laws and rules that everyone must follow",
-            "A collection of personal opinions shared by a small group",
-            "The exclusive traditions of one individual in a community"
-        ],
-        "level": 0
-    },
-    {
-        "id": 202,
-        "question": "How is a subculture different from a culture? A subculture ______.",
-        "answer": "is a smaller group that has its own distinct beliefs",
-        "options": [
-            "is the same as culture but smaller",
-            "is part of a larger culture but with unique characteristics",
-            "is a smaller group that has its own distinct beliefs",
-            "has a specific group size"
-        ],
-        "level": 1
-    },
-    {
-        "id": 203,
-        "question": "What is a clique?",
-        "answer": "A small group that excludes others",
-        "options": [
-            "A large community with shared values",
-            "A small group that excludes others",
-            "A type of cultural festival",
-            "A group of people working on a common project"
-        ],
-        "level": 2
-    },
-    {
-        "id": 204,
-        "question": "What is an example of a tradition?",
-        "answer": "Easter Egg Hunt",
-        "options": [
-            "Reading a book alone every week",
-            "Playing video games with friends",
-            "Easter Egg Hunt",
-            "Watching TV every night"
-        ],
-        "level": 3
-    },
-    {
-        "id": 205,
-        "question": "What is a common way Ticos greet each other?",
-        "answer": "\u00a1Pura Vida!",
-        "options": [
-            "Hola, \u00bfc\u00f3mo est\u00e1s?",
-            "Adi\u00f3s.",
-            "\u00a1Pura Vida!",
-            "Buenas noches."
-        ],
-        "level": 4
-    },
-    {
-        "id": 206,
-        "question": "What does cultural diversity mean?",
-        "answer": "The variety of cultural groups within a society",
-        "options": [
-            "Having only one culture in a society",
-            "The variety of cultural groups within a society",
-            "A group that rejects other traditions",
-            "People from different countries living apart"
-        ],
-        "level": 5
-    },
-    {
-        "id": 207,
-        "question": "Why is identity important in culture? Because it ___________.",
-        "answer": "defines who you are",
-        "options": [
-            "defines who you are",
-            "shows what job you have",
-            "dictates your beliefs",
-            "determines your country of birth"
-        ],
-        "level": 6
-    },
-    {
-        "id": 208,
-        "question": "How does globalization affect culture? It _____.",
-        "answer": "connects cultures worldwide",
-        "options": [
-            "completely separates cultures around the world",
-            "connects cultures worldwide",
-            "only influences big cities through trade and communication",
-            "has no effect on traditions or customs"
-        ],
-        "level": 7
-    },
-    {
-        "id": 209,
-        "question": "What is a community in cultural terms?",
-        "answer": "A group with shared values and traditions",
-        "options": [
-            "A group with shared values and traditions",
-            "A large city or town",
-            "A local government organization",
-            "A random group of people in one place"
-        ],
-        "level": 8
-    },
-    {
-        "id": 210,
-        "question": "What is the official language of Costa Rica?",
-        "answer": "Spanish",
-        "options": [
-            "French",
-            "English",
-            "Spanish",
-            "Portuguese"
-        ],
-        "level": 9
-    },
-    {
-        "id": 211,
-        "question": "How do music genres relate to subcultures? They ______.",
-        "answer": "often define subcultures, such as hip-hop",
-        "options": [
-            "often define subcultures, such as hip-hop",
-            "are unrelated to subcultures",
-            "reflect only traditional cultures",
-            "are only enjoyed by individuals, not groups"
-        ],
-        "level": 10
-    },
-    {
-        "id": 212,
-        "question": "What does exclusion mean in the context of cliques? It means _____.",
-        "answer": "leaving out others from the group",
-        "options": [
-            "including everyone in the group",
-            "avoiding group gatherings",
-            "leaving out others from the group",
-            "inviting everyone to join"
-        ],
-        "level": 11
-    },
-    {
-        "id": 213,
-        "question": "Why is loyalty important in a group? Because it _____.",
-        "answer": "creates trust",
-        "options": [
-            "creates trust",
-            "causes conflicts in groups",
-            "keeps groups exclusive",
-            "prevents teamwork"
-        ],
-        "level": 12
-    },
-    {
-        "id": 214,
-        "question": "What is folklore?",
-        "answer": "Traditional stories and culture of a group",
-        "options": [
-            "Stories about famous leaders",
-            "Traditional stories and culture of a group",
-            "Modern practices shared by a community",
-            "A type of music genre"
-        ],
-        "level": 13
-    },
-    {
-        "id": 215,
-        "question": "How does art represent culture? Art ______.",
-        "answer": "reflects beliefs and identity",
-        "options": [
-            "reflects beliefs and identity",
-            "is only for personal expression",
-            "has no connection to culture",
-            "represents random ideas"
-        ],
-        "level": 14
-    },
-    {
-        "id": 216,
-        "question": "Why are celebrations important in culture? Celebrations _____.",
-        "answer": "honor important occasions",
-        "options": [
-            "honor important occasions",
-            "only happen on holidays",
-            "are individual practices",
-            "are unimportant to cultural identity"
-        ],
-        "level": 0
-    },
-    {
-        "id": 217,
-        "question": "How does food represent culture? Food ____.",
-        "answer": "reflects traditions through ingredients",
-        "options": [
-            "is unrelated to culture",
-            "reflects traditions through ingredients",
-            "is the same in every culture worldwide",
-            "represents individual preferences only"
-        ],
-        "level": 1
-    },
-    {
-        "id": 218,
-        "question": "What are cultural stereotypes? They are ____.",
-        "answer": "generalized ideas about a culture",
-        "options": [
-            "accurate descriptions of all cultures",
-            "generalized ideas about a culture",
-            "specific traditions unique to one group",
-            "positive representations of a culture"
-        ],
-        "level": 2
-    },
-    {
-        "id": 219,
-        "question": "What is a traditional Costa Rican musical instrument?",
-        "answer": "Marimba",
-        "options": [
-            "Maracas",
-            "Guitar",
-            "Marimba",
-            "Drums"
-        ],
-        "level": 3
-    },
-    {
-        "id": 220,
-        "question": "When did Costa Rica gain its independence?",
-        "answer": "September 15",
-        "options": [
-            "July 4",
-            "September 15",
-            "December 25",
-            "January 1"
-        ],
-        "level": 4
-    },
-    {
-        "id": 221,
-        "question": "What is the national flower of Costa Rica?",
-        "answer": "Guaria Morada",
-        "options": [
-            "Orchid",
-            "Guaria Morada",
-            "Tulip",
-            "Rose"
-        ],
-        "level": 5
-    }
+    [
+        {
+            "id": 201,
+            "question": "What is culture?",
+            "answer": "The way of life and beliefs of a group of people",
+            "options": [
+                "The way of life and beliefs of a group of people",
+                "A set of laws and rules that everyone must follow",
+                "A collection of personal opinions shared by a small group",
+                "The exclusive traditions of one individual in a community"
+            ],
+            "level": 0,
+            "category": "Culture"
+        },
+        {
+            "id": 202,
+            "question": "How is a subculture different from a culture? A subculture ______.",
+            "answer": "is a smaller group that has its own distinct beliefs",
+            "options": [
+                "is the same as culture but smaller",
+                "is part of a larger culture but with unique characteristics",
+                "is a smaller group that has its own distinct beliefs",
+                "has a specific group size"
+            ],
+            "level": 1,
+            "category": "Culture"
+        },
+        {
+            "id": 203,
+            "question": "What is a clique?",
+            "answer": "A small group that excludes others",
+            "options": [
+                "A large community with shared values",
+                "A small group that excludes others",
+                "A type of cultural festival",
+                "A group of people working on a common project"
+            ],
+            "level": 2,
+            "category": "Culture"
+        },
+        {
+            "id": 204,
+            "question": "What is an example of a tradition?",
+            "answer": "Easter Egg Hunt",
+            "options": [
+                "Reading a book alone every week",
+                "Playing video games with friends",
+                "Easter Egg Hunt",
+                "Watching TV every night"
+            ],
+            "level": 3,
+            "category": "Culture"
+        },
+        {
+            "id": 205,
+            "question": "What is a common way Ticos greet each other?",
+            "answer": "\u00a1Pura Vida!",
+            "options": [
+                "Hola, \u00bfc\u00f3mo est\u00e1s?",
+                "Adi\u00f3s.",
+                "\u00a1Pura Vida!",
+                "Buenas noches."
+            ],
+            "level": 4,
+            "category": "Culture"
+        },
+        {
+            "id": 206,
+            "question": "What does cultural diversity mean?",
+            "answer": "The variety of cultural groups within a society",
+            "options": [
+                "Having only one culture in a society",
+                "The variety of cultural groups within a society",
+                "A group that rejects other traditions",
+                "People from different countries living apart"
+            ],
+            "level": 5,
+            "category": "Culture"
+        },
+        {
+            "id": 207,
+            "question": "Why is identity important in culture? Because it ___________.",
+            "answer": "defines who you are",
+            "options": [
+                "defines who you are",
+                "shows what job you have",
+                "dictates your beliefs",
+                "determines your country of birth"
+            ],
+            "level": 6,
+            "category": "Culture"
+        },
+        {
+            "id": 208,
+            "question": "How does globalization affect culture? It _____.",
+            "answer": "connects cultures worldwide",
+            "options": [
+                "completely separates cultures around the world",
+                "connects cultures worldwide",
+                "only influences big cities through trade and communication",
+                "has no effect on traditions or customs"
+            ],
+            "level": 7,
+            "category": "Culture"
+        },
+        {
+            "id": 209,
+            "question": "What is a community in cultural terms?",
+            "answer": "A group with shared values and traditions",
+            "options": [
+                "A group with shared values and traditions",
+                "A large city or town",
+                "A local government organization",
+                "A random group of people in one place"
+            ],
+            "level": 8,
+            "category": "Culture"
+        },
+        {
+            "id": 210,
+            "question": "What is the official language of Costa Rica?",
+            "answer": "Spanish",
+            "options": [
+                "French",
+                "English",
+                "Spanish",
+                "Portuguese"
+            ],
+            "level": 9,
+            "category": "Culture"
+        },
+        {
+            "id": 211,
+            "question": "How do music genres relate to subcultures? They ______.",
+            "answer": "often define subcultures, such as hip-hop",
+            "options": [
+                "often define subcultures, such as hip-hop",
+                "are unrelated to subcultures",
+                "reflect only traditional cultures",
+                "are only enjoyed by individuals, not groups"
+            ],
+            "level": 10,
+            "category": "Culture"
+        },
+        {
+            "id": 212,
+            "question": "What does exclusion mean in the context of cliques? It means _____.",
+            "answer": "leaving out others from the group",
+            "options": [
+                "including everyone in the group",
+                "avoiding group gatherings",
+                "leaving out others from the group",
+                "inviting everyone to join"
+            ],
+            "level": 11,
+            "category": "Culture"
+        },
+        {
+            "id": 213,
+            "question": "Why is loyalty important in a group? Because it _____.",
+            "answer": "creates trust",
+            "options": [
+                "creates trust",
+                "causes conflicts in groups",
+                "keeps groups exclusive",
+                "prevents teamwork"
+            ],
+            "level": 12,
+            "category": "Culture"
+        },
+        {
+            "id": 214,
+            "question": "What is folklore?",
+            "answer": "Traditional stories and culture of a group",
+            "options": [
+                "Stories about famous leaders",
+                "Traditional stories and culture of a group",
+                "Modern practices shared by a community",
+                "A type of music genre"
+            ],
+            "level": 13,
+            "category": "Culture"
+        },
+        {
+            "id": 215,
+            "question": "How does art represent culture? Art ______.",
+            "answer": "reflects beliefs and identity",
+            "options": [
+                "reflects beliefs and identity",
+                "is only for personal expression",
+                "has no connection to culture",
+                "represents random ideas"
+            ],
+            "level": 14,
+            "category": "Culture"
+        },
+        {
+            "id": 216,
+            "question": "Why are celebrations important in culture? Celebrations _____.",
+            "answer": "honor important occasions",
+            "options": [
+                "honor important occasions",
+                "only happen on holidays",
+                "are individual practices",
+                "are unimportant to cultural identity"
+            ],
+            "level": 0,
+            "category": "Culture"
+        },
+        {
+            "id": 217,
+            "question": "How does food represent culture? Food ____.",
+            "answer": "reflects traditions through ingredients",
+            "options": [
+                "is unrelated to culture",
+                "reflects traditions through ingredients",
+                "is the same in every culture worldwide",
+                "represents individual preferences only"
+            ],
+            "level": 1,
+            "category": "Culture"
+        },
+        {
+            "id": 218,
+            "question": "What are cultural stereotypes? They are ____.",
+            "answer": "generalized ideas about a culture",
+            "options": [
+                "accurate descriptions of all cultures",
+                "generalized ideas about a culture",
+                "specific traditions unique to one group",
+                "positive representations of a culture"
+            ],
+            "level": 2,
+            "category": "Culture"
+        },
+        {
+            "id": 219,
+            "question": "What is a traditional Costa Rican musical instrument?",
+            "answer": "Marimba",
+            "options": [
+                "Maracas",
+                "Guitar",
+                "Marimba",
+                "Drums"
+            ],
+            "level": 3,
+            "category": "Culture"
+        },
+        {
+            "id": 220,
+            "question": "When did Costa Rica gain its independence?",
+            "answer": "September 15",
+            "options": [
+                "July 4",
+                "September 15",
+                "December 25",
+                "January 1"
+            ],
+            "level": 4,
+            "category": "Culture"
+        },
+        {
+            "id": 221,
+            "question": "What is the national flower of Costa Rica?",
+            "answer": "Guaria Morada",
+            "options": [
+                "Orchid",
+                "Guaria Morada",
+                "Tulip",
+                "Rose"
+            ],
+            "level": 5,
+            "category": "Culture"
+        }
+    ]
 ]

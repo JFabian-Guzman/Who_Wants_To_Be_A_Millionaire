@@ -119,7 +119,6 @@ class Game:
     #default state
     self.event_manager.notify("set_state", "menu")
     
-
   def stop_game(self, *args):
     self.running = False
 
@@ -142,7 +141,6 @@ class Game:
             # Handle keyboard
             if event.type == pygame.KEYDOWN:
                 self.event_manager.notify("keyboard_input", event)
-              
 
         # Draw
         self.background.draw_background()

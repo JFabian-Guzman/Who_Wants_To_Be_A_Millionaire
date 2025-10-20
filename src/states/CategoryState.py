@@ -98,6 +98,7 @@ class Categories(State):
 
     def change_state(self, category):
         self.event_manager.notify("set_state", "levels")
+        self.event_manager.notify("set_category_title", category.get_title())
         self.is_category_animating = False
 
     def update_size(self, *args):

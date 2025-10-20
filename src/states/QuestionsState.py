@@ -17,10 +17,12 @@ class Questions(State):
         self.data = self.file_manager.get_data()[self.level]
         self.full_pages = 0
         self.remaining_questions = 0
+        self.filtered_data = []
         self.boxes = []
         self.page_number = 0
         self.pagination = []
         self.active_pagination = []
+        self.category = ""
         self.set_up_text()
         self.set_up_positions()
         self.set_up_elements()
@@ -95,7 +97,12 @@ class Questions(State):
 
     def set_pagination(self):
         self.data = self.file_manager.get_data()[self.level]
-        row_length = len(self.data)
+        self.filtered_data = []
+        for question in self.data:
+            if question["category"].lower() == self.category.lower():
+                self.filtered_data.append(question)
+        print(self.filtered_data)
+        row_length = len(self.filtered_data)
         self.full_pages = row_length // 3
         self.remaining_questions = row_length % 3
         total_pages = self.full_pages if self.remaining_questions == 0 else self.full_pages + 1
@@ -110,10 +117,10 @@ class Questions(State):
         first_question_i = self.page_number * 3
         last_question_i = first_question_i + 3 if self.page_number < self.full_pages else first_question_i + self.remaining_questions
         for i in range(first_question_i, last_question_i):
-            question = self.data[i]["question"]
-            options = ", ".join(self.data[i]["options"])
-            answer = self.data[i]["answer"]
-            id = self.data[i]["id"]
+            question = self.filtered_data[i]["question"]
+            options = ", ".join(self.filtered_data[i]["options"])
+            answer = self.filtered_data[i]["answer"]
+            id = self.filtered_data[i]["id"]
             self.boxes.append(CrudBox(question, options, answer, id, (self.width // 2, (self.height // 2 - 150) + (150 * (i - first_question_i))), self.event_manager))
 
     def check_click(self):
@@ -129,7 +136,7 @@ class Questions(State):
             self.click_handled = False
 
     def btn_click(self):
-        self.back_btn.check_notify_state("manage questions")
+        self.back_btn.check_notify_state("levels")
 
     def pagination_click(self):
         for page in self.active_pagination:
@@ -183,8 +190,11 @@ class Questions(State):
             else:
                 box.get_interactive_elements()[1].reset_hover()
 
+    def set_category_questions(self, category):
+        self.category = category
 
     def set_up_question_events(self):
         self.event_manager.subscribe("fetch_questions", self.fetch_data)
         self.event_manager.subscribe("level", self.set_level)
         self.event_manager.subscribe("update_size", self.update_size)
+        self.event_manager.subscribe("set_category_title", self.set_category_questions)
