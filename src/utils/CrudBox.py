@@ -2,25 +2,30 @@ from config.settings import *
 from os.path import join
 from utils.Icon import *
 from utils.PathHandler import *
+from utils.CheckAnswer import *
 
 class CrudBox(pygame.sprite.Sprite):
-    def __init__(self, question, options, answer, id, position, event_manager):
+    def __init__(self, question, options, answer, id, position, event_manager, elements):
         super().__init__()
 
         self.screen = pygame.display.get_surface()
         self.interactive_elements = []
         self.event_manager = event_manager
+        self.elements = elements
 
         self.image = pygame.image.load(resource_path(join("assets", "img", "crud_box.png"))).convert_alpha()
         self.rect = self.image.get_rect(center=position)
 
         self.pencil_icon = Icon((self.rect.midright[0] - 80, self.rect.midright[1] + 45), "pencil")
         self.trash_icon = Icon((self.rect.midright[0] - 25, self.rect.midright[1] + 45), "trash")
+        check_position = (self.rect.right + 50, self.rect.centery)
+        self.check = Check(check_position, self.elements)
         self.id = id
         self.data = [question, options, answer, id]
 
         self.interactive_elements.append(self.pencil_icon)
         self.interactive_elements.append(self.trash_icon)
+        self.interactive_elements.append(self.check)
 
         self.setup_text_elements(question, options, answer)
 
@@ -46,6 +51,7 @@ class CrudBox(pygame.sprite.Sprite):
         self.screen.blit(self.answer, self.answer_rect)
         self.pencil_icon.draw()
         self.trash_icon.draw()
+        self.elements.draw(self.screen)
 
     def get_interactive_elements(self):
         return self.interactive_elements

@@ -164,7 +164,6 @@ class Edit(State):
     def check_answer_selected(self):
         for index, check in enumerate(self.answer_selector):
             if check.get_state():
-                print("HOLA")
                 self.edit_data.append(self.inputs[index + 1].get_input_text())
                 return True
         return False
