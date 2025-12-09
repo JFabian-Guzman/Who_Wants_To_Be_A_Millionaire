@@ -52,6 +52,8 @@ class Play(State):
         self.set_up_lifelines()
         self.set_up_hearts()
         self.get_last_level()
+        self.questions = []
+        self.questions = { i: 0 for i in range(16) }
 
         # Set up events
         self.question_obj.set_up_question_events()
@@ -154,7 +156,6 @@ class Play(State):
                 self.interactive_elements[i].set_title(self.options[i])
 
     def generate_random_index(self, *args):
-
         self.number_questions = len(self.file_manager.get_data()[self.current_level])
         if self.number_questions > 0:
             self.question_index = random.randrange(self.number_questions)
@@ -162,6 +163,17 @@ class Play(State):
                 # Avoid generating the same question if a switch is made
                 while self.question == self.file_manager.get_data()[self.current_level][self.question_index]["question"]:
                     self.question_index = random.randrange(self.number_questions)
+
+    def get_question_by_id(self):
+        qid = self.options[self.current_level]
+        data = self.file_manager.get_data()
+        if self.current_level is not None:
+            if self.current_level < 0 or self.current_level >= len(data):
+                return None
+            for idx, q in enumerate(data[self.current_level]):
+                if q.get("id") == qid:
+                    return self.current_level, idx, q
+            return None
 
     def update_display_data(self, *args):
         if self.number_questions > 0:
@@ -388,6 +400,11 @@ class Play(State):
         if self.current_level % 5 == 0:
             self.checkpoint.restart_animation()
     
+    def set_questions(self, *args):
+        level, qid = args[0]
+        self.questions[level] = qid
+        print(self.questions)        
+
 
     def display_final_screen(self, *args):
         if self.current_level == 0:
@@ -436,3 +453,4 @@ class Play(State):
         self.event_manager.subscribe("set_player_name", self.set_name)
         self.event_manager.subscribe("update_size", self.update_size)
         self.event_manager.subscribe("play_start_game_sound", self.play_sound)
+        self.event_manager.subscribe("set_questions", self.set_questions)

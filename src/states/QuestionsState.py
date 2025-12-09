@@ -54,7 +54,6 @@ class Questions(State):
         self.title_background_rect = self.title_background.get_rect(center=(self.width//2 , 75))
         self.title_rect = self.title.get_rect(center=self.title_background_rect.center)
 
-
     def draw(self):
         self.elements.draw(self.screen)
         self.screen.blit(self.title_background, self.title_background_rect)
@@ -173,6 +172,7 @@ class Questions(State):
         for box in self.boxes:
             if box.get_interactive_elements()[2].rect.collidepoint(pygame.mouse.get_pos()):
                 box.get_interactive_elements()[2].change_state(True)
+                self.event_manager.notify("set_questions", [self.level, box.get_id()])
                 return
 
     def set_level(self, level):
