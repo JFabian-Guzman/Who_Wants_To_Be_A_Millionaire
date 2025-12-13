@@ -46,8 +46,7 @@ class StateMachine:
   def load_game(self):
     self.event_manager.notify("load_data")
     self.event_manager.notify("start_game")
-    self.event_manager.notify("choose_random_question")
-    self.event_manager.notify("display_question")
+    self.event_manager.notify("change_question")
     self.event_manager.notify("shuffle_options")
 
   def update_state(self, *args):

@@ -100,7 +100,6 @@ class Questions(State):
         for question in self.data:
             if question["category"].lower() == self.category.lower():
                 self.filtered_data.append(question)
-        print(self.filtered_data)
         row_length = len(self.filtered_data)
         self.full_pages = row_length // 3
         self.remaining_questions = row_length % 3

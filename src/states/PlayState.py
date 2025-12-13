@@ -165,15 +165,26 @@ class Play(State):
                     self.question_index = random.randrange(self.number_questions)
 
     def get_question_by_id(self):
-        qid = self.options[self.current_level]
+        qid = self.questions[self.current_level]
         data = self.file_manager.get_data()
         if self.current_level is not None:
             if self.current_level < 0 or self.current_level >= len(data):
-                return None
+                return False
             for idx, q in enumerate(data[self.current_level]):
                 if q.get("id") == qid:
-                    return self.current_level, idx, q
-            return None
+                    self.number_questions = 1;
+                    self.question_index = idx;
+                    return True
+            return False
+        
+    def change_question(self, *args):
+        found = self.get_question_by_id()
+        if(not found):
+            self.generate_random_index()
+        self.update_display_data()
+        self.shuffle_options()
+        if self.current_level % 5 == 0:
+            self.checkpoint.restart_animation()
 
     def update_display_data(self, *args):
         if self.number_questions > 0:
@@ -392,18 +403,10 @@ class Play(State):
         self.click_handled = True
         self.display_surrender_modal = not self.display_surrender_modal
         self.surrender.switch_modal_display()
-
-    def change_question(self):
-        self.generate_random_index()
-        self.update_display_data()
-        self.shuffle_options()
-        if self.current_level % 5 == 0:
-            self.checkpoint.restart_animation()
     
     def set_questions(self, *args):
         level, qid = args[0]
         self.questions[level] = qid
-        print(self.questions)        
 
 
     def display_final_screen(self, *args):
@@ -441,8 +444,7 @@ class Play(State):
         self.no_data_warning.update_position()
 
     def set_up_play_events(self):
-        self.event_manager.subscribe("display_question", self.update_display_data)
-        self.event_manager.subscribe("choose_random_question", self.generate_random_index)
+        self.event_manager.subscribe("change_question", self.change_question)
         self.event_manager.subscribe("shuffle_options", self.shuffle_options)
         self.event_manager.subscribe("start_game", self.start_game)
         self.event_manager.subscribe("switch_modal", self.switch_modal)
