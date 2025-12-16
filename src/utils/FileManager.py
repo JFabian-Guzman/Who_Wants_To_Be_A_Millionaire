@@ -304,7 +304,11 @@ class FileManager():
       try:
         with open(self.questions_file, "w", encoding="utf-8") as file:
           json.dump(data_file, file, indent=4, ensure_ascii=False)
-        # refresh UI
+        # reload in-memory data and refresh UI
+        try:
+          self.load_data()
+        except Exception:
+          pass
         try:
           self.event_manager.notify("fetch_questions")
         except Exception:
