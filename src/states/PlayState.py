@@ -53,7 +53,7 @@ class Play(State):
         self.set_up_hearts()
         self.get_last_level()
         self.questions = []
-        self.questions = { i: 0 for i in range(16) }
+        self.questions = { i: -1 for i in range(16) }
 
         # Set up events
         self.question_obj.set_up_question_events()
@@ -180,6 +180,7 @@ class Play(State):
     def change_question(self, *args):
         found = self.get_question_by_id()
         if(not found):
+            print("Random generated")
             self.generate_random_index()
         self.update_display_data()
         self.shuffle_options()
@@ -456,3 +457,5 @@ class Play(State):
         self.event_manager.subscribe("update_size", self.update_size)
         self.event_manager.subscribe("play_start_game_sound", self.play_sound)
         self.event_manager.subscribe("set_questions", self.set_questions)
+
+    # PlayState no longer responds to "check_selected_question" events.

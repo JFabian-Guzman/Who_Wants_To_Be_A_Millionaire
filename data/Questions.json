@@ -11,7 +11,8 @@
                 "The exclusive traditions of one individual in a community"
             ],
             "level": 0,
-            "category": "Culture"
+            "category": "Culture",
+            "active": "False"
         },
         {
             "id": 202,
@@ -24,7 +25,8 @@
                 "has a specific group size"
             ],
             "level": 1,
-            "category": "Culture"
+            "category": "Culture",
+            "active": "False"
         },
         {
             "id": 203,
@@ -37,7 +39,8 @@
                 "A group of people working on a common project"
             ],
             "level": 2,
-            "category": "Culture"
+            "category": "Culture",
+            "active": "False"
         },
         {
             "id": 204,
@@ -50,20 +53,22 @@
                 "Watching TV every night"
             ],
             "level": 3,
-            "category": "Culture"
+            "category": "Culture",
+            "active": "False"
         },
         {
             "id": 205,
             "question": "What is a common way Ticos greet each other?",
-            "answer": "\u00a1Pura Vida!",
+            "answer": "¡Pura Vida!",
             "options": [
-                "Hola, \u00bfc\u00f3mo est\u00e1s?",
-                "Adi\u00f3s.",
-                "\u00a1Pura Vida!",
+                "Hola, ¿cómo estás?",
+                "Adiós.",
+                "¡Pura Vida!",
                 "Buenas noches."
             ],
             "level": 4,
-            "category": "Culture"
+            "category": "Culture",
+            "active": "False"
         },
         {
             "id": 206,
@@ -76,7 +81,8 @@
                 "People from different countries living apart"
             ],
             "level": 5,
-            "category": "Culture"
+            "category": "Culture",
+            "active": "False"
         },
         {
             "id": 207,
@@ -89,7 +95,8 @@
                 "determines your country of birth"
             ],
             "level": 6,
-            "category": "Culture"
+            "category": "Culture",
+            "active": "False"
         },
         {
             "id": 208,
@@ -102,7 +109,8 @@
                 "has no effect on traditions or customs"
             ],
             "level": 7,
-            "category": "Culture"
+            "category": "Culture",
+            "active": "False"
         },
         {
             "id": 209,
@@ -115,7 +123,8 @@
                 "A random group of people in one place"
             ],
             "level": 8,
-            "category": "Culture"
+            "category": "Culture",
+            "active": "False"
         },
         {
             "id": 210,
@@ -128,7 +137,8 @@
                 "Portuguese"
             ],
             "level": 9,
-            "category": "Culture"
+            "category": "Culture",
+            "active": "False"
         },
         {
             "id": 211,
@@ -141,7 +151,8 @@
                 "are only enjoyed by individuals, not groups"
             ],
             "level": 10,
-            "category": "Culture"
+            "category": "Culture",
+            "active": "False"
         },
         {
             "id": 212,
@@ -154,7 +165,8 @@
                 "inviting everyone to join"
             ],
             "level": 11,
-            "category": "Culture"
+            "category": "Culture",
+            "active": "False"
         },
         {
             "id": 213,
@@ -167,7 +179,8 @@
                 "prevents teamwork"
             ],
             "level": 12,
-            "category": "Culture"
+            "category": "Culture",
+            "active": "False"
         },
         {
             "id": 214,
@@ -180,7 +193,8 @@
                 "A type of music genre"
             ],
             "level": 13,
-            "category": "Culture"
+            "category": "Culture",
+            "active": "False"
         },
         {
             "id": 215,
@@ -193,7 +207,8 @@
                 "represents random ideas"
             ],
             "level": 14,
-            "category": "Culture"
+            "category": "Culture",
+            "active": "False"
         },
         {
             "id": 216,
@@ -206,7 +221,8 @@
                 "are unimportant to cultural identity"
             ],
             "level": 0,
-            "category": "Culture"
+            "category": "Culture",
+            "active": "False"
         },
         {
             "id": 217,
@@ -219,7 +235,8 @@
                 "represents individual preferences only"
             ],
             "level": 1,
-            "category": "Culture"
+            "category": "Culture",
+            "active": "False"
         },
         {
             "id": 218,
@@ -232,7 +249,8 @@
                 "positive representations of a culture"
             ],
             "level": 2,
-            "category": "Culture"
+            "category": "Culture",
+            "active": "False"
         },
         {
             "id": 219,
@@ -245,7 +263,8 @@
                 "Drums"
             ],
             "level": 3,
-            "category": "Culture"
+            "category": "Culture",
+            "active": "False"
         },
         {
             "id": 220,
@@ -258,7 +277,8 @@
                 "January 1"
             ],
             "level": 4,
-            "category": "Culture"
+            "category": "Culture",
+            "active": "False"
         },
         {
             "id": 221,
@@ -271,7 +291,8 @@
                 "Rose"
             ],
             "level": 5,
-            "category": "Culture"
+            "category": "Culture",
+            "active": "False"
         }
     ]
 ]

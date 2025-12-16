@@ -69,8 +69,12 @@ class CrudBox(pygame.sprite.Sprite):
                 wrap_text = text[:split] + "-\n" + text[split:]
             else:
                 wrap_text = text[:split] + "\n" + text[split:]
-            
         return wrap_text
+    
+    def check_option_selected(self):
+        # Deprecated: initialization of the checkbox state is handled by QuestionsState
+        # via FileManager.is_question_active(id). Left here for compatibility.
+        pass
 
     def change_to_edit(self):
         self.event_manager.notify("set_edit_data", self.data)

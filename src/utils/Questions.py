@@ -25,7 +25,6 @@ class Question(pygame.sprite.Sprite):
     self.text = TEXT.render(self.title, True, COLORS["WHITE"])
     self.text_rect = self.text.get_rect(center = self.rect.center)
 
-  
   def wrap_text(self, text):
     max_width = 68  # for 'option' text
     if len(text) > max_width:
@@ -38,7 +37,7 @@ class Question(pygame.sprite.Sprite):
 
   def get_title(self):
     return self.title
-  
+
   def change_question(self, *args):
     self.title = self.wrap_text(args[0])
 
@@ -49,6 +48,3 @@ class Question(pygame.sprite.Sprite):
 
   def set_up_question_events(self):
     self.event_manager.subscribe("change_question_text", self.change_question)
-
- 
-

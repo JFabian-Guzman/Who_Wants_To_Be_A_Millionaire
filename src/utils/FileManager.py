@@ -83,6 +83,8 @@ class FileManager():
           "options": [data[1], data[2], data[3], data[4]],
           "level": data[6]
         }
+        # Default new questions to inactive
+        new_data["active"] = "False"
   
         # Load data
         with open(self.questions_file, "r", encoding="utf-8") as file:
@@ -187,9 +189,134 @@ class FileManager():
     except Exception as e:
       print("Error saving categories file:", e)
 
+  def check_selected_question(self, *args):
+    """Search for a question with the given id in the questions file.
+    Notifies "check_selected_question_result" with a tuple (id, found_bool).
+    """
+    id = args[0]
+    found = False
+    # Load data
+    try:
+      with open(self.questions_file, "r", encoding="utf-8") as file:
+        data_file = json.load(file)
+    except Exception:
+      data_file = []
+
+    # search nested lists as well as top-level objects
+    def _iter_items(items):
+      for item in items:
+        if isinstance(item, dict):
+          yield item
+        elif isinstance(item, list):
+          for sub in _iter_items(item):
+            yield sub
+
+    for obj in _iter_items(data_file):
+      if obj.get("id") == id:
+        # interpret 'active' which may be a string or boolean
+        active = obj.get("active", False)
+        if isinstance(active, str):
+          found = active.strip().lower() == "true"
+        else:
+          found = bool(active)
+        break
+
+    # Notify result
+    try:
+      self.event_manager.notify("check_selected_question_result", (id, found))
+    except Exception:
+      pass
+
+  def is_question_active(self, id):
+    """Return True if question with id has active set to True (string or bool)."""
+    try:
+      with open(self.questions_file, "r", encoding="utf-8") as file:
+        data_file = json.load(file)
+    except Exception:
+      return False
+
+    def _iter_items(items):
+      for item in items:
+        if isinstance(item, dict):
+          yield item
+        elif isinstance(item, list):
+          for sub in _iter_items(item):
+            yield sub
+
+    for obj in _iter_items(data_file):
+      if obj.get("id") == id:
+        active = obj.get("active", False)
+        if isinstance(active, str):
+          return active.strip().lower() == "true"
+        return bool(active)
+    return False
+
+  def set_question_active(self, *args):
+    """Set the 'active' attribute for a question by id. Expects (id, state) where state is bool.
+    When setting a question active=True, ensure all other questions on the same level are set to False so
+    only one question per level remains active.
+    """
+    id, state = args[0]
+    try:
+      with open(self.questions_file, "r", encoding="utf-8") as file:
+        data_file = json.load(file)
+    except Exception:
+      data_file = []
+
+    def _iter_items(items):
+      for item in items:
+        if isinstance(item, dict):
+          yield item
+        elif isinstance(item, list):
+          for sub in _iter_items(item):
+            yield sub
+
+    # find level of the target question
+    target_level = None
+    for obj in _iter_items(data_file):
+      if obj.get("id") == id:
+        target_level = obj.get("level")
+        break
+
+    updated = False
+    if state and target_level is not None:
+      # set target active and other questions on same level inactive
+      for obj in _iter_items(data_file):
+        if obj.get("level") == target_level:
+          if obj.get("id") == id:
+            if obj.get("active") != "True":
+              obj["active"] = "True"
+              updated = True
+          else:
+            if obj.get("active") != "False":
+              obj["active"] = "False"
+              updated = True
+    else:
+      # simply set the target inactive
+      for obj in _iter_items(data_file):
+        if obj.get("id") == id:
+          if obj.get("active") != "False":
+            obj["active"] = "False"
+            updated = True
+          break
+
+    if updated:
+      try:
+        with open(self.questions_file, "w", encoding="utf-8") as file:
+          json.dump(data_file, file, indent=4, ensure_ascii=False)
+        # refresh UI
+        try:
+          self.event_manager.notify("fetch_questions")
+        except Exception:
+          pass
+      except Exception as e:
+        print("Error saving questions file:", e)
+
   def set_up_file_events(self):
     self.event_manager.subscribe("load_data", self.load_data)
+    self.event_manager.subscribe("check_selected_question", self.check_selected_question)
     self.event_manager.subscribe("edit_file", self.edit_file)
+    self.event_manager.subscribe("set_question_active", self.set_question_active)
     self.event_manager.subscribe("add_file", self.add_file)
     self.event_manager.subscribe("delete", self.delete)
     self.event_manager.subscribe("get_podium", self.get_podium)

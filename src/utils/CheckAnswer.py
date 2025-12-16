@@ -21,7 +21,7 @@ class Check(pygame.sprite.Sprite):
       self.image = self.active_check
     else:
       self.image = self.disable_check
-  
+
   def update_position(self, position):
     self.rect = self.image.get_rect(center = position)
 
@@ -31,6 +31,11 @@ class Check(pygame.sprite.Sprite):
   def on_hover(self):
     self.image = self.active_check
 
+  def disable(self):
+    self.image = self.disable_check
+
   def reset_hover(self):
     if not self.is_answer:
       self.image = self.disable_check
+    else:
+      self.image = self.active_check

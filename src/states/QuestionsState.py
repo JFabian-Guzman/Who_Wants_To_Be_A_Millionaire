@@ -119,7 +119,13 @@ class Questions(State):
             options = ", ".join(self.filtered_data[i]["options"])
             answer = self.filtered_data[i]["answer"]
             id = self.filtered_data[i]["id"]
-            self.boxes.append(CrudBox(question, options, answer, id, (self.width // 2, (self.height // 2 - 150) + (150 * (i - first_question_i))), self.event_manager, self.elements))
+            box = CrudBox(question, options, answer, id, (self.width // 2, (self.height // 2 - 150) + (150 * (i - first_question_i))), self.event_manager, self.elements)
+            # Initialize check state from file
+            if self.file_manager.is_question_active(id):
+                box.get_interactive_elements()[2].change_state(True)
+            else:
+                box.get_interactive_elements()[2].change_state(False)
+            self.boxes.append(box)
 
     def check_click(self):
         if pygame.mouse.get_pressed()[0]:
@@ -170,8 +176,17 @@ class Questions(State):
     def select_answer_click(self):
         for box in self.boxes:
             if box.get_interactive_elements()[2].rect.collidepoint(pygame.mouse.get_pos()):
-                box.get_interactive_elements()[2].change_state(True)
-                self.event_manager.notify("set_questions", [self.level, box.get_id()])
+                check = box.get_interactive_elements()[2]
+                if check.get_state() == True:
+                    check.change_state(False)
+                    self.event_manager.notify("set_questions", [self.level, -1])
+                    # Update questions file active flag
+                    self.event_manager.notify("set_question_active", [box.get_id(), False])
+                else:
+                    check.change_state(True)
+                    self.event_manager.notify("set_questions", [self.level, box.get_id()])
+                    # Update questions file active flag
+                    self.event_manager.notify("set_question_active", [box.get_id(), True])
                 return
 
     def set_level(self, level):
@@ -202,13 +217,16 @@ class Questions(State):
                 break
             else:
                 box.get_interactive_elements()[1].reset_hover()
-
-            if  box.get_interactive_elements()[2].rect.collidepoint(pygame.mouse.get_pos()):
-                box.get_interactive_elements()[2].on_hover()
+            check = box.get_interactive_elements()[2]
+            if  check.rect.collidepoint(pygame.mouse.get_pos()):
+                if check.get_state() == True:
+                    check.disable()
+                else:
+                    check.on_hover()
                 self.event_manager.notify("change_cursor", 'hover')
                 break
             else:
-                box.get_interactive_elements()[2].reset_hover()
+                check.reset_hover()
 
     def set_category_questions(self, category):
         self.category = category
