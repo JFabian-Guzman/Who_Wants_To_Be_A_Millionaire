@@ -89,6 +89,12 @@ class Questions(State):
     def clear_data(self):
         self.page_number = 0
         self.interactive_elements.clear()
+        # destroy boxes so their interactive sprites (checks/icons) are removed
+        for box in list(self.boxes):
+            try:
+                box.destroy()
+            except Exception:
+                pass
         self.boxes.clear()
         self.active_pagination.clear()
         self.interactive_elements.append(self.back_btn)
@@ -141,7 +147,15 @@ class Questions(State):
             self.click_handled = False
 
     def btn_click(self):
-        self.back_btn.check_notify_state("levels")
+        if self.back_btn.rect.collidepoint(pygame.mouse.get_pos()):
+            for box in list(self.boxes):
+                try:
+                    box.destroy()
+                except Exception:
+                    pass
+            self.boxes.clear()
+            self.back_btn.check_notify_state("levels")
+
 
     def pagination_click(self):
         for page in self.active_pagination:

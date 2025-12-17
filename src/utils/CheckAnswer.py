@@ -39,3 +39,33 @@ class Check(pygame.sprite.Sprite):
       self.image = self.disable_check
     else:
       self.image = self.active_check
+
+  def destroy(self):
+    """Remove this sprite from all groups and clear references so it cannot persist."""
+    try:
+      self.kill()
+    except Exception:
+      pass
+    # clear logical and visual references
+    self.is_answer = False
+    try:
+      # replace image and rect with safe defaults
+      self.image = pygame.Surface((0, 0), pygame.SRCALPHA)
+      self.rect = self.image.get_rect()
+    except Exception:
+      pass
+
+  def destroy(self):
+    """Remove this sprite from all groups and clear references so it cannot persist."""
+    try:
+      self.kill()
+    except Exception:
+      pass
+    # clear logical and visual references
+    self.is_answer = False
+    try:
+      # replace image and rect to safe defaults
+      self.image = pygame.Surface((0, 0), pygame.SRCALPHA)
+      self.rect = self.image.get_rect()
+    except Exception:
+      pass

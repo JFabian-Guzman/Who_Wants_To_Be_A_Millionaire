@@ -79,3 +79,27 @@ class CrudBox(pygame.sprite.Sprite):
     def change_to_edit(self):
         self.event_manager.notify("set_edit_data", self.data)
         self.event_manager.notify("set_state", "edit")
+
+    def destroy(self):
+        """Clean up interactive sprites so they are removed from groups and won't be drawn."""
+        for elem in list(self.interactive_elements):
+            try:
+                if hasattr(elem, 'destroy'):
+                    elem.destroy()
+                else:
+                    elem.kill()
+            except Exception:
+                pass
+        self.interactive_elements.clear()
+
+    def destroy(self):
+        """Clean up interactive sprites so they are removed from groups and won't be drawn."""
+        for elem in list(self.interactive_elements):
+            try:
+                if hasattr(elem, 'destroy'):
+                    elem.destroy()
+                else:
+                    elem.kill()
+            except Exception:
+                pass
+        self.interactive_elements.clear()
