@@ -17,6 +17,7 @@ class Add(State):
         self.level = 0
         self.warning = ''
         self.error = ''
+        self.category = ''
         self.title = None
 
         self.set_up_background()
@@ -167,6 +168,7 @@ class Add(State):
                 self.show_error('answer')
                 error = True
             self.new_data.append(self.level)
+            self.new_data.append(self.category)
             if not error:
                 self.event_manager.notify("add_file", self.new_data)
                 self.event_manager.notify("set_state", "questions")
@@ -214,7 +216,11 @@ class Add(State):
         self.update_input_position()
         self.update_check_position()
 
+    def set_category(self, category):
+        self.category = category
+
     def set_up_add_events(self):
         self.event_manager.subscribe("level", self.set_level)
         self.event_manager.subscribe("warning", self.set_warning)
         self.event_manager.subscribe("update_size", self.update_size)
+        self.event_manager.subscribe("set_category_title", self.set_category)

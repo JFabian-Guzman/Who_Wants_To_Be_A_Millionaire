@@ -81,7 +81,8 @@ class FileManager():
           "question": data[0],
           "answer": data[5],
           "options": [data[1], data[2], data[3], data[4]],
-          "level": data[6]
+          "level": data[6],
+          "category": data[7] if len(data) > 7 else ''
         }
         # Default new questions to inactive
         new_data["active"] = "False"
