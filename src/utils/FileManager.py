@@ -316,6 +316,76 @@ class FileManager():
       except Exception as e:
         print("Error saving questions file:", e)
 
+  def validate_questions(self):
+    """
+    Validate that questions.json contains all expected attributes.
+    Returns: (is_valid: bool, errors: list of error messages)
+    """
+    errors = []
+    
+    try:
+      with open(self.questions_file, "r", encoding="utf-8") as f:
+        data = json.load(f)
+    except FileNotFoundError:
+      return False, [f"Questions file not found: {self.questions_file}"]
+    except json.JSONDecodeError as e:
+      return False, [f"Questions file is not valid JSON: {e}"]
+    except Exception as e:
+      return False, [f"Error reading questions file: {e}"]
+    
+    # Check that root is a list
+    if not isinstance(data, list):
+      return False, ["Questions file root must be a list"]
+    
+    if len(data) == 0:
+      return False, ["Questions file is empty"]
+    
+    # Define required fields and their types
+    required_fields = {
+      "id": int,
+      "question": str,
+      "options": list,
+      "answer": str,
+      "level": int,
+      "active": str,
+      "category": str
+    }
+    
+    # Validate each question
+    for idx, question in enumerate(data):
+      if not isinstance(question, dict):
+        errors.append(f"Question at index {idx} is not a dictionary")
+        continue
+      
+      # Check for required fields
+      for field, expected_type in required_fields.items():
+        if field not in question:
+          errors.append(f"Question at index {idx} (ID: {question.get('id', 'unknown')}) missing required field: '{field}'")
+        elif not isinstance(question[field], expected_type):
+          errors.append(f"Question at index {idx} (ID: {question.get('id', 'unknown')}) field '{field}' is {type(question[field]).__name__}, expected {expected_type.__name__}")
+      
+      # Special validation for specific fields
+      if "options" in question:
+        if not isinstance(question["options"], list) or len(question["options"]) != 4:
+          errors.append(f"Question at index {idx} (ID: {question.get('id', 'unknown')}) must have exactly 4 options, got {len(question.get('options', []))}")
+        else:
+          # Check all options are strings
+          for opt_idx, option in enumerate(question["options"]):
+            if not isinstance(option, str):
+              errors.append(f"Question at index {idx} (ID: {question.get('id', 'unknown')}) option {opt_idx} is not a string")
+      
+      if "level" in question:
+        level = question["level"]
+        if not isinstance(level, int) or level < 0 or level > 14:
+          errors.append(f"Question at index {idx} (ID: {question.get('id', 'unknown')}) level must be integer between 0-14, got {level}")
+      
+      if "answer" in question and "options" in question:
+        if question["answer"] not in question["options"]:
+          errors.append(f"Question at index {idx} (ID: {question.get('id', 'unknown')}) answer '{question['answer']}' not in options")
+    
+    is_valid = len(errors) == 0
+    return is_valid, errors
+
   def set_up_file_events(self):
     self.event_manager.subscribe("load_data", self.load_data)
     self.event_manager.subscribe("check_selected_question", self.check_selected_question)

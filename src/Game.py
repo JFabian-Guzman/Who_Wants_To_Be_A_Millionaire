@@ -55,6 +55,18 @@ class Game:
     self.file_manager = FileManager(self.event_manager)
     self.file_manager.set_up_file_events()
     self.event_manager.notify("load_data")
+    
+    # Validate questions file integrity
+    is_valid, errors = self.file_manager.validate_questions()
+    if not is_valid:
+      print("\n" + "="*70)
+      print("ERROR: Questions file validation failed!")
+      print("="*70)
+      for error in errors:
+        print(f"  • {error}")
+      print("="*70 + "\n")
+      raise RuntimeError(f"Invalid questions file. Found {len(errors)} error(s). See console output above.")
+    
     # Initialize states
     self.state_machine = StateMachine(self.event_manager)
     self.menu = Menu(self.event_manager)

@@ -156,27 +156,39 @@ class Play(State):
                 self.interactive_elements[i].set_title(self.options[i])
 
     def generate_random_index(self, *args):
-        self.number_questions = len(self.file_manager.get_data()[self.current_level])
+        """Generate a random question index from questions in the selected category."""
+        data = self.file_manager.get_data()[self.current_level]
+        selected_category = self.file_manager.get_selected_category()
+        
+        # Filter questions by selected category
+        category_questions = [
+            (idx, q) for idx, q in enumerate(data)
+            if q.get("category") == selected_category
+        ]
+        
+        self.number_questions = len(category_questions)
         if self.number_questions > 0:
-            self.question_index = random.randrange(self.number_questions)
+            # Pick a random question from the filtered list
+            random_idx = random.randrange(self.number_questions)
+            self.question_index = category_questions[random_idx][0]
+            
             if self.number_questions > 1:
                 # Avoid generating the same question if a switch is made
-                while self.question == self.file_manager.get_data()[self.current_level][self.question_index]["question"]:
-                    self.question_index = random.randrange(self.number_questions)
+                while self.question == data[self.question_index]["question"]:
+                    random_idx = random.randrange(self.number_questions)
+                    self.question_index = category_questions[random_idx][0]
 
     def get_question_by_id(self):
-        qid = self.questions[self.current_level]
-        data = self.file_manager.get_data()
-        if self.current_level is not None:
-            if self.current_level < 0 or self.current_level >= len(data):
-                return False
-            for idx, q in enumerate(data[self.current_level]):
-                if q.get("id") == qid:
-                    self.number_questions = 1;
-                    self.question_index = idx;
-                    return True
-            return False
-        
+        data = self.file_manager.get_data()[self.current_level]
+        selected_category = self.file_manager.get_selected_category()
+
+        for idx, question in enumerate(data):
+            if question["active"] == "True" and question["category"] == selected_category:
+                self.question_index = idx
+                self.number_questions = 1
+                return True
+        return False
+
     def change_question(self, *args):
         found = self.get_question_by_id()
         if(not found):
