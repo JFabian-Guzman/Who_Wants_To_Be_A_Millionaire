@@ -190,6 +190,49 @@ class FileManager():
     except Exception as e:
       print("Error saving categories file:", e)
 
+  def add_category(self, *args):
+    """Add a new category to the categories file.
+    Expects args[0] to be the category name (string).
+    """
+    category_name = args[0]
+    
+    try:
+      with open(self.categories_file, "r", encoding="utf-8") as file:
+        try:
+          categories_data = json.load(file)
+        except json.JSONDecodeError:
+          print("Error: Categories file is corrupted.")
+          return
+    except FileNotFoundError:
+      categories_data = []
+    
+    # Check if category already exists
+    for category in categories_data:
+      if category.get("category") == category_name:
+        print(f"Error: Category '{category_name}' already exists.")
+        return
+    
+    # Find the next ID
+    last_id = max((cat.get("id", 0) for cat in categories_data), default=0)
+    new_id = last_id + 1
+    
+    # Create new category object
+    new_category = {
+      "id": new_id,
+      "category": category_name,
+      "selected": False
+    }
+    
+    categories_data.append(new_category)
+    
+    try:
+      with open(self.categories_file, "w", encoding="utf-8") as file:
+        json.dump(categories_data, file, indent=2, ensure_ascii=False)
+      # Update in-memory categories list
+      self.categories.append(new_category)
+    except Exception as e:
+      print(f"Error saving category to file: {e}")
+
   def check_selected_question(self, *args):
     """Search for a question with the given id in the questions file.
     Notifies "check_selected_question_result" with a tuple (id, found_bool).
@@ -397,3 +440,4 @@ class FileManager():
     self.event_manager.subscribe("get_podium", self.get_podium)
     self.event_manager.subscribe("write_podium", self.write_podium)
     self.event_manager.subscribe("set_category", self.set_category)
+    self.event_manager.subscribe("add_category", self.add_category)

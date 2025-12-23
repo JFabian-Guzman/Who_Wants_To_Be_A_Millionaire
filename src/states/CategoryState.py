@@ -4,8 +4,9 @@ from utils.Option import *
 from utils.Logo import *
 from .State import *
 from utils.Button import *
+from utils.AddQuestions import *
 from utils.CheckAnswer import *
-
+from utils.AddCategoryModal import *
 
 class Categories(State):
     def __init__(self, event_manager, file_manager):
@@ -34,7 +35,9 @@ class Categories(State):
 
     def set_up_elements(self):
         actual_category = self.file_manager.get_selected_category()
+        self.add_box = AddQuestion(self.elements)
         self.back_btn = Button(self.elements, self.left_btn_pos , self.event_manager, 'negative_btn', 'Go Back', 'WHITE')
+        self.add_modal = AddCategoryModal(self.event_manager)
         for index, rect in enumerate(self.category_rects):
             offset = 230 if index % 2 == 0 else -230
             check_position = (rect.center[0] + offset, rect.center[1])
@@ -42,6 +45,7 @@ class Categories(State):
             self.answer_selector.append(check_item)
             self.interactive_elements.append(check_item)
         self.interactive_elements.append(self.back_btn)
+        self.interactive_elements.append(self.add_box)
         # Turn on the check with the selected category when the game is started
         for index, check in enumerate(self.answer_selector):
             if self.categories[index].get_title() == actual_category:
@@ -69,8 +73,12 @@ class Categories(State):
 
     def update(self):
         self.elements.update()
-        self.update_cursor_state()
-        self.update_user_click()
+        if self.add_modal.is_open():
+            self.add_modal.draw()
+            self.add_modal.update()
+        else:
+            self.update_cursor_state()
+            self.update_user_click()
 
     def update_check_position(self):
         for index, rect in enumerate(self.category_rects):
@@ -84,6 +92,8 @@ class Categories(State):
                 self.handle_category_click()
                 self.btn_click()
                 self.check_category_click()
+                self.add_click()
+                self.click_handled = True
         else:
             self.click_handled = False
 
@@ -105,6 +115,12 @@ class Categories(State):
         self.width, self.height  = self.screen.get_size()
         self.setup_category_position()
         self.update_check_position()
+        self.add_box.update_position()
+        self.add_modal.update_position()
+
+    def add_click(self):
+        if self.add_box.rect.collidepoint(pygame.mouse.get_pos()):
+            self.add_modal.show_modal()
 
     def btn_click(self):
         self.back_btn.check_notify_state("menu")
@@ -129,5 +145,36 @@ class Categories(State):
                 return True
         return False
 
+    def refresh_categories(self, *args):
+        """Refresh the categories display after a new category is added."""
+        # Clear existing categories and answer selectors
+        for category in self.categories:
+            category.kill()
+        self.categories = []
+        for check in self.answer_selector:
+            check.kill()
+        self.answer_selector = []
+        # Remove from interactive elements
+        self.interactive_elements = [elem for elem in self.interactive_elements if elem not in self.answer_selector and elem not in self.categories]
+        
+        # Reload categories from file manager
+        self.create_categories()
+        self.setup_category_position()
+        
+        # Recreate answer selectors with new positions
+        actual_category = self.file_manager.get_selected_category()
+        for index, rect in enumerate(self.category_rects):
+            offset = 230 if index % 2 == 0 else -230
+            check_position = (rect.center[0] + offset, rect.center[1])
+            check_item = Check(check_position, self.elements)
+            self.answer_selector.append(check_item)
+            self.interactive_elements.append(check_item)
+        
+        # Turn on the check with the selected category
+        for index, check in enumerate(self.answer_selector):
+            if self.categories[index].get_title() == actual_category:
+                check.change_state(True)
+
     def set_up_category_events(self):
         self.event_manager.subscribe("update_size", self.update_size)
+        self.event_manager.subscribe("add_category", self.refresh_categories)
