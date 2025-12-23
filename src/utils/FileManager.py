@@ -233,6 +233,39 @@ class FileManager():
     except Exception as e:
       print(f"Error saving category to file: {e}")
 
+  def delete_category(self, *args):
+    """Delete a category from the categories file.
+    Expects args[0] to be the category name (string).
+    """
+    category_name = args[0]
+    
+    try:
+      with open(self.categories_file, "r", encoding="utf-8") as file:
+        try:
+          categories_data = json.load(file)
+        except json.JSONDecodeError:
+          print("Error: Categories file is corrupted.")
+          return
+    except FileNotFoundError:
+      print("Error: Categories file not found.")
+      return
+    
+    # Search and delete category by name
+    initial_length = len(categories_data)
+    categories_data = [cat for cat in categories_data if cat.get("category") != category_name]
+    
+    if len(categories_data) == initial_length:
+      print(f"Error: Category '{category_name}' not found.")
+      return
+    
+    try:
+      with open(self.categories_file, "w", encoding="utf-8") as file:
+        json.dump(categories_data, file, indent=2, ensure_ascii=False)
+      # Update in-memory categories list
+      self.categories = [cat for cat in self.categories if cat.get("category") != category_name]
+    except Exception as e:
+      print(f"Error deleting category from file: {e}")
+
   def check_selected_question(self, *args):
     """Search for a question with the given id in the questions file.
     Notifies "check_selected_question_result" with a tuple (id, found_bool).
@@ -441,3 +474,4 @@ class FileManager():
     self.event_manager.subscribe("write_podium", self.write_podium)
     self.event_manager.subscribe("set_category", self.set_category)
     self.event_manager.subscribe("add_category", self.add_category)
+    self.event_manager.subscribe("delete_category", self.delete_category)

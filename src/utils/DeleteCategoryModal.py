@@ -2,9 +2,8 @@ from config.settings import *
 from os.path import join
 from utils.Button import *
 from utils.PathHandler import *
-from utils.TextInput import *
 
-class AddCategoryModal(pygame.sprite.Sprite):
+class DeleteCategoryModal(pygame.sprite.Sprite):
     def __init__(self, event_manager):
         super().__init__()
         self.elements = pygame.sprite.Group()
@@ -17,15 +16,13 @@ class AddCategoryModal(pygame.sprite.Sprite):
         self.event_manager = event_manager
         self.interactive_elements = []
         self.click_handled = True
+        self.category_to_delete = None
 
         self.create_overlay()
         self.display = False
 
         self.no_btn = Button(self.elements, (self.rect.left + 125, self.rect.bottom - 55), event_manager, 'negative_btn', 'No', 'WHITE')
         self.yes_btn = Button(self.elements, (self.rect.right - 125, self.rect.bottom - 55), event_manager, 'btn', 'Yes')
-        self.category_input = TextInput(self.rect.center, 875, 60, self.event_manager, 'question')
-        self.category_input.set_up_input_events()
-        self.interactive_elements.append(self.category_input)
         self.interactive_elements.append(self.no_btn)
         self.interactive_elements.append(self.yes_btn)
 
@@ -39,24 +36,41 @@ class AddCategoryModal(pygame.sprite.Sprite):
             self.screen.blit(self.overlay, (0, 0))
             self.screen.blit(self.image, self.rect)
             self.elements.draw(self.screen)
-            # Draw title
-            title_text = TITLE.render("Add New Category", True, COLORS["WHITE"])
-            title_rect = title_text.get_rect(center=(self.rect.centerx, self.rect.centery - 60))
-            self.screen.blit(title_text, title_rect)
-            self.category_input.draw()
+            # Draw confirmation text
+            if self.category_to_delete:
+                confirmation_text = TITLE.render(
+                    f"Delete category '{self.category_to_delete}'",
+                    True,
+                    COLORS["WHITE"]
+                )
+                text_rect = confirmation_text.get_rect(
+                    center=(self.rect.centerx, self.rect.centery - 35)
+                )
+                self.screen.blit(confirmation_text, text_rect)
+
+                warning_text = TEXT.render(
+                    "This action cannot be undone. Are you sure you want to continue?",
+                    True,
+                    COLORS["WHITE"]
+                )
+                warning_rect = warning_text.get_rect(
+                    center=(self.rect.centerx, self.rect.centery + 15)
+                )
+                self.screen.blit(warning_text, warning_rect)
 
     def update(self):
       if self.display:
           self.elements.update()
           self.update_cursor_state()
           self.check_click()
-          self.category_input.update()
 
-    def show_modal(self):
+    def show_modal(self, category_name):
+        self.category_to_delete = category_name
         self.display = True
 
     def hide_modal(self):
         self.display = False
+        self.category_to_delete = None
 
     def is_open(self):
         return self.display
@@ -64,23 +78,15 @@ class AddCategoryModal(pygame.sprite.Sprite):
     def check_click(self):
         if pygame.mouse.get_pressed()[0]:
             if not self.click_handled:
-                self.check_input_click()
                 if self.no_btn.get_rect().collidepoint(pygame.mouse.get_pos()):
                     self.hide_modal()
                 if self.yes_btn.get_rect().collidepoint(pygame.mouse.get_pos()):
-                    category = self.category_input.get_input_text()
-                    self.event_manager.notify("add_category", category)
+                    if self.category_to_delete:
+                        self.event_manager.notify("delete_category", self.category_to_delete)
                     self.hide_modal()
                 self.click_handled = True
         else:
             self.click_handled = False
-
-    def check_input_click(self):
-        if self.category_input.rect.collidepoint(pygame.mouse.get_pos()):
-            print("HOLA")
-            self.category_input.toggle_active(True)
-        else:
-            self.category_input.toggle_active(False)
 
     def update_position(self):
         self.screen = pygame.display.get_surface()
@@ -89,8 +95,6 @@ class AddCategoryModal(pygame.sprite.Sprite):
         self.create_overlay()
         self.no_btn.update_position((self.rect.left + 125, self.rect.bottom - 55))
         self.yes_btn.update_position((self.rect.right - 125, self.rect.bottom - 55))
-        self.category_input.update_position((self.rect.centerx, self.rect.centery + 10))
-
 
     def update_cursor_state(self):
         for element in self.interactive_elements:

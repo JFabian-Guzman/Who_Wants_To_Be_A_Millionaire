@@ -7,6 +7,8 @@ from utils.Button import *
 from utils.AddQuestions import *
 from utils.CheckAnswer import *
 from utils.AddCategoryModal import *
+from utils.DeleteCategoryModal import *
+from utils.Icon import *
 
 class Categories(State):
     def __init__(self, event_manager, file_manager):
@@ -38,6 +40,7 @@ class Categories(State):
         self.add_box = AddQuestion(self.elements)
         self.back_btn = Button(self.elements, self.left_btn_pos , self.event_manager, 'negative_btn', 'Go Back', 'WHITE')
         self.add_modal = AddCategoryModal(self.event_manager)
+        self.delete_modal = DeleteCategoryModal(self.event_manager)
         for index, rect in enumerate(self.category_rects):
             offset = 230 if index % 2 == 0 else -230
             check_position = (rect.center[0] + offset, rect.center[1])
@@ -46,6 +49,13 @@ class Categories(State):
             self.interactive_elements.append(check_item)
         self.interactive_elements.append(self.back_btn)
         self.interactive_elements.append(self.add_box)
+        # Create blue square with trash icon inside it
+        self.blue_square = pygame.image.load(resource_path(join("assets", "img" ,"blue_square.png"))).convert_alpha()
+        self.blue_square_hover = pygame.image.load(resource_path(join("assets", "img" ,"blue_square_hover.png"))).convert_alpha()
+        self.blue_square_rect = self.blue_square.get_rect(left=self.add_box.rect.right + 20, centery=self.add_box.rect.centery)
+        self.blue_square_image = self.blue_square
+        # Trash icon positioned in center of blue square
+        self.trash_icon = Icon((self.blue_square_rect.centerx + 15, self.blue_square_rect.centery), "trash")
         # Turn on the check with the selected category when the game is started
         for index, check in enumerate(self.answer_selector):
             if self.categories[index].get_title() == actual_category:
@@ -70,10 +80,15 @@ class Categories(State):
         self.elements.draw(self.screen)
         self.screen.blit(self.title_background, self.title_background_rect)
         self.screen.blit(self.text, self.text_rect)
+        self.screen.blit(self.blue_square_image, self.blue_square_rect)
+        self.trash_icon.draw()
 
     def update(self):
         self.elements.update()
-        if self.add_modal.is_open():
+        if self.delete_modal.is_open():
+            self.delete_modal.draw()
+            self.delete_modal.update()
+        elif self.add_modal.is_open():
             self.add_modal.draw()
             self.add_modal.update()
         else:
@@ -96,6 +111,14 @@ class Categories(State):
                 self.click_handled = True
         else:
             self.click_handled = False
+        
+        # Update blue square and trash icon hover state
+        if self.blue_square_rect.collidepoint(pygame.mouse.get_pos()):
+            self.blue_square_image = self.blue_square_hover
+            self.trash_icon.on_hover()
+        else:
+            self.blue_square_image = self.blue_square
+            self.trash_icon.reset_hover()
 
     def handle_category_click(self):
         mouse_pos = pygame.mouse.get_pos()
@@ -117,6 +140,9 @@ class Categories(State):
         self.update_check_position()
         self.add_box.update_position()
         self.add_modal.update_position()
+        self.delete_modal.update_position()
+        self.blue_square_rect = self.blue_square.get_rect(left=self.add_box.rect.right + 20, centery=self.add_box.rect.centery)
+        self.trash_icon.rect = self.trash_icon.image.get_rect(center=self.blue_square_rect.center)
 
     def add_click(self):
         if self.add_box.rect.collidepoint(pygame.mouse.get_pos()):
@@ -124,6 +150,17 @@ class Categories(State):
 
     def btn_click(self):
         self.back_btn.check_notify_state("menu")
+        self.delete_category_click()
+
+    def delete_category_click(self):
+        """Handle blue square click to show delete confirmation modal."""
+        if self.blue_square_rect.collidepoint(pygame.mouse.get_pos()):
+            # Find the selected category
+            for index, check in enumerate(self.answer_selector):
+                if check.get_state():
+                    category_to_delete = self.categories[index].get_title()
+                    self.delete_modal.show_modal(category_to_delete)
+                    return
 
     def check_category_click(self):
         if self.click_handled:
@@ -178,3 +215,4 @@ class Categories(State):
     def set_up_category_events(self):
         self.event_manager.subscribe("update_size", self.update_size)
         self.event_manager.subscribe("add_category", self.refresh_categories)
+        self.event_manager.subscribe("delete_category", self.refresh_categories)
