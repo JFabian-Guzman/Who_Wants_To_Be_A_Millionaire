@@ -40,7 +40,7 @@ class AddCategoryModal(pygame.sprite.Sprite):
             self.screen.blit(self.image, self.rect)
             self.elements.draw(self.screen)
             # Draw title
-            title_text = TITLE.render("Add New Category", True, COLORS["WHITE"])
+            title_text = SUB_TITLE.render("Add New Category", True, COLORS["WHITE"])
             title_rect = title_text.get_rect(center=(self.rect.centerx, self.rect.centery - 60))
             self.screen.blit(title_text, title_rect)
             self.category_input.draw()

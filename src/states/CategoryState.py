@@ -24,6 +24,10 @@ class Categories(State):
         self.setup_category_position()
         self.set_up_elements()
 
+        # Warning message state (shown briefly when an action triggers a warning)
+        self.warning = ''
+        self.warning_expire = 0
+
     def create_categories(self):
         categories = self.file_manager.get_categories()
         for i in range(len(categories)):
@@ -80,6 +84,32 @@ class Categories(State):
         self.elements.draw(self.screen)
         self.screen.blit(self.title_background, self.title_background_rect)
         self.screen.blit(self.text, self.text_rect)
+
+        # Display brief warning messages (e.g., max categories reached) in amber at top-right
+        if self.warning and pygame.time.get_ticks() < self.warning_expire:
+            # Use a slightly larger font and amber color for better visibility
+            warning_text = SUB_TITLE.render(self.warning, True, COLORS["AMBER"])
+            # Position at top-right with some padding
+            warning_rect = warning_text.get_rect(center=(self.width//2, self.height - 100))
+
+            # Background box (semi-transparent) with padding
+            bg_rect = warning_rect.inflate(24, 12)
+            bg_surf = pygame.Surface((bg_rect.width, bg_rect.height), pygame.SRCALPHA)
+            bg_surf.fill((0, 0, 0, 160))  # semi-transparent black
+            self.screen.blit(bg_surf, bg_rect.topleft)
+
+            # Amber border for contrast
+            try:
+                pygame.draw.rect(self.screen, COLORS["AMBER"], bg_rect, 2)
+            except Exception:
+                # Fallback if COLORS color format isn't accepted by draw; convert to a pygame.Color
+                pygame.draw.rect(self.screen, pygame.Color(COLORS["AMBER"]), bg_rect, 2)
+
+            # Draw the warning text on top
+            self.screen.blit(warning_text, warning_rect)
+        else:
+            self.warning = ''
+
         self.screen.blit(self.blue_square_image, self.blue_square_rect)
         self.trash_icon.draw()
 
@@ -212,7 +242,13 @@ class Categories(State):
             if self.categories[index].get_title() == actual_category:
                 check.change_state(True)
 
+    def set_warning(self, *args):
+        """Set a temporary warning message to be shown in the UI."""
+        self.warning = args[0] if args else ''
+        self.warning_expire = pygame.time.get_ticks() + 3000
+
     def set_up_category_events(self):
         self.event_manager.subscribe("update_size", self.update_size)
         self.event_manager.subscribe("add_category", self.refresh_categories)
         self.event_manager.subscribe("delete_category", self.refresh_categories)
+        self.event_manager.subscribe("warning", self.set_warning)

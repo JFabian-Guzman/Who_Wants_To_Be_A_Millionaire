@@ -23,6 +23,10 @@ MAX_LENGTH_OPTIONS = 58
 MAX_LENGTH_QUESTION = 128
 MAX_NAME_LENGTH = 20
 
+# LIMITS
+MAX_CATEGORIES = 10
+MAX_CATEGORIES_WARNING = f"You've reached the maximum number of categories ({MAX_CATEGORIES})."
+
 
 # FONT
 PRESS_START_2P = resource_path(join("assets", "fonts", "PressStart2P-Regular.ttf"));

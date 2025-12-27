@@ -38,7 +38,7 @@ class DeleteCategoryModal(pygame.sprite.Sprite):
             self.elements.draw(self.screen)
             # Draw confirmation text
             if self.category_to_delete:
-                confirmation_text = TITLE.render(
+                confirmation_text = SUB_TITLE.render(
                     f"Delete category '{self.category_to_delete}'",
                     True,
                     COLORS["WHITE"]

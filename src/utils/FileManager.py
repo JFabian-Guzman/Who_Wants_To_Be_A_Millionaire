@@ -3,6 +3,7 @@ import shutil
 import os
 import json
 from utils.PathHandler import *
+from config.settings import MAX_CATEGORIES, MAX_CATEGORIES_WARNING
 
 class FileManager():
   def __init__(self, event_manager):
@@ -211,6 +212,14 @@ class FileManager():
       if category.get("category") == category_name:
         print(f"Error: Category '{category_name}' already exists.")
         return
+
+    # Check max categories
+    if len(categories_data) >= MAX_CATEGORIES:
+      try:
+        self.event_manager.notify("warning", MAX_CATEGORIES_WARNING)
+      except Exception:
+        pass
+      return
     
     # Find the next ID
     last_id = max((cat.get("id", 0) for cat in categories_data), default=0)
