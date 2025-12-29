@@ -16,6 +16,7 @@ class Option(pygame.sprite.Sprite):
     self.is_wrong = False
     self.is_menu = False
     self.text = text
+    self.text_lines = []  # Initialize text_lines list
     self.menu_sound = pygame.mixer.Sound(resource_path(join("assets", "sounds" ,"option_selected.mp3")))
     self.menu_sound.set_volume(.5)
     self.error_sound = pygame.mixer.Sound(resource_path(join("assets", "sounds" ,"error.mp3")))
@@ -52,7 +53,9 @@ class Option(pygame.sprite.Sprite):
     return "\n".join(wrapped_lines)
 
   def update(self):
-    self.screen.blit(self.text_obj, self.text_rect)
+    # Draw multiline text
+    for line_surface, line_rect in self.text_lines:
+      self.screen.blit(line_surface, line_rect)
     if self.run_animation:
       if self.is_wrong:
         self.animate_wrong_answer()
@@ -79,7 +82,19 @@ class Option(pygame.sprite.Sprite):
     self.rect = self.image.get_rect(center = position)
     self.display_text = self.wrap_text()
     
-    self.text_obj = TEXT.render(self.display_text, True, COLORS["WHITE"])
+    # Handle multiline option text properly
+    text_lines = self.display_text.split('\n')
+    self.text_lines = []
+    line_height = TEXT.get_height()
+    start_y = self.rect.centery - (len(text_lines) - 1) * line_height // 2
+    for i, line in enumerate(text_lines):
+      if line.strip():
+        rendered_line = TEXT.render(line, True, COLORS["WHITE"])
+        rect = rendered_line.get_rect(center=(self.rect.centerx, start_y + i * (line_height + 2)))
+        self.text_lines.append((rendered_line, rect))
+    
+    # Keep the old text_obj for backward compatibility with any code that might reference it
+    self.text_obj = TEXT.render(self.display_text.replace('\n', ' '), True, COLORS["WHITE"])
     self.text_rect = self.text_obj.get_rect(center = self.rect.center)
   
   def on_hover(self):
@@ -123,7 +138,20 @@ class Option(pygame.sprite.Sprite):
   def set_title(self,text):
     self.text = text
     self.display_text = self.wrap_text()
-    self.text_obj = TEXT.render(self.display_text, True, COLORS["WHITE"])
+    
+    # Handle multiline option text properly
+    text_lines = self.display_text.split('\n')
+    self.text_lines = []
+    line_height = TEXT.get_height()
+    start_y = self.rect.centery - (len(text_lines) - 1) * line_height // 2
+    for i, line in enumerate(text_lines):
+      if line.strip():
+        rendered_line = TEXT.render(line, True, COLORS["WHITE"])
+        rect = rendered_line.get_rect(center=(self.rect.centerx, start_y + i * (line_height + 2)))
+        self.text_lines.append((rendered_line, rect))
+    
+    # Keep the old text_obj for backward compatibility
+    self.text_obj = TEXT.render(self.display_text.replace('\n', ' '), True, COLORS["WHITE"])
     self.text_rect = self.text_obj.get_rect(center = self.rect.center)
 
 

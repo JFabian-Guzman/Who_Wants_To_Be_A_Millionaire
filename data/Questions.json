@@ -10,7 +10,7 @@
             "The exclusive traditions of one individual in a community"
         ],
         "level": 0,
-        "category": "Culture",
+        "category": "CULTURE",
         "active": "false"
     },
     {
@@ -24,7 +24,7 @@
             "has a specific group size"
         ],
         "level": 1,
-        "category": "Culture",
+        "category": "CULTURE",
         "active": "false"
     },
     {
@@ -38,7 +38,7 @@
             "A group of people working on a common project"
         ],
         "level": 2,
-        "category": "Culture",
+        "category": "CULTURE",
         "active": "true"
     },
     {
@@ -52,7 +52,7 @@
             "Watching TV every night"
         ],
         "level": 3,
-        "category": "Culture",
+        "category": "CULTURE",
         "active": "false"
     },
     {
@@ -66,7 +66,7 @@
             "Buenas noches."
         ],
         "level": 4,
-        "category": "Culture",
+        "category": "CULTURE",
         "active": "false"
     },
     {
@@ -80,7 +80,7 @@
             "People from different countries living apart"
         ],
         "level": 5,
-        "category": "Culture",
+        "category": "CULTURE",
         "active": "false"
     },
     {
@@ -94,7 +94,7 @@
             "determines your country of birth"
         ],
         "level": 6,
-        "category": "Culture",
+        "category": "CULTURE",
         "active": "false"
     },
     {
@@ -108,7 +108,7 @@
             "has no effect on traditions or customs"
         ],
         "level": 7,
-        "category": "Culture",
+        "category": "CULTURE",
         "active": "false"
     },
     {
@@ -122,7 +122,7 @@
             "A random group of people in one place"
         ],
         "level": 8,
-        "category": "Culture",
+        "category": "CULTURE",
         "active": "false"
     },
     {
@@ -136,7 +136,7 @@
             "Portuguese"
         ],
         "level": 9,
-        "category": "Culture",
+        "category": "CULTURE",
         "active": "false"
     },
     {
@@ -150,7 +150,7 @@
             "are only enjoyed by individuals, not groups"
         ],
         "level": 10,
-        "category": "Culture",
+        "category": "CULTURE",
         "active": "false"
     },
     {
@@ -164,7 +164,7 @@
             "inviting everyone to join"
         ],
         "level": 11,
-        "category": "Culture",
+        "category": "CULTURE",
         "active": "false"
     },
     {
@@ -178,7 +178,7 @@
             "prevents teamwork"
         ],
         "level": 12,
-        "category": "Culture",
+        "category": "CULTURE",
         "active": "false"
     },
     {
@@ -192,7 +192,7 @@
             "A type of music genre"
         ],
         "level": 13,
-        "category": "Culture",
+        "category": "CULTURE",
         "active": "false"
     },
     {
@@ -206,7 +206,7 @@
             "represents random ideas"
         ],
         "level": 14,
-        "category": "Culture",
+        "category": "CULTURE",
         "active": "false"
     },
     {
@@ -220,7 +220,7 @@
             "are unimportant to cultural identity"
         ],
         "level": 0,
-        "category": "Culture",
+        "category": "CULTURE",
         "active": "true"
     },
     {
@@ -234,7 +234,7 @@
             "represents individual preferences only"
         ],
         "level": 1,
-        "category": "Culture",
+        "category": "CULTURE",
         "active": "true"
     },
     {
@@ -248,7 +248,7 @@
             "positive representations of a culture"
         ],
         "level": 2,
-        "category": "Culture",
+        "category": "CULTURE",
         "active": "false"
     },
     {
@@ -262,7 +262,7 @@
             "Drums"
         ],
         "level": 3,
-        "category": "Culture",
+        "category": "CULTURE",
         "active": "false"
     },
     {
@@ -276,7 +276,7 @@
             "January 1"
         ],
         "level": 4,
-        "category": "Culture",
+        "category": "CULTURE",
         "active": "false"
     },
     {
@@ -290,7 +290,7 @@
             "Rose"
         ],
         "level": 5,
-        "category": "Culture",
+        "category": "CULTURE",
         "active": "false"
     }
 ]

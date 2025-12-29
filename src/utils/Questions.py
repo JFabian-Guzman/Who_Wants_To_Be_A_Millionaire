@@ -14,16 +14,27 @@ class Question(pygame.sprite.Sprite):
     self.screen = pygame.display.get_surface()
     self.event_manager = event_manager
     self.title = ''
+    self.text_lines = []  # Initialize as list for multiline text
     self.text = TEXT.render(self.title, True, COLORS["WHITE"])
     self.text_rect = self.text.get_rect(center = self.rect.center)
-
-  def update(self):
-    self.screen.blit(self.text, self.text_rect)
-    self.display_question()
 
   def display_question(self):
-    self.text = TEXT.render(self.title, True, COLORS["WHITE"])
-    self.text_rect = self.text.get_rect(center = self.rect.center)
+    # Handle multiline question text properly
+    text_lines = self.title.split('\n')
+    self.text_lines = []
+    line_height = TEXT.get_height()
+    start_y = self.rect.centery - (len(text_lines) - 1) * line_height // 2
+    for i, line in enumerate(text_lines):
+      if line.strip():
+        rendered_line = TEXT.render(line, True, COLORS["WHITE"])
+        rect = rendered_line.get_rect(center=(self.rect.centerx, start_y + i * (line_height + 2)))
+        self.text_lines.append((rendered_line, rect))
+
+  def update(self):
+    self.display_question()
+    # Draw multiline text
+    for line_surface, line_rect in self.text_lines:
+      self.screen.blit(line_surface, line_rect)
 
   def wrap_text(self, text):
     max_width = 68  # for 'option' text
