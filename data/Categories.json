@@ -18,5 +18,15 @@
     "id": 4,
     "category": "Sports",
     "selected": false
+  },
+  {
+    "id": 5,
+    "category": "POP",
+    "selected": false
+  },
+  {
+    "id": 5,
+    "category": "lol",
+    "selected": false
   }
 ]

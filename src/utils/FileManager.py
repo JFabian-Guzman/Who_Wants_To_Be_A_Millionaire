@@ -3,7 +3,7 @@ import shutil
 import os
 import json
 from utils.PathHandler import *
-from config.settings import MAX_CATEGORIES, MAX_CATEGORIES_WARNING
+from config.settings import MAX_CATEGORIES, MAX_CATEGORIES_WARNING, MAX_CATEGORY_LENGTH, MAX_CATEGORY_LENGTH_WARNING
 
 class FileManager():
   def __init__(self, event_manager):
@@ -28,9 +28,11 @@ class FileManager():
       shutil.copy(quesitons_data, self.questions_file)
 
   def load_data(self, *args):
+    print("load data")
     if isfile(self.categories_file):
       with open(self.categories_file, "r", encoding="utf-8") as file:
         data_file = json.load(file)
+        self.categories = []
         for categorie in data_file:
           self.categories.append(categorie)
     if isfile(self.questions_file):
@@ -191,12 +193,25 @@ class FileManager():
     except Exception as e:
       print("Error saving categories file:", e)
 
+
+  def _normalize(self, s):
+      if s is None:
+        return ""
+      return ''.join(str(s).split())
+
   def add_category(self, *args):
-    """Add a new category to the categories file.
-    Expects args[0] to be the category name (string).
-    """
-    category_name = args[0]
-    
+    raw_input = args[0]
+    # collapse whitespace/newlines and trim
+    clean = ' '.join(str(raw_input).split())
+    # enforce max length
+    if len(clean) > MAX_CATEGORY_LENGTH:
+      try:
+        self.event_manager.notify("warning", MAX_CATEGORY_LENGTH_WARNING)
+      except Exception:
+        print(MAX_CATEGORY_LENGTH_WARNING)
+      return
+    category_name = clean.upper()
+
     try:
       with open(self.categories_file, "r", encoding="utf-8") as file:
         try:
@@ -243,10 +258,8 @@ class FileManager():
       print(f"Error saving category to file: {e}")
 
   def delete_category(self, *args):
-    """Delete a category from the categories file.
-    Expects args[0] to be the category name (string).
-    """
     category_name = args[0]
+    target_norm = self._normalize(category_name)
     
     try:
       with open(self.categories_file, "r", encoding="utf-8") as file:
@@ -258,25 +271,17 @@ class FileManager():
     except FileNotFoundError:
       print("Error: Categories file not found.")
       return
-    
-    # Check if the category to delete was selected
-    was_selected = any(cat.get("selected", False) for cat in categories_data if cat.get("category") == category_name)
-    
-    # Search and delete category by name
-    initial_length = len(categories_data)
-    categories_data = [cat for cat in categories_data if cat.get("category") != category_name]
-    
-    if len(categories_data) == initial_length:
-      print(f"Error: Category '{category_name}' not found.")
-      return
-    
+
     try:
       with open(self.categories_file, "w", encoding="utf-8") as file:
         json.dump(categories_data, file, indent=2, ensure_ascii=False)
-      # Update in-memory categories list
-      self.categories = [cat for cat in self.categories if cat.get("category") != category_name]
+      # Update in-memory categories list (use trimmed comparison)
+      self.categories = [
+        cat for cat in self.categories
+        if self._normalize(cat.get("category", "")) != target_norm
+      ]
       # If the deleted category was selected, select the first remaining category
-      if was_selected and self.categories:
+      if self.categories:
         self.categories[0]["selected"] = True
         # Update the file with the new selection
         with open(self.categories_file, "w", encoding="utf-8") as file:

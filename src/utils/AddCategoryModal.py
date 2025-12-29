@@ -47,10 +47,10 @@ class AddCategoryModal(pygame.sprite.Sprite):
 
     def update(self):
       if self.display:
-          self.elements.update()
-          self.update_cursor_state()
-          self.check_click()
-          self.category_input.update()
+        self.elements.update()
+        self.update_cursor_state()
+        self.check_click()
+        self.category_input.update()
 
     def show_modal(self):
         self.display = True
