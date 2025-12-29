@@ -1,32 +1,22 @@
 [
   {
     "id": 1,
-    "category": "Culture",
+    "category": "CULTURE",
     "selected": true
   },
   {
     "id": 2,
-    "category": "Science",
+    "category": "SCIENCE",
     "selected": false
   },
   {
     "id": 3,
-    "category": "History",
+    "category": "HISTORY",
     "selected": false
   },
   {
     "id": 4,
-    "category": "Sports",
-    "selected": false
-  },
-  {
-    "id": 5,
-    "category": "POP",
-    "selected": false
-  },
-  {
-    "id": 5,
-    "category": "lol",
+    "category": "SPORTS",
     "selected": false
   }
 ]

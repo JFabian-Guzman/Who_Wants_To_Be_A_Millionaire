@@ -20,7 +20,7 @@ class Instructions(State):
 
     def setup_positions(self, box_rect):
         self.title_position = (box_rect.centerx, box_rect.top + 50)
-        self.instruction_position = (box_rect.centerx, box_rect.centery - 20)
+        self.instruction_position = (box_rect.centerx, box_rect.centery - 100)
         self.right_btn_pos = (box_rect.right - 150, box_rect.bottom - 75)
         self.mid_btn_pos = (box_rect.centerx, box_rect.bottom - 75)
         self.left_btn_pos = (box_rect.left + 150, box_rect.bottom - 75)
