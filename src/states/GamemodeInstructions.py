@@ -46,17 +46,23 @@ class GamemodeInstrucitions(State):
         self.title = TITLE.render("Gamemode", True, COLORS["AMBER"])
         self.title_rect = self.title.get_rect(center=self.title_position)
 
-        self.practice_text = TEXT.render(GAMEMODES_INSTRUCTIONS["PRACTICE"], True, COLORS["WHITE"])
-        self.practice_rect = self.practice_text.get_rect(midleft=self.practice_text_position)
-
-        self.easy_text = TEXT.render(GAMEMODES_INSTRUCTIONS["EASY"], True, COLORS["WHITE"])
-        self.easy_rect = self.easy_text.get_rect(midleft=self.easy_text_position)
-
-        self.normal_text = TEXT.render(GAMEMODES_INSTRUCTIONS["NORMAL"], True, COLORS["WHITE"])
-        self.normal_rect = self.normal_text.get_rect(midleft=self.normal_text_position)
-
-        self.hard_text = TEXT.render(GAMEMODES_INSTRUCTIONS["HARD"], True, COLORS["WHITE"])
-        self.hard_rect = self.hard_text.get_rect(midleft=self.hard_text_position)
+        # Handle multiline texts
+        self.text_lines = {}
+        gamemode_texts = {
+            "practice": (GAMEMODES_INSTRUCTIONS["PRACTICE"], self.practice_text_position),
+            "easy": (GAMEMODES_INSTRUCTIONS["EASY"], self.easy_text_position),
+            "normal": (GAMEMODES_INSTRUCTIONS["NORMAL"], self.normal_text_position),
+            "hard": (GAMEMODES_INSTRUCTIONS["HARD"], self.hard_text_position)
+        }
+        line_height = TEXT.get_height()
+        for key, (text, position) in gamemode_texts.items():
+            lines = text.strip().split('\n')
+            self.text_lines[key] = []
+            for i, line in enumerate(lines):
+                if line.strip():
+                    rendered_line = TEXT.render(line.strip(), True, COLORS["WHITE"])
+                    rect = rendered_line.get_rect(midleft=(position[0], position[1] + i * (line_height + 2)))
+                    self.text_lines[key].append((rendered_line, rect))
 
 
     def set_up_difficulty_options(self):
@@ -72,10 +78,9 @@ class GamemodeInstrucitions(State):
     def draw(self):
         self.elements.draw(self.screen)
         self.screen.blit(self.title, self.title_rect)
-        self.screen.blit(self.practice_text, self.practice_rect)
-        self.screen.blit(self.easy_text, self.easy_rect)
-        self.screen.blit(self.normal_text, self.normal_rect)
-        self.screen.blit(self.hard_text, self.hard_rect)
+        for key in self.text_lines:
+            for line_surface, line_rect in self.text_lines[key]:
+                self.screen.blit(line_surface, line_rect)
 
     def update(self):
         self.elements.update()

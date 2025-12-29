@@ -94,10 +94,7 @@ LIFELINE_INSTRUCTIONS = {
 DEVELOPER = "José Fabián Guzmán González"
 
 CONTRIBUTORS = """
-Universidad De Costa Rica
-
-
-Escuela de Lenguas Modernas
+Universidad De Costa Rica\n\n\nEscuela de Lenguas Modernas
 
 
 TCU 658 UCR

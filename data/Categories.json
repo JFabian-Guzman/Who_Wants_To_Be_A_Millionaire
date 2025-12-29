@@ -18,20 +18,5 @@
     "id": 4,
     "category": "Sports",
     "selected": false
-  },
-  {
-    "id": 2,
-    "category": "Science",
-    "selected": false
-  },
-  {
-    "id": 3,
-    "category": "History",
-    "selected": false
-  },
-  {
-    "id": 4,
-    "category": "Sports",
-    "selected": false
   }
 ]

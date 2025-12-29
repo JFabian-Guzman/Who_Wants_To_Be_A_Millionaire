@@ -35,19 +35,41 @@ class CrudBox(pygame.sprite.Sprite):
         wrap_answer = answer
 
         self.question = SMALL_TEXT.render("Question: " + wrap_question, True, COLORS["WHITE"])
-        self.question_rect = self.question.get_rect(midleft=(self.rect.midleft[0] + 20, self.rect.midleft[1] - 45))
+        # Handle multiline question text
+        question_text = "Question: " + wrap_question
+        question_lines = question_text.strip().split('\n')
+        self.question_lines = []
+        line_height = SMALL_TEXT.get_height()
+        start_y = self.rect.midleft[1] - 45
+        for i, line in enumerate(question_lines):
+          if line.strip():
+            rendered_line = SMALL_TEXT.render(line.strip(), True, COLORS["WHITE"])
+            rect = rendered_line.get_rect(midleft=(self.rect.midleft[0] + 20, start_y + i * (line_height + 2)))
+            self.question_lines.append((rendered_line, rect))
         self.options_title = SMALL_TEXT.render("Options:", True, COLORS["WHITE"])
         self.options_title_rect = self.options_title.get_rect(midleft=(self.rect.midleft[0] + 20, self.rect.midleft[1] - 25)  )
         self.options = TINY_TEXT.render("[" + wrap_options[0] + "," + wrap_options[1] + "\n\n" + wrap_options[2] + "," + wrap_options[3] + "]", True, COLORS["WHITE"])
-        self.options_rect = self.options.get_rect(midleft=(self.rect.midleft[0] + 20, self.rect.midleft[1] + 5)  )
+        # Handle multiline options text
+        options_text = "[" + wrap_options[0] + "," + wrap_options[1] + "\n\n" + wrap_options[2] + "," + wrap_options[3] + "]"
+        options_lines = options_text.strip().split('\n')
+        self.options_lines = []
+        line_height = TINY_TEXT.get_height()
+        start_y = self.rect.midleft[1] + 5
+        for i, line in enumerate(options_lines):
+          if line.strip():
+            rendered_line = TINY_TEXT.render(line.strip(), True, COLORS["WHITE"])
+            rect = rendered_line.get_rect(midleft=(self.rect.midleft[0] + 20, start_y + i * (line_height + 2)))
+            self.options_lines.append((rendered_line, rect))
         self.answer = SMALL_TEXT.render("Answer: " + wrap_answer, True, COLORS["WHITE"])
         self.answer_rect = self.answer.get_rect(midleft=(self.rect.midleft[0] + 20, self.rect.midleft[1] + 45))
 
     def draw(self):
         self.screen.blit(self.image, self.rect)
-        self.screen.blit(self.question, self.question_rect)
+        for line_surface, line_rect in self.question_lines:
+            self.screen.blit(line_surface, line_rect)
         self.screen.blit(self.options_title, self.options_title_rect)
-        self.screen.blit(self.options, self.options_rect)
+        for line_surface, line_rect in self.options_lines:
+            self.screen.blit(line_surface, line_rect)
         self.screen.blit(self.answer, self.answer_rect)
         self.pencil_icon.draw()
         self.trash_icon.draw()

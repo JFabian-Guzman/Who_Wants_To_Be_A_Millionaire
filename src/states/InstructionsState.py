@@ -29,8 +29,16 @@ class Instructions(State):
         self.title = TITLE.render("Instructions", True, COLORS["AMBER"])
         self.title_rect = self.title.get_rect(center=self.title_position)
 
-        self.instructions = TEXT.render(INSTRUCTIONS, True, COLORS["WHITE"])
-        self.instructions_rect = self.instructions.get_rect(center=self.instruction_position)
+        # Handle multiline instructions
+        self.instruction_lines = []
+        instructions_lines = INSTRUCTIONS.strip().split('\n')
+        line_height = TEXT.get_height()
+        start_y = self.instruction_position[1] - (len([line for line in instructions_lines if line.strip()]) - 1) * line_height // 2
+        for i, line in enumerate(instructions_lines):
+            if line.strip():
+                rendered_line = TEXT.render(line.strip(), True, COLORS["WHITE"])
+                rect = rendered_line.get_rect(center=(self.instruction_position[0], start_y + i * (line_height + 2)))
+                self.instruction_lines.append((rendered_line, rect))
 
     def setup_buttons(self):
         self.continue_btn = Button(None, self.right_btn_pos , self.event_manager)
@@ -51,7 +59,8 @@ class Instructions(State):
     def draw(self):
         self.elements.draw(self.screen)
         self.screen.blit(self.title, self.title_rect)
-        self.screen.blit(self.instructions, self.instructions_rect)
+        for line_surface, line_rect in self.instruction_lines:
+            self.screen.blit(line_surface, line_rect)
         if self.display_continue:
             self.continue_btn.draw()
             self.continue_btn.update()

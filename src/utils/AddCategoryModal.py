@@ -70,6 +70,7 @@ class AddCategoryModal(pygame.sprite.Sprite):
                 if self.yes_btn.get_rect().collidepoint(pygame.mouse.get_pos()):
                     category = self.category_input.get_input_text()
                     self.event_manager.notify("add_category", category)
+                    self.category_input.clear()
                     self.hide_modal()
                 self.click_handled = True
         else:
@@ -77,7 +78,6 @@ class AddCategoryModal(pygame.sprite.Sprite):
 
     def check_input_click(self):
         if self.category_input.rect.collidepoint(pygame.mouse.get_pos()):
-            print("HOLA")
             self.category_input.toggle_active(True)
         else:
             self.category_input.toggle_active(False)

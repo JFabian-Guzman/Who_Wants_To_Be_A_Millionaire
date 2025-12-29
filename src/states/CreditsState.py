@@ -27,8 +27,15 @@ class Credits(State):
             (SUB_TITLE.render("Developer", True, COLORS["AMBER"]), self.sub_title_1_position),
             (SUB_TITLE.render("Contributors", True, COLORS["AMBER"]), self.sub_title_2_position),
             (TEXT.render(DEVELOPER, True, COLORS["WHITE"]), self.text_1_position),
-            (TEXT.render(CONTRIBUTORS, True, COLORS["WHITE"]), self.text_2_position)
         ]
+        # Handle multiline contributors text
+        contributors_lines = CONTRIBUTORS.strip().split('\n')
+        line_height = TEXT.get_height()
+        for i, line in enumerate(contributors_lines):
+            if line.strip():  # Skip empty lines
+                rendered_line = TEXT.render(line.strip(), True, COLORS["WHITE"])
+                position = (self.text_2_position[0], self.text_2_position[1] + i * (line_height + 5))
+                self.text_elements.append((rendered_line, position))
 
     def setup_buttons(self,  box_rect):
         self.back_btn = Button(self.elements, self.left_btn_pos , self.event_manager, 'negative_btn', 'Go Back', 'WHITE')

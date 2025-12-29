@@ -259,6 +259,9 @@ class FileManager():
       print("Error: Categories file not found.")
       return
     
+    # Check if the category to delete was selected
+    was_selected = any(cat.get("selected", False) for cat in categories_data if cat.get("category") == category_name)
+    
     # Search and delete category by name
     initial_length = len(categories_data)
     categories_data = [cat for cat in categories_data if cat.get("category") != category_name]
@@ -272,6 +275,12 @@ class FileManager():
         json.dump(categories_data, file, indent=2, ensure_ascii=False)
       # Update in-memory categories list
       self.categories = [cat for cat in self.categories if cat.get("category") != category_name]
+      # If the deleted category was selected, select the first remaining category
+      if was_selected and self.categories:
+        self.categories[0]["selected"] = True
+        # Update the file with the new selection
+        with open(self.categories_file, "w", encoding="utf-8") as file:
+          json.dump(self.categories, file, indent=2, ensure_ascii=False)
     except Exception as e:
       print(f"Error deleting category from file: {e}")
 

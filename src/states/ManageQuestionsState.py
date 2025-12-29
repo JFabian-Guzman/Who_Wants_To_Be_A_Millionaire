@@ -16,7 +16,17 @@ class ManageQuestions(State):
 
   def set_up_text(self):
     self.title_background = pygame.image.load(resource_path(join("assets", "img", "score.png"))).convert_alpha()
-    self.title = TITLE.render(" Question Manager\n Levels - " + self.category, True, COLORS["BLACK"])
+    # Handle multiline title
+    title_text = " Question Manager\n Levels - " + self.category
+    title_lines = title_text.strip().split('\n')
+    self.title_lines = []
+    line_height = TITLE.get_height()
+    start_y = 75 - (len(title_lines) - 1) * line_height // 2
+    for i, line in enumerate(title_lines):
+      if line.strip():
+        rendered_line = TITLE.render(line.strip(), True, COLORS["BLACK"])
+        rect = rendered_line.get_rect(center=(self.width//2, start_y + i * (line_height + 2)))
+        self.title_lines.append((rendered_line, rect))
 
   def set_up_elements(self):
     self.back_btn = Button(self.elements, self.left_btn_pos , self.event_manager, 'negative_btn', 'Go Back', 'WHITE')
@@ -33,7 +43,6 @@ class ManageQuestions(State):
   def set_up_positions(self):
     self.left_btn_pos = (self.width//2 - 350, 75)
     self.title_background_rect = self.title_background.get_rect(center=(self.width//2, 75))
-    self.title_rect = self.title.get_rect(center=self.title_background_rect.center)
 
   def update_level_positions(self):
     # Calculate grid dimensions
@@ -59,7 +68,8 @@ class ManageQuestions(State):
   def draw(self):
     self.elements.draw(self.screen)
     self.screen.blit(self.title_background, self.title_background_rect)
-    self.screen.blit(self.title, self.title_rect)
+    for line_surface, line_rect in self.title_lines:
+      self.screen.blit(line_surface, line_rect)
 
   def update(self):
     self.set_up_text()

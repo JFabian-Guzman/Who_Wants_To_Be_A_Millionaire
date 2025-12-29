@@ -63,6 +63,9 @@ class TextInput:
     def set_text(self, text):
         self.input = text
 
+    def clear(self):
+        self.input = ""
+
     def get_input_text(self):
         return self.input
     
