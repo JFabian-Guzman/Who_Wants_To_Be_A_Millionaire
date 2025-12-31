@@ -195,14 +195,15 @@ class Edit(State):
 
     def set_data(self, *args):
         data = args[0]
-        self.inputs[0].set_text(data[0])
-        options = data[1].split(',')
-        for i in range(4):
-            option = options[i].strip()
-            self.inputs[i + 1].set_text(option)
-            if option == data[2]:
-                self.answer_selector[i].change_state(True)
+        question = data[0]
+        options = data[1]
+        answer = data[2]
+        self.inputs[0].set_text(question)
         self.id = data[3]
+        for i, option in enumerate(options):
+            self.inputs[i + 1].set_text(option.strip())
+            if option == answer:
+                self.answer_selector[i].change_state(True)
 
     def update_size(self, *args):
         self.screen = pygame.display.get_surface()
