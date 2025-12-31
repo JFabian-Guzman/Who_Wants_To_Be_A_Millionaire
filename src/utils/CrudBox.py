@@ -31,7 +31,6 @@ class CrudBox(pygame.sprite.Sprite):
 
     def setup_text_elements(self, question, options, answer):
         wrap_question =  self.wrap_text(question)
-        wrap_options = options.split(",")
         wrap_answer = answer
 
         self.question = SMALL_TEXT.render("Question: " + wrap_question, True, COLORS["WHITE"])
@@ -50,7 +49,7 @@ class CrudBox(pygame.sprite.Sprite):
         self.options_title_rect = self.options_title.get_rect(midleft=(self.rect.midleft[0] + 20, self.rect.midleft[1] - 25)  )
         # Handle multiline options text - display each option on its own line
         options_lines = []
-        for i, option in enumerate(wrap_options):
+        for i, option in enumerate(options):
             options_lines.append(f"{chr(65 + i)}. {option.strip()}")
         self.options_lines = []
         line_height = TINY_TEXT.get_height()

@@ -132,7 +132,7 @@ class Questions(State):
         last_question_i = first_question_i + 3 if self.page_number < self.full_pages else first_question_i + self.remaining_questions
         for i in range(first_question_i, last_question_i):
             question = self.filtered_data[i]["question"]
-            options = ", ".join(self.filtered_data[i]["options"])
+            options = self.filtered_data[i]["options"]
             answer = self.filtered_data[i]["answer"]
             id = self.filtered_data[i]["id"]
             box = CrudBox(question, options, answer, id, (self.width // 2, (self.height // 2 - 150) + (150 * (i - first_question_i))), self.event_manager, self.elements)
