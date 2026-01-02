@@ -176,10 +176,24 @@ class FileManager():
         return category["category"]
 
   def get_last_level(self):
+    level_count = 0
+    selected_category = self.get_selected_category()
+    if not selected_category:
+      # If no category selected, use all questions
+      for level in range(len(self.data)):
+        if self.data[level]:  
+          level_count += 1
+      return level_count
+    
+    # Filter questions by selected category and find last level
     for level in range(len(self.data)):
-        if not self.data[level]:  
-            return level if level > 0 else 0
-    return len(self.data)
+      has_questions_in_category = any(
+        self._normalize(question.get("category", "")) == self._normalize(selected_category)
+        for question in self.data[level]
+      )
+      if has_questions_in_category:
+        level_count += 1
+    return level_count
   
   def set_category(self, new_category):
     for category in self.categories:
@@ -194,10 +208,16 @@ class FileManager():
       print("Error saving categories file:", e)
 
 
-  def _normalize(self, s):
-      if s is None:
-        return ""
-      return ''.join(str(s).split())
+  def _normalize(self,text):
+      return (
+            text
+            .lower()
+            .replace("-", "")
+            .replace("\n", "")
+            .replace("\r", "")
+            .replace(" ","")
+            .strip()
+        )
 
   def add_category(self, *args):
     raw_input = args[0]

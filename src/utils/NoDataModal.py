@@ -4,7 +4,7 @@ from utils.Button import *
 from utils.PathHandler import *
 
 class NoData(pygame.sprite.Sprite):
-    def __init__(self, event_manager):
+    def __init__(self, event_manager, message="No questions found"):
         super().__init__()
         self.elements = pygame.sprite.Group()
         self.screen = pygame.display.get_surface()
@@ -16,6 +16,7 @@ class NoData(pygame.sprite.Sprite):
         self.click_handled = True
         self.event_manager = event_manager
         self.interactive_elements = []
+        self.message = message
 
         self.back_btn = Button(self.elements, (self.rect.left + 125, self.rect.bottom - 55), event_manager, 'negative_btn', 'Go Back', 'WHITE')
 
@@ -34,7 +35,6 @@ class NoData(pygame.sprite.Sprite):
         self.update_cursor_state()
 
     def update_text(self):
-        self.message = f"No questions found"
         self.text = TEXT.render(self.message, True, COLORS["WHITE"])
         self.text_rect = self.text.get_rect(center=self.rect.center)
 

@@ -34,6 +34,7 @@ class Play(State):
         self.active_shield = False
         self.practice_mode = False
         self.animating = False
+        self.insufficient_levels = False
         self.answer = ""
         self.difficulty = ""
         self.question = ""
@@ -104,9 +105,18 @@ class Play(State):
 
     def get_last_level(self):
         self.last_level = self.file_manager.get_last_level()
+        self.insufficient_levels = self.last_level < 15
+        self.update_no_data_message()
+
+    def update_no_data_message(self):
+        if self.insufficient_levels:
+            self.no_data_warning.message = f"Not enough questions. Need 15 levels, only have {self.last_level}"
+        else:
+            self.no_data_warning.message = "No questions found"
+        self.no_data_warning.update_text()
 
     def draw(self):
-        if self.number_questions > 0:
+        if self.number_questions > 0 and not self.insufficient_levels:
             self.elements.draw(self.screen)
             self.draw_lifelines()
             self.draw_hearts()
@@ -125,7 +135,7 @@ class Play(State):
             self.hearts[i].draw()
 
     def update(self):
-        if self.number_questions > 0:
+        if self.number_questions > 0 and not self.insufficient_levels:
             self.elements.update() 
             self.clock.update_time()    
             if self.display_modal:
@@ -192,7 +202,6 @@ class Play(State):
     def change_question(self, *args):
         found = self.get_question_by_id()
         if(not found):
-            print("Random generated")
             self.generate_random_index()
         self.update_display_data()
         self.shuffle_options()
