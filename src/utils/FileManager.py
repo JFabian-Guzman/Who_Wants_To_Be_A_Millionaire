@@ -272,14 +272,20 @@ class FileManager():
       print("Error: Categories file not found.")
       return
 
+    # Filter categories data
+    filtered_categories = [
+      cat for cat in categories_data
+      if self._normalize(cat.get("category", "")) != target_norm
+    ]
+
     try:
+      # Save filtered categories
       with open(self.categories_file, "w", encoding="utf-8") as file:
-        json.dump(categories_data, file, indent=2, ensure_ascii=False)
-      # Update in-memory categories list (use trimmed comparison)
-      self.categories = [
-        cat for cat in self.categories
-        if self._normalize(cat.get("category", "")) != target_norm
-      ]
+        json.dump(filtered_categories, file, indent=2, ensure_ascii=False)
+      
+      # Update in-memory categories list
+      self.categories = filtered_categories
+      
       # If the deleted category was selected, select the first remaining category
       if self.categories:
         self.categories[0]["selected"] = True
@@ -288,6 +294,46 @@ class FileManager():
           json.dump(self.categories, file, indent=2, ensure_ascii=False)
     except Exception as e:
       print(f"Error deleting category from file: {e}")
+      return
+
+    # Now delete related questions
+    self.delete_questions_by_category(category_name)
+
+  def delete_questions_by_category(self, category):
+    target_norm = self._normalize(category)
+    
+    # Load questions
+    try:
+      with open(self.questions_file, "r", encoding="utf-8") as file:
+        try:
+          questions_data = json.load(file)
+        except json.JSONDecodeError:
+          print("Error: Questions file is corrupted.")
+          return False
+    except FileNotFoundError:
+      print("Error: Questions file not found.")
+      return False
+
+    # Filter out questions with the deleted category
+    filtered_questions = [
+      q for q in questions_data
+      if self._normalize(q.get("category", "")) != target_norm
+    ]
+
+    try:
+      # Save filtered questions
+      with open(self.questions_file, "w", encoding="utf-8") as file:
+        json.dump(filtered_questions, file, indent=4, ensure_ascii=False)
+      
+      # Update in-memory data structure
+      self.data = [[] for row in range(15)]
+      for data in filtered_questions:
+        self.data[data["level"]].append(data)
+        
+      return True
+    except Exception as e:
+      print(f"Error deleting questions from file: {e}")
+      return False
 
   def check_selected_question(self, *args):
     """Search for a question with the given id in the questions file.

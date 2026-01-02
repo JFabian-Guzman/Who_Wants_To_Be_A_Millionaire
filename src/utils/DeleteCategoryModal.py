@@ -44,19 +44,23 @@ class DeleteCategoryModal(pygame.sprite.Sprite):
                     COLORS["WHITE"]
                 )
                 text_rect = confirmation_text.get_rect(
-                    center=(self.rect.centerx, self.rect.centery - 35)
+                    center=(self.rect.centerx, self.rect.centery - 45)
                 )
                 self.screen.blit(confirmation_text, text_rect)
 
-                warning_text = TEXT.render(
-                    "This action cannot be undone. Are you sure you want to continue?",
-                    True,
-                    COLORS["WHITE"]
-                )
-                warning_rect = warning_text.get_rect(
-                    center=(self.rect.centerx, self.rect.centery + 15)
-                )
-                self.screen.blit(warning_text, warning_rect)
+                # Warning text - split into multiple lines for better readability
+                warning_lines = [
+                    "This will permanently delete ALL questions",
+                    "associated with this category.",
+                    "This action cannot be undone."
+                ]
+                
+                for i, line in enumerate(warning_lines):
+                    warning_text = TEXT.render(line, True, COLORS["WHITE"])
+                    warning_rect = warning_text.get_rect(
+                        center=(self.rect.centerx, self.rect.centery - 10 + i * 20)
+                    )
+                    self.screen.blit(warning_text, warning_rect)
 
     def update(self):
       if self.display:
