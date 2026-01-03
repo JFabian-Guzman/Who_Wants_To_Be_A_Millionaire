@@ -219,10 +219,12 @@ class Add(State):
     def update_size(self, *args):
         self.screen = pygame.display.get_surface()
         self.width, self.height = self.screen.get_size()
+        # Recompute title and layout for new size
+        self.set_up_text()
         self.set_up_positions()
         self.question_input.update_position(self.question_rect.center)
         self.back_btn.update_position(self.left_btn_pos)
-        self.add_btn.update_position((self.right_btn_pos))
+        self.add_btn.update_position(self.right_btn_pos)
         self.update_input_position()
         self.update_check_position()
 

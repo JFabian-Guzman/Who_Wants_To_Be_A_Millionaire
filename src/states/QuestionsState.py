@@ -219,9 +219,19 @@ class Questions(State):
     def update_size(self, *args):
         self.screen = pygame.display.get_surface()
         self.width, self.height = self.screen.get_size()
+        # Recompute title and layout for new size
+        self.set_up_text()
         self.set_up_positions()
-        self.back_btn.update_position((self.left_btn_pos))
+        self.back_btn.update_position(self.left_btn_pos)
         self.add_box.update_position()
+        # Destroy existing boxes so their interactive sprites are removed
+        for box in list(self.boxes):
+            try:
+                box.destroy()
+            except Exception:
+                pass
+        self.boxes.clear()
+        # Recreate page contents and pagination positions
         self.load_page()
         self.update_pagination_pos()
         self.delete_modal.update_position()

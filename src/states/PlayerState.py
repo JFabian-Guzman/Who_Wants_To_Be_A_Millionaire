@@ -60,7 +60,7 @@ class Player(State):
         if pygame.mouse.get_pressed()[0]:
             if not self.click_handled:
                 self.check_input_click()
-                self.back_btn.check_notify_state("menu")
+                self.back_btn.check_notify_state("play")
                 self.check_continue()
                 self.click_handled = True
         else:
